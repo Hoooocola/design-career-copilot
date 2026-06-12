@@ -1,0 +1,745 @@
+{
+  "$schema": "./portfolio-review-rubric.schema.json",
+  "meta": {
+    "name": "Design Career Copilot — Portfolio Review Rubric",
+    "version": "1.0.0",
+    "description": "Simulates how a design lead evaluates portfolios for AI-native design roles. Used as the structured reasoning framework for AI analysis.",
+    "applicable_roles": [
+      "ai_product_designer",
+      "ai_ux_designer",
+      "design_engineer"
+    ],
+    "review_philosophy": "A design lead does not score aesthetics in isolation. They read for evidence of judgment: how problems were chosen, how constraints were navigated, how users were understood, how solutions were validated, and how work scaled beyond a single screen. For AI roles, they additionally probe whether the designer understands probabilistic systems, trust calibration, and the unique failure modes of AI products.",
+    "evidence_hierarchy": [
+      "primary — artifacts shown in portfolio (screens, flows, code, research outputs)",
+      "secondary — narrative claims supported by adjacent artifacts",
+      "inferred — reasonable conclusions from role context and project type",
+      "absent — expected evidence not present; treated as a gap, not assumed negative"
+    ]
+  },
+
+  "scoring_scale": {
+    "levels": [
+      {
+        "score": 1,
+        "label": "not_evident",
+        "definition": "No credible evidence. Dimension is missing or contradicted by portfolio."
+      },
+      {
+        "score": 2,
+        "label": "emerging",
+        "definition": "Surface-level mention or weak artifacts. Judgment not demonstrated."
+      },
+      {
+        "score": 3,
+        "label": "competent",
+        "definition": "Clear evidence at expected level for the target seniority. Meets bar."
+      },
+      {
+        "score": 4,
+        "label": "strong",
+        "definition": "Multiple strong artifacts. Shows intentional tradeoffs and reflection."
+      },
+      {
+        "score": 5,
+        "label": "exceptional",
+        "definition": "Rare depth. Teaches the reviewer something. Signals staff-level thinking."
+      }
+    ],
+    "seniority_calibration": {
+      "junior": { "meets_bar_at": 3, "standout_at": 4 },
+      "mid": { "meets_bar_at": 3, "standout_at": 4 },
+      "senior": { "meets_bar_at": 4, "standout_at": 5 },
+      "staff": { "meets_bar_at": 4, "standout_at": 5 }
+    }
+  },
+
+  "role_profiles": {
+    "ai_product_designer": {
+      "title": "AI Product Designer",
+      "definition": "Owns end-to-end product design for AI-powered features and products. Balances user value, model capabilities, and business goals.",
+      "primary_lens": "Can this person shape AI products that people trust, adopt, and return to — not just demo well?",
+      "dimension_weights": {
+        "problem_framing_strategy": 0.12,
+        "user_research_discovery": 0.08,
+        "interaction_ux_design": 0.12,
+        "visual_craft_quality": 0.06,
+        "systems_thinking_scalability": 0.1,
+        "technical_fluency_implementation": 0.06,
+        "collaboration_communication": 0.08,
+        "impact_outcomes": 0.1,
+        "ai_product_sense": 0.18,
+        "process_storytelling": 0.06,
+        "portfolio_presentation": 0.04
+      },
+      "critical_dimensions": ["ai_product_sense", "problem_framing_strategy", "impact_outcomes"],
+      "dealbreakers": [
+        "No evidence of designing for AI-specific constraints (uncertainty, latency, errors)",
+        "Portfolio shows only visual polish with no product or outcome narrative",
+        "Cannot articulate why AI was the right solution vs. deterministic alternatives"
+      ]
+    },
+    "ai_ux_designer": {
+      "title": "AI UX Designer",
+      "definition": "Specializes in interaction patterns, flows, and experience architecture for AI-assisted and AI-native interfaces.",
+      "primary_lens": "Can this person design experiences where humans and AI collaborate fluently — including when the AI is wrong?",
+      "dimension_weights": {
+        "problem_framing_strategy": 0.08,
+        "user_research_discovery": 0.1,
+        "interaction_ux_design": 0.18,
+        "visual_craft_quality": 0.06,
+        "systems_thinking_scalability": 0.08,
+        "technical_fluency_implementation": 0.04,
+        "collaboration_communication": 0.06,
+        "impact_outcomes": 0.08,
+        "ai_product_sense": 0.2,
+        "process_storytelling": 0.08,
+        "portfolio_presentation": 0.04
+      },
+      "critical_dimensions": ["interaction_ux_design", "ai_product_sense", "user_research_discovery"],
+      "dealbreakers": [
+        "No exploration of AI failure states, loading, or confidence communication",
+        "Interaction patterns copied from generic chat UI with no original thinking",
+        "No evidence of usability testing or iteration on AI-specific flows"
+      ]
+    },
+    "design_engineer": {
+      "title": "Design Engineer",
+      "definition": "Bridges design and engineering. Ships high-fidelity interfaces, design systems, and interactive prototypes — often with production-quality code.",
+      "primary_lens": "Can this person translate design intent into real, performant, maintainable product surfaces — including dynamic AI UI?",
+      "dimension_weights": {
+        "problem_framing_strategy": 0.08,
+        "user_research_discovery": 0.04,
+        "interaction_ux_design": 0.12,
+        "visual_craft_quality": 0.1,
+        "systems_thinking_scalability": 0.14,
+        "technical_fluency_implementation": 0.2,
+        "collaboration_communication": 0.06,
+        "impact_outcomes": 0.08,
+        "ai_product_sense": 0.1,
+        "process_storytelling": 0.04,
+        "portfolio_presentation": 0.04
+      },
+      "critical_dimensions": ["technical_fluency_implementation", "systems_thinking_scalability", "interaction_ux_design"],
+      "dealbreakers": [
+        "Portfolio is image-only with no code, prototypes, or build artifacts",
+        "No evidence of component architecture or design system contribution",
+        "Cannot demonstrate responsive, accessible, or production-grade implementation"
+      ]
+    }
+  },
+
+  "dimensions": [
+    {
+      "id": "problem_framing_strategy",
+      "name": "Problem Framing & Strategy",
+      "description": "How the designer identifies, scopes, and prioritizes problems. Whether they connect work to user needs and business context.",
+      "what_design_lead_asks": [
+        "Did they solve a real problem or a visual exercise?",
+        "Can they articulate constraints, stakeholders, and success criteria?",
+        "Do they show strategic prioritization — what they chose NOT to do?"
+      ],
+      "judgment_criteria": [
+        {
+          "criterion": "problem_clarity",
+          "question": "Is the problem statement specific, user-centered, and bounded?",
+          "strong_signals": ["Clear before-state pain", "Defined target user segment", "Explicit scope boundaries"],
+          "weak_signals": ["Vague brief restatement", "Solution-first narrative", "No context on why project existed"]
+        },
+        {
+          "criterion": "strategic_framing",
+          "question": "Does the designer connect work to product/business strategy?",
+          "strong_signals": ["Ties to company OKRs or market opportunity", "Discusses tradeoffs between options", "Shows roadmap thinking"],
+          "weak_signals": ["No business context", "Feature list without prioritization", "Ignores feasibility constraints"]
+        },
+        {
+          "criterion": "ai_solution_fit",
+          "question": "For AI projects — is AI justified as the right approach?",
+          "strong_signals": ["Explains why AI vs. rules/search/templates", "Maps capability to user job-to-be-done", "Acknowledges model limitations upfront"],
+          "weak_signals": ["AI added as decoration", "No alternative approaches considered", "Treats AI as always-correct"]
+        }
+      ],
+      "evidence_to_extract": [
+        { "type": "problem_statement", "sources": ["case_study_intro", "project_brief_text"], "required": true },
+        { "type": "constraints_list", "sources": ["timeline", "technical_limits", "stakeholder_requirements"], "required": false },
+        { "type": "success_metrics_definition", "sources": ["kpis", "goals", "hypotheses"], "required": false },
+        { "type": "ai_rationale", "sources": ["why_ai_section", "capability_mapping"], "required_for_roles": ["ai_product_designer", "ai_ux_designer"] },
+        { "type": "scope_decisions", "sources": ["mvp_definition", "cut_features", "phase_planning"], "required": false }
+      ],
+      "red_flags": ["Starts with final UI, never explains the problem", "Generic placeholder problem (e.g., 'improve UX')", "Claims AI transformation with no capability analysis"],
+      "green_flags": ["Articulates problem-solution fit crisply", "Shows rejected directions with reasoning", "Connects design decisions to measurable outcomes"]
+    },
+    {
+      "id": "user_research_discovery",
+      "name": "User Research & Discovery",
+      "description": "Evidence that the designer understands users through research, synthesis, and validation — not assumptions.",
+      "what_design_lead_asks": [
+        "How did they learn about user needs?",
+        "Did research actually influence design decisions?",
+        "For AI products — did they study mental models around automation and trust?"
+      ],
+      "judgment_criteria": [
+        {
+          "criterion": "research_methods",
+          "question": "Are appropriate methods used and described?",
+          "strong_signals": ["Interviews, contextual inquiry, diary studies", "Competitive/teardown analysis", "Analytics or support ticket review"],
+          "weak_signals": ["Persona wallpaper with no research backing", "Assumed user needs", "Only internal stakeholder input"]
+        },
+        {
+          "criterion": "synthesis_quality",
+          "question": "Is raw data synthesized into actionable insights?",
+          "strong_signals": ["Affinity maps, insight statements, opportunity areas", "Quotes linked to design decisions", "Jobs-to-be-done or need hierarchy"],
+          "weak_signals": ["Raw notes dump", "Insights that don't connect to solutions", "Generic empathy statements"]
+        },
+        {
+          "criterion": "ai_user_mental_models",
+          "question": "Does research address how users perceive AI behavior?",
+          "strong_signals": ["Trust calibration studies", "Expectation-setting research", "Error recovery user testing"],
+          "weak_signals": ["No AI-specific user understanding", "Assumes users understand probabilistic output"],
+          "applies_to_roles": ["ai_product_designer", "ai_ux_designer"]
+        }
+      ],
+      "evidence_to_extract": [
+        { "type": "research_methods_used", "sources": ["methodology_section", "research_plan"], "required": false },
+        { "type": "user_insights", "sources": ["insight_statements", "synthesis_artifacts", "quotes"], "required": false },
+        { "type": "personas_or_segments", "sources": ["persona_cards", "user_segments"], "required": false },
+        { "type": "research_to_design_traceability", "sources": ["insight_to_feature_mapping", "before_after_research"], "required": true },
+        { "type": "ai_trust_research", "sources": ["trust_study", "mental_model_findings"], "required_for_roles": ["ai_product_designer", "ai_ux_designer"] }
+      ],
+      "red_flags": ["No research evidence in complex product work", "Personas appear stock/template", "Research findings never referenced in design decisions"],
+      "green_flags": ["Clear insight → design decision chain", "Shows how research changed direction", "Includes edge-case user needs"]
+    },
+    {
+      "id": "interaction_ux_design",
+      "name": "Interaction & UX Design",
+      "description": "Quality of flows, information architecture, interaction patterns, and end-to-end experience coherence.",
+      "what_design_lead_asks": [
+        "Can I follow the full user journey?",
+        "Are interaction patterns appropriate and consistent?",
+        "For AI — are latency, streaming, errors, and partial results handled?"
+      ],
+      "judgment_criteria": [
+        {
+          "criterion": "flow_completeness",
+          "question": "Are critical paths shown end-to-end, including edge cases?",
+          "strong_signals": ["Happy path + error/empty/loading states", "Onboarding to core loop documented", "Cross-platform consistency"],
+          "weak_signals": ["Single hero screen only", "Missing error states", "Broken flow logic"]
+        },
+        {
+          "criterion": "ia_and_navigation",
+          "question": "Is information architecture logical and scalable?",
+          "strong_signals": ["Clear hierarchy", "Sensible grouping", "Wayfinding for complex AI outputs"],
+          "weak_signals": ["Flat screen dump", "Confusing navigation", "Overloaded single views"]
+        },
+        {
+          "criterion": "ai_interaction_patterns",
+          "question": "Are AI-specific interaction patterns well-designed?",
+          "strong_signals": ["Streaming/partial result UX", "Confidence and source attribution", "Edit/regenerate/undo flows", "Human-in-the-loop checkpoints"],
+          "weak_signals": ["Static chat bubble mockup only", "No handling of wrong answers", "Black-box AI with no user control"],
+          "applies_to_roles": ["ai_product_designer", "ai_ux_designer", "design_engineer"]
+        },
+        {
+          "criterion": "microinteraction_intent",
+          "question": "Do microinteractions serve comprehension and feedback?",
+          "strong_signals": ["State transitions communicate system status", "Progressive disclosure", "Sensible defaults with override"],
+          "weak_signals": ["Animation for decoration only", "No feedback on async operations"]
+        }
+      ],
+      "evidence_to_extract": [
+        { "type": "user_flows", "sources": ["flow_diagrams", "journey_maps", "prototype_links"], "required": true },
+        { "type": "wireframes_or_lofi", "sources": ["exploration_rounds", "iteration_sequence"], "required": false },
+        { "type": "edge_case_states", "sources": ["error_states", "empty_states", "loading_states"], "required": true },
+        { "type": "ai_flow_artifacts", "sources": ["prompt_input_ux", "streaming_ui", "correction_flows", "confidence_ui"], "required_for_roles": ["ai_product_designer", "ai_ux_designer"] },
+        { "type": "prototype_evidence", "sources": ["figma_links", "interactive_demo", "video_walkthrough"], "required": false }
+      ],
+      "red_flags": ["Only polished final screens, no flows", "No empty/error/loading states for AI features", "Chat UI with no information architecture"],
+      "green_flags": ["Full journey with edge cases", "Original AI interaction patterns", "Shows iteration across fidelity levels"]
+    },
+    {
+      "id": "visual_craft_quality",
+      "name": "Visual Design & Craft",
+      "description": "Typography, color, layout, visual hierarchy, and overall polish. Craft as a tool for clarity, not decoration.",
+      "what_design_lead_asks": [
+        "Is the work legible and intentional?",
+        "Does visual hierarchy support task completion?",
+        "For AI outputs — is dense information made scannable?"
+      ],
+      "judgment_criteria": [
+        {
+          "criterion": "visual_hierarchy",
+          "question": "Can users parse priority at a glance?",
+          "strong_signals": ["Clear typographic scale", "Consistent spacing rhythm", "Content density managed for AI output"],
+          "weak_signals": ["Everything same weight", "Cluttered layouts", "Illegible type at scale"]
+        },
+        {
+          "criterion": "consistency",
+          "question": "Are visual patterns consistent across the work shown?",
+          "strong_signals": ["Coherent color system", "Repeated component patterns", "Aligned iconography/illustration style"],
+          "weak_signals": ["Inconsistent styles across projects", "Mismatched component treatments"]
+        },
+        {
+          "criterion": "ai_content_presentation",
+          "question": "Are AI-generated content and metadata presented clearly?",
+          "strong_signals": ["Differentiation of AI vs. user content", "Citation/source styling", "Structured output formatting (lists, cards, diffs)"],
+          "weak_signals": ["Wall of text output", "No visual distinction for AI suggestions"],
+          "applies_to_roles": ["ai_product_designer", "ai_ux_designer"]
+        }
+      ],
+      "evidence_to_extract": [
+        { "type": "final_ui_screens", "sources": ["hi_fi_mockups", "production_screenshots"], "required": true },
+        { "type": "typography_and_color_system", "sources": ["style_guide", "token_documentation"], "required": false },
+        { "type": "before_after_visual_iteration", "sources": ["iteration_comparisons"], "required": false },
+        { "type": "ai_output_formatting", "sources": ["response_layouts", "structured_output_ui"], "required_for_roles": ["ai_product_designer", "ai_ux_designer"] }
+      ],
+      "red_flags": ["Dribbble-style shots with no product context", "Illegible typography in AI response areas", "Inconsistent visual language within same project"],
+      "green_flags": ["Craft serves comprehension", "AI output is structured and scannable", "Shows typographic/spacing system thinking"]
+    },
+    {
+      "id": "systems_thinking_scalability",
+      "name": "Systems Thinking & Scalability",
+      "description": "Ability to design patterns that scale across products, teams, and states — not one-off screens.",
+      "what_design_lead_asks": [
+        "Will this approach hold at 10x scope?",
+        "Did they contribute to or create reusable patterns?",
+        "For AI — is there a pattern library for varied model behaviors?"
+      ],
+      "judgment_criteria": [
+        {
+          "criterion": "design_system_contribution",
+          "question": "Is there evidence of component/system-level thinking?",
+          "strong_signals": ["Component specs with variants/states", "Token usage", "Documentation for other designers"],
+          "weak_signals": ["Page-only designs", "No reusable patterns", "Inconsistent components across flows"]
+        },
+        {
+          "criterion": "pattern_abstraction",
+          "question": "Are solutions abstracted into reusable patterns?",
+          "strong_signals": ["Pattern library for AI states (loading, error, partial)", "Composable layouts", "Cross-feature consistency"],
+          "weak_signals": ["One-off custom UI per screen", "No naming or organization of patterns"]
+        },
+        {
+          "criterion": "scalability_reasoning",
+          "question": "Does the designer explain how the solution scales?",
+          "strong_signals": ["Multi-model or multi-locale considerations", "Extensibility for new AI capabilities", "Governance or contribution model"],
+          "weak_signals": ["No mention of scale", "Design breaks with more data/features"]
+        }
+      ],
+      "evidence_to_extract": [
+        { "type": "component_library", "sources": ["figma_components", "storybook_links", "design_system_docs"], "required": false },
+        { "type": "pattern_documentation", "sources": ["pattern_naming", "usage_guidelines", "do_dont"], "required": false },
+        { "type": "token_and_variable_usage", "sources": ["design_tokens", "theme_variables"], "required_for_roles": ["design_engineer"] },
+        { "type": "ai_state_pattern_matrix", "sources": ["state_variants", "behavior_matrix"], "required_for_roles": ["ai_product_designer", "ai_ux_designer"] }
+      ],
+      "red_flags": ["No system artifacts for senior-level candidates", "Every screen is a unique snowflake", "No consideration of multi-state AI components"],
+      "green_flags": ["Documented component architecture", "AI interaction pattern system", "Shows how system evolved over time"]
+    },
+    {
+      "id": "technical_fluency_implementation",
+      "name": "Technical Fluency & Implementation",
+      "description": "Understanding of engineering constraints and ability to ship or prototype with technical fidelity.",
+      "what_design_lead_asks": [
+        "Do they understand what's buildable?",
+        "Can they collaborate effectively with engineering?",
+        "For design engineers — can they actually ship?"
+      ],
+      "judgment_criteria": [
+        {
+          "criterion": "engineering_awareness",
+          "question": "Do designs reflect real technical constraints?",
+          "strong_signals": ["API/latency considerations in UX", "Realistic data models in UI", "Platform-native patterns"],
+          "weak_signals": ["Impossible interactions", "Ignores performance implications", "No awareness of async behavior"]
+        },
+        {
+          "criterion": "implementation_artifacts",
+          "question": "Are there build artifacts proving execution ability?",
+          "strong_signals": ["GitHub repos", "Live demos", "Storybook/CodePen", "Production deployment links"],
+          "weak_signals": ["Static images only", "Broken prototype links", "Claims code with no evidence"],
+          "applies_to_roles": ["design_engineer"]
+        },
+        {
+          "criterion": "ai_technical_literacy",
+          "question": "Does the designer understand AI system constraints?",
+          "strong_signals": ["Token limits reflected in UX", "Streaming architecture awareness", "RAG/citation plumbing considered", "Evaluation/feedback loop design"],
+          "weak_signals": ["Designs ignore latency", "No plan for hallucination/wrong answers at system level"],
+          "applies_to_roles": ["ai_product_designer", "ai_ux_designer", "design_engineer"]
+        },
+        {
+          "criterion": "code_quality_signals",
+          "question": "For design engineers — is code maintainable and intentional?",
+          "strong_signals": ["Component architecture", "TypeScript/types", "Accessibility in markup", "Performance consciousness"],
+          "weak_signals": ["Spaghetti prototype code", "No component structure", "Inline styles everywhere"],
+          "applies_to_roles": ["design_engineer"]
+        }
+      ],
+      "evidence_to_extract": [
+        { "type": "prototype_links", "sources": ["github", "vercel", "codepen", "framer"], "required": false },
+        { "type": "code_snippets_or_repos", "sources": ["github_repos", "code_blocks"], "required_for_roles": ["design_engineer"] },
+        { "type": "technical_constraint_notes", "sources": ["engineering_collab", "api_docs_reference"], "required": false },
+        { "type": "ai_system_diagrams", "sources": ["architecture_sketches", "data_flow", "prompt_pipeline"], "required_for_roles": ["ai_product_designer", "design_engineer"] },
+        { "type": "accessibility_implementation", "sources": ["a11y_audit", "aria_usage", "keyboard_nav_demo"], "required_for_roles": ["design_engineer"] }
+      ],
+      "red_flags": ["Design engineer portfolio with zero code", "No async/latency consideration in AI UX", "Prototype links broken or placeholder"],
+      "green_flags": ["Live shipped work", "Technical tradeoffs documented", "AI pipeline awareness in design decisions"]
+    },
+    {
+      "id": "collaboration_communication",
+      "name": "Collaboration & Communication",
+      "description": "Evidence of cross-functional work, stakeholder alignment, critique reception, and design advocacy.",
+      "what_design_lead_asks": [
+        "Did they work with PM, eng, research, and leadership?",
+        "Can they communicate design rationale to non-designers?",
+        "For AI products — did they align with ML/data stakeholders?"
+      ],
+      "judgment_criteria": [
+        {
+          "criterion": "cross_functional_evidence",
+          "question": "Is collaboration with other disciplines visible?",
+          "strong_signals": ["Named roles and contributions", "Workshop artifacts", "PRD/engineering spec alignment"],
+          "weak_signals": ["Solo designer fairy tale", "No mention of partners", "Design appears in vacuum"]
+        },
+        {
+          "criterion": "stakeholder_navigation",
+          "question": "Did they navigate constraints from multiple stakeholders?",
+          "strong_signals": ["Conflict resolution stories", "Executive presentation artifacts", "Prioritization workshops"],
+          "weak_signals": ["No stakeholder context", "Unrealistic unlimited scope"]
+        },
+        {
+          "criterion": "ai_crossfunctional_alignment",
+          "question": "Did they collaborate with ML engineers, data scientists, or AI safety?",
+          "strong_signals": ["Model capability negotiation", "Evaluation criteria co-definition", "Guardrail design collaboration"],
+          "weak_signals": ["Design divorced from model reality", "No ML stakeholder mention in AI project"],
+          "applies_to_roles": ["ai_product_designer", "ai_ux_designer"]
+        }
+      ],
+      "evidence_to_extract": [
+        { "type": "team_structure", "sources": ["team_credits", "role_description"], "required": false },
+        { "type": "workshop_artifacts", "sources": ["figjam", "whiteboard", "alignment_docs"], "required": false },
+        { "type": "design_critique_evidence", "sources": ["feedback_iteration", "crit_notes"], "required": false },
+        { "type": "ml_collaboration", "sources": ["model_limitation_notes", "eval_metrics_alignment"], "required_for_roles": ["ai_product_designer", "ai_ux_designer"] }
+      ],
+      "red_flags": ["No evidence of working with others on complex projects", "Claims sole authorship of enterprise AI product", "No iteration from feedback"],
+      "green_flags": ["Clear 'my role' vs. team contributions", "Shows influence without authority", "Documents alignment with ML on capability boundaries"]
+    },
+    {
+      "id": "impact_outcomes",
+      "name": "Impact & Outcomes",
+      "description": "Measurable or qualifiable results. Did the work move user behavior, business metrics, or team capability?",
+      "what_design_lead_asks": [
+        "What changed because of this work?",
+        "Are metrics credible and contextualized?",
+        "For AI — did adoption, trust, or task success improve?"
+      ],
+      "judgment_criteria": [
+        {
+          "criterion": "metric_credibility",
+          "question": "Are outcomes specific, contextualized, and believable?",
+          "strong_signals": ["Before/after metrics", "Baseline stated", "Time-bound results", "Confidence qualifiers where needed"],
+          "weak_signals": ["Vague 'increased engagement'", "No baseline", "Implausible 10x claims without context"]
+        },
+        {
+          "criterion": "outcome_type_breadth",
+          "question": "Do outcomes cover user, business, and craft/team impact?",
+          "strong_signals": ["User success metrics", "Revenue/retention/cost impact", "System or process improvements"],
+          "weak_signals": ["Only aesthetic claims", "Only ship date as outcome"]
+        },
+        {
+          "criterion": "ai_specific_outcomes",
+          "question": "Are AI feature outcomes measured appropriately?",
+          "strong_signals": ["Task completion with AI assist", "Correction/regenerate rate", "Trust/satisfaction scores", "Time-to-value for AI features"],
+          "weak_signals": ["Only model accuracy cited (not UX outcome)", "No measurement of AI failure recovery"],
+          "applies_to_roles": ["ai_product_designer", "ai_ux_designer"]
+        }
+      ],
+      "evidence_to_extract": [
+        { "type": "quantitative_metrics", "sources": ["kpis", "analytics_screenshots", "ab_test_results"], "required": false },
+        { "type": "qualitative_outcomes", "sources": ["user_testimonials", "support_reduction", "adoption_stories"], "required": false },
+        { "type": "before_after_comparison", "sources": ["metric_deltas", "behavior_change"], "required": true },
+        { "type": "ai_feature_metrics", "sources": ["acceptance_rate", "edit_rate", "task_success", "csat"], "required_for_roles": ["ai_product_designer", "ai_ux_designer"] }
+      ],
+      "red_flags": ["Zero outcomes across all projects", "Metrics without methodology", "Claims impact on work that appears concept-only"],
+      "green_flags": ["Specific metrics tied to design decisions", "Honest mixed results with learnings", "AI outcomes measure user task success, not just model benchmarks"]
+    },
+    {
+      "id": "ai_product_sense",
+      "name": "AI Product Sense",
+      "description": "Role-specific judgment about designing products powered by probabilistic, evolving models. The differentiator for AI design roles.",
+      "what_design_lead_asks": [
+        "Do they understand AI is not a button — it's a behavior?",
+        "Have they designed for uncertainty, cost, safety, and trust?",
+        "Would I trust them to own an AI feature in production?"
+      ],
+      "judgment_criteria": [
+        {
+          "criterion": "uncertainty_and_probabilistic_ux",
+          "question": "Are non-deterministic outputs handled with appropriate UX?",
+          "strong_signals": ["Confidence indicators", "Multiple suggestions", "Diff/review before apply", "Graceful degradation when model fails"],
+          "weak_signals": ["Treats AI output as gospel", "No variance handling", "Single-shot response with no recovery"]
+        },
+        {
+          "criterion": "trust_transparency_control",
+          "question": "Can users understand, verify, and control AI behavior?",
+          "strong_signals": ["Source attribution", "Explainability at right depth", "User controls (tone, scope, memory)", "Opt-out and data transparency"],
+          "weak_signals": ["Black box", "No citation when needed", "Creepy personalization without consent"]
+        },
+        {
+          "criterion": "human_ai_collaboration",
+          "question": "Is the human-AI division of labor intentional?",
+          "strong_signals": ["Copilot vs. autopilot framing", "Human approval gates for high-stakes actions", "AI accelerates drudgery, human owns judgment"],
+          "weak_signals": ["Full automation of high-stakes decisions", "Human only cleans up AI mess with no upstream design"]
+        },
+        {
+          "criterion": "prompt_and_input_design",
+          "question": "Is input design treated as a core product surface?",
+          "strong_signals": ["Prompt templates, examples, constraints", "Context assembly UX", "Input validation and guardrails", "Progressive prompt refinement"],
+          "weak_signals": ["Empty text box only", "No guidance for non-expert users", "Prompt engineering dumped on user"]
+        },
+        {
+          "criterion": "evaluation_and_iteration_loop",
+          "question": "Is there a loop for improving AI experience over time?",
+          "strong_signals": ["Thumbs up/down with context capture", "Failure taxonomy", "Offline eval awareness", "Version/changelog communication to users"],
+          "weak_signals": ["No feedback mechanism", "No plan for model updates breaking UX"]
+        },
+        {
+          "criterion": "safety_and_responsible_design",
+          "question": "Are harmful outputs, bias, and misuse considered?",
+          "strong_signals": ["Content policy UX", "Harmful output handling", "Inclusive testing", "High-stakes disclaimers"],
+          "weak_signals": ["No mention of failure modes", "Ignores bias in AI-assisted decisions"]
+        }
+      ],
+      "evidence_to_extract": [
+        { "type": "ai_feature_case_studies", "sources": ["ai_project_narratives"], "required": true },
+        { "type": "error_and_hallucination_ux", "sources": ["wrong_answer_flows", "disclaimer_patterns"], "required": true },
+        { "type": "trust_artifacts", "sources": ["citation_ui", "confidence_display", "control_settings"], "required": false },
+        { "type": "prompt_ux", "sources": ["input_templates", "suggested_prompts", "context_pickers"], "required": false },
+        { "type": "feedback_loops", "sources": ["rating_ui", "report_issue", "eval_dashboard"], "required": false },
+        { "type": "safety_patterns", "sources": ["guardrails", "content_filters", "escalation_flows"], "required": false }
+      ],
+      "red_flags": [
+        "ChatGPT wrapper with no original AI UX thinking",
+        "No error/hallucination handling in any AI project",
+        "Automates high-stakes decisions without human review",
+        "Portfolio predates AI but claims AI expertise with no AI work"
+      ],
+      "green_flags": [
+        "Original AI interaction patterns beyond chat",
+        "Explicit trust/calibration design",
+        "Shows learning from AI-specific user failures",
+        "Balances automation with human agency"
+      ],
+      "applies_to_roles": ["ai_product_designer", "ai_ux_designer", "design_engineer"]
+    },
+    {
+      "id": "process_storytelling",
+      "name": "Process Documentation & Storytelling",
+      "description": "How clearly the designer communicates their thinking process, iterations, and learnings.",
+      "what_design_lead_asks": [
+        "Can I follow how they got from problem to solution?",
+        "Do they show dead ends and learning, not just wins?",
+        "Is the narrative respectful of my time?"
+      ],
+      "judgment_criteria": [
+        {
+          "criterion": "narrative_structure",
+          "question": "Does the case study follow a clear, scannable arc?",
+          "strong_signals": ["Context → Process → Solution → Outcome → Reflection", "Section headers and progressive disclosure", "Appropriate depth per project"],
+          "weak_signals": ["Image gallery", "Wall of text", "No clear takeaway"]
+        },
+        {
+          "criterion": "iteration_visibility",
+          "question": "Are exploration and iteration shown?",
+          "strong_signals": ["Multiple fidelity stages", "Rejected explorations", "Feedback-driven changes"],
+          "weak_signals": ["Only final polish", "No process artifacts", "Retrofitted process narrative"]
+        },
+        {
+          "criterion": "reflection_and_learning",
+          "question": "Does the designer reflect on what they'd do differently?",
+          "strong_signals": ["Honest retrospectives", "Known limitations stated", "Growth over time across projects"],
+          "weak_signals": ["Perfect project fiction", "No learnings", "Blames others for failures"]
+        }
+      ],
+      "evidence_to_extract": [
+        { "type": "case_study_structure", "sources": ["section_headings", "narrative_flow"], "required": true },
+        { "type": "iteration_artifacts", "sources": ["sketches", "versions", "changelog"], "required": false },
+        { "type": "reflection_section", "sources": ["learnings", "next_steps", "retrospective"], "required": false },
+        { "type": "process_depth_calibration", "sources": ["seniority_appropriate_detail"], "required": true }
+      ],
+      "red_flags": ["Every project identical template with swapped images", "No iteration shown for 6-month project", "10-minute read with no outcome"],
+      "green_flags": ["Concise but deep", "Shows thinking, not just doing", "Reflection demonstrates growth mindset"]
+    },
+    {
+      "id": "portfolio_presentation",
+      "name": "Portfolio Presentation & Professionalism",
+      "description": "Overall portfolio as a product: curation, accessibility, contact clarity, and attention to detail.",
+      "what_design_lead_asks": [
+        "Did they curate their best, most relevant work?",
+        "Is this portfolio easy to review in 15–20 minutes?",
+        "Are there typos, broken links, or NDA violations?"
+      ],
+      "judgment_criteria": [
+        {
+          "criterion": "curation_and_relevance",
+          "question": "Is work selected and ordered for the target role?",
+          "strong_signals": ["3–5 strong case studies", "Relevant AI/product/engineering work front-loaded", "Clear role targeting in intro"],
+          "weak_signals": ["20 unrelated projects", "Student work mixed with senior claims", "No AI work for AI role application"]
+        },
+        {
+          "criterion": "reviewability",
+          "question": "Can a busy design lead review efficiently?",
+          "strong_signals": ["Executive summary per project", "Scannable layout", "Reasonable file size and load time"],
+          "weak_signals": ["PDF over 30MB", "Horizontal scroll hell", "Password protected without instructions"]
+        },
+        {
+          "criterion": "professional_hygiene",
+          "question": "Are basics handled correctly?",
+          "strong_signals": ["Working links", "Contact info", "NDA-appropriate anonymization", "Consistent spelling/grammar"],
+          "weak_signals": ["Broken Figma links", "Lorem ipsum", "Confidential data exposed"]
+        }
+      ],
+      "evidence_to_extract": [
+        { "type": "portfolio_structure", "sources": ["table_of_contents", "project_order", "intro_bio"], "required": true },
+        { "type": "role_targeting_signals", "sources": ["headline", "project_selection", "skills_list"], "required": true },
+        { "type": "link_health", "sources": ["prototype_urls", "github_links"], "required": false },
+        { "type": "contact_and_availability", "sources": ["email", "linkedin", "resume_link"], "required": false }
+      ],
+      "red_flags": ["Broken portfolio", "No relevant work for applied role", "Confidential client data unredacted"],
+      "green_flags": ["Tight curation", "Role-targeted presentation", "Portfolio itself demonstrates product sense"]
+    }
+  ],
+
+  "evaluation_synthesis": {
+    "description": "How a design lead forms a final hire/no-hire recommendation from dimensional scores.",
+    "steps": [
+      {
+        "step": 1,
+        "name": "role_calibration",
+        "action": "Load role_profile for target role. Apply dimension_weights and identify critical_dimensions and dealbreakers."
+      },
+      {
+        "step": 2,
+        "name": "evidence_extraction",
+        "action": "For each dimension, extract evidence_to_extract from portfolio PDF and JD. Tag each artifact: primary | secondary | inferred | absent."
+      },
+      {
+        "step": 3,
+        "name": "dimensional_scoring",
+        "action": "Score each dimension 1–5 using judgment_criteria. For each score, cite specific evidence. Apply seniority_calibration from JD."
+      },
+      {
+        "step": 4,
+        "name": "dealbreaker_check",
+        "action": "If any role dealbreaker or dimension red_flag cluster is triggered, cap overall recommendation regardless of average score."
+      },
+      {
+        "step": 5,
+        "name": "weighted_match_score",
+        "action": "Compute match_score = sum(dimension_score / 5 * dimension_weight) * 100, rounded to integer."
+      },
+      {
+        "step": 6,
+        "name": "critical_dimension_gate",
+        "action": "If any critical_dimension scores below meets_bar for target seniority, downgrade recommendation one tier even if match_score is high."
+      },
+      {
+        "step": 7,
+        "name": "jd_skill_mapping",
+        "action": "Parse JD into required_skills and nice_to_have_skills. Map each skill to one or more dimensions. Produce skill_coverage matrix: strong | partial | missing."
+      },
+      {
+        "step": 8,
+        "name": "gap_analysis",
+        "action": "Identify top gaps where JD requires skill but evidence is absent or weak. Rank by impact: high (critical dimension + required skill), medium, low."
+      },
+      {
+        "step": 9,
+        "name": "strengths_weaknesses_synthesis",
+        "action": "Strengths = dimensions scoring strong/exceptional with primary evidence. Weaknesses = dimensions scoring emerging/not_evident OR absent required evidence."
+      },
+      {
+        "step": 10,
+        "name": "executive_summary",
+        "action": "Write 3–5 sentence summary: overall fit, standout strength, primary concern, hire recommendation tier (strong_yes | yes | mixed | no), and confidence level based on evidence density."
+      },
+      {
+        "step": 11,
+        "name": "action_plan",
+        "action": "Generate prioritized, actionable recommendations tied to specific gaps. Each action must reference a dimension and include estimated effort."
+      }
+    ],
+    "recommendation_tiers": [
+      {
+        "tier": "strong_yes",
+        "criteria": "match_score >= 80, all critical_dimensions meet bar, no dealbreakers, 2+ dimensions exceptional"
+      },
+      {
+        "tier": "yes",
+        "criteria": "match_score >= 65, all critical_dimensions meet bar, no dealbreakers"
+      },
+      {
+        "tier": "mixed",
+        "criteria": "match_score 45–64 OR one critical_dimension below bar OR significant gaps in required JD skills"
+      },
+      {
+        "tier": "no",
+        "criteria": "match_score < 45 OR dealbreaker triggered OR 2+ critical_dimensions below bar"
+      }
+    ],
+    "confidence_modifiers": {
+      "high": "3+ case studies with primary evidence across critical dimensions",
+      "medium": "1–2 solid case studies; some dimensions inferred",
+      "low": "Thin portfolio, mostly absent evidence, heavy inference required"
+    }
+  },
+
+  "output_schema": {
+    "description": "Structured shape the AI reviewer must return after applying this rubric.",
+    "fields": {
+      "meta": {
+        "target_role": "ai_product_designer | ai_ux_designer | design_engineer",
+        "seniority": "junior | mid | senior | staff",
+        "evidence_confidence": "high | medium | low",
+        "recommendation_tier": "strong_yes | yes | mixed | no"
+      },
+      "executive_summary": "string",
+      "match_score": "integer 0–100",
+      "dimension_scores": [
+        {
+          "dimension_id": "string",
+          "score": "integer 1–5",
+          "label": "not_evident | emerging | competent | strong | exceptional",
+          "evidence_cited": ["string"],
+          "gaps": ["string"]
+        }
+      ],
+      "skill_coverage": [
+        {
+          "skill": "string",
+          "source": "jd_required | jd_nice_to_have",
+          "level": "strong | partial | missing",
+          "mapped_dimensions": ["string"],
+          "evidence": "string | null"
+        }
+      ],
+      "strengths": ["string"],
+      "weaknesses": ["string"],
+      "gap_analysis": [
+        {
+          "area": "string",
+          "dimension_id": "string",
+          "impact": "high | medium | low",
+          "description": "string",
+          "jd_requirement": "string | null"
+        }
+      ],
+      "action_plan": [
+        {
+          "priority": "integer",
+          "title": "string",
+          "description": "string",
+          "dimension_id": "string",
+          "timeframe": "string"
+        }
+      ],
+      "dealbreakers_triggered": ["string"],
+      "reviewer_notes": "string — internal reasoning the lead would share in a hiring debrief"
+    }
+  }
+}

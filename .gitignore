@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# server-side feedback store (local / self-hosted)
+.data/
+
 # vercel
 .vercel
 
