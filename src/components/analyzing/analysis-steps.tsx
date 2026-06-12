@@ -31,6 +31,7 @@ export function AnalysisSteps() {
   const runAnalysis = useCallback(async () => {
     try {
       const file = await getPortfolioFile()
+      console.log("DEBUG file:", file)
       const jd = sessionStorage.getItem(SESSION_KEYS.jobDescription)
       const storedLocale = sessionStorage.getItem(SESSION_KEYS.locale)
       const storedPersona = sessionStorage.getItem(SESSION_KEYS.reviewerPersona)
@@ -45,8 +46,13 @@ export function AnalysisSteps() {
         return
       }
 
+      const safeFile =
+        file instanceof File
+          ? new File([file], file.name, { type: file.type })
+          : file
+
       const formData = new FormData()
-      formData.append("portfolio", file)
+      formData.append("portfolio", safeFile)
       formData.append("jobDescription", jd)
       formData.append("locale", analysisLocale)
       formData.append("reviewerPersona", analysisPersona)
