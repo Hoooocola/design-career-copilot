@@ -14,10 +14,10 @@ interface ConsensusConflictProps {
 }
 
 const personaStyles: Record<ReviewerPersona, string> = {
-  hr_reviewer: "bg-[var(--report-accent-muted)] text-[var(--report-accent)]",
-  design_lead: "bg-[var(--report-paper)] text-[var(--report-text)]",
-  ai_product_lead: "bg-[var(--report-caution-bg)] text-[var(--report-caution)]",
-  design_engineer: "bg-[var(--report-positive-bg)] text-[var(--report-positive)]",
+  hr_reviewer: "bg-[var(--workspace-accent-muted)] text-[var(--workspace-accent)]",
+  design_lead: "bg-[var(--workspace-surface)] text-[var(--workspace-text-primary)]",
+  ai_product_lead: "bg-[var(--workspace-warning-muted)] text-[var(--workspace-warning)]",
+  design_engineer: "bg-[var(--workspace-success-muted)] text-[var(--workspace-success)]",
 }
 
 export function ConsensusConflictPanel({ data }: ConsensusConflictProps) {
@@ -33,23 +33,23 @@ export function ConsensusConflictPanel({ data }: ConsensusConflictProps) {
     >
       <div className="grid gap-5 lg:grid-cols-2">
         <ReportCard className="p-0">
-          <header className="border-b border-[var(--report-border)] px-5 py-4">
+          <header className="border-b border-[var(--workspace-border)] px-5 py-4">
             <div className="flex items-center gap-2">
-              <span className="flex size-6 items-center justify-center rounded-md bg-[var(--report-positive-bg)]">
-                <Check className="size-3.5 text-[var(--report-positive)]" strokeWidth={2.5} />
+              <span className="flex size-6 items-center justify-center rounded-md bg-[var(--workspace-success-muted)]">
+                <Check className="size-3.5 text-[var(--workspace-success)]" strokeWidth={2.5} />
               </span>
               <h3 className="text-base font-semibold">{cc.consensus}</h3>
             </div>
-            <p className="mt-1 text-sm text-[var(--report-text-muted)]">{cc.consensusHint}</p>
+            <p className="mt-1 text-sm text-[var(--workspace-text-secondary)]">{cc.consensusHint}</p>
           </header>
-          <ul className="divide-y divide-[var(--report-border)]">
+          <ul className="divide-y divide-[var(--workspace-border)]">
             {data.consensus.map((item, index) => (
               <li key={`${item.capability}-${index}`} className="px-5 py-4">
-                <p className="text-[0.9375rem] font-medium text-[var(--report-text)]">
+                <p className="text-[0.9375rem] font-medium text-[var(--workspace-text-primary)]">
                   {item.capability}
                 </p>
                 {item.detail && (
-                  <p className="mt-1 text-sm leading-relaxed text-[var(--report-text-muted)]">
+                  <p className="mt-1 text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
                     {item.detail}
                   </p>
                 )}
@@ -59,16 +59,16 @@ export function ConsensusConflictPanel({ data }: ConsensusConflictProps) {
         </ReportCard>
 
         <ReportCard className="p-0">
-          <header className="border-b border-[var(--report-border)] px-5 py-4">
+          <header className="border-b border-[var(--workspace-border)] px-5 py-4">
             <div className="flex items-center gap-2">
-              <span className="flex size-6 items-center justify-center rounded-md bg-[var(--report-caution-bg)]">
-                <Minus className="size-3.5 text-[var(--report-caution)]" strokeWidth={2.5} />
+              <span className="flex size-6 items-center justify-center rounded-md bg-[var(--workspace-warning-muted)]">
+                <Minus className="size-3.5 text-[var(--workspace-warning)]" strokeWidth={2.5} />
               </span>
               <h3 className="text-base font-semibold">{cc.conflict}</h3>
             </div>
-            <p className="mt-1 text-sm text-[var(--report-text-muted)]">{cc.conflictHint}</p>
+            <p className="mt-1 text-sm text-[var(--workspace-text-secondary)]">{cc.conflictHint}</p>
           </header>
-          <ul className="divide-y divide-[var(--report-border)]">
+          <ul className="divide-y divide-[var(--workspace-border)]">
             {data.conflicts.map((item, index) => (
               <li key={`${item.topic}-${index}`} className="px-5 py-4">
                 <p className="report-caption mb-3">{item.topic}</p>
@@ -76,7 +76,7 @@ export function ConsensusConflictPanel({ data }: ConsensusConflictProps) {
                   {item.viewpoints.map((viewpoint) => (
                     <div
                       key={`${item.topic}-${viewpoint.persona}`}
-                      className="rounded-lg border border-[var(--report-border)] bg-[var(--report-paper)] px-4 py-3"
+                      className="rounded-lg border border-[var(--workspace-border)] bg-[var(--workspace-surface)] px-4 py-3"
                     >
                       <span
                         className={cn(
@@ -86,7 +86,7 @@ export function ConsensusConflictPanel({ data }: ConsensusConflictProps) {
                       >
                         {personaLabels[viewpoint.persona]}
                       </span>
-                      <p className="mt-2 text-sm leading-relaxed text-[var(--report-text-muted)]">
+                      <p className="mt-2 text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
                         {viewpoint.viewpoint}
                       </p>
                     </div>

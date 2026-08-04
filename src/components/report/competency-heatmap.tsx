@@ -46,7 +46,7 @@ export function CompetencyHeatmap({
       <div className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="report-caption">{hm.sortedByScore}</p>
-          <div className="inline-flex rounded-lg border border-[var(--report-border)] bg-[var(--report-paper)] p-0.5">
+          <div className="inline-flex rounded-lg border border-[var(--workspace-border)] bg-[var(--workspace-surface)] p-0.5">
             <ViewToggle
               active={view === "heatmap"}
               onClick={() => setView("heatmap")}
@@ -63,10 +63,10 @@ export function CompetencyHeatmap({
         </div>
 
         {view === "heatmap" ? (
-          <div className="overflow-x-auto rounded-xl border border-[var(--report-border)] bg-[var(--report-card)]">
+          <div className="overflow-x-auto rounded-xl border border-[var(--workspace-border)] bg-[var(--workspace-surface-raised)]">
             <table className="w-full min-w-[640px] border-collapse text-sm">
               <thead>
-                <tr className="border-b border-[var(--report-border)]">
+                <tr className="border-b border-[var(--workspace-border)]">
                   <th className="px-4 py-3 text-left report-caption">
                     {hm.dimension}
                   </th>
@@ -91,10 +91,10 @@ export function CompetencyHeatmap({
                   return (
                     <tr
                       key={row.dimensionId}
-                      className="border-b border-[var(--report-border)]/60 last:border-0"
+                      className="border-b border-[var(--workspace-border)]/60 last:border-0"
                     >
                       <td className="px-4 py-2">
-                        <p className="font-medium leading-snug text-[var(--report-text)]">
+                        <p className="font-medium leading-snug text-[var(--workspace-text-primary)]">
                           {label}
                         </p>
                         <p className="mt-0.5 report-caption">
@@ -117,10 +117,10 @@ export function CompetencyHeatmap({
             </table>
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-[var(--report-border)] bg-[var(--report-card)]">
+          <div className="overflow-x-auto rounded-xl border border-[var(--workspace-border)] bg-[var(--workspace-surface-raised)]">
             <table className="w-full min-w-[640px] border-collapse text-sm">
               <thead>
-                <tr className="border-b border-[var(--report-border)] text-left">
+                <tr className="border-b border-[var(--workspace-border)] text-left">
                   <th className="px-4 py-3 report-caption">{hm.dimension}</th>
                   <th className="px-3 py-3 text-center report-caption">
                     {hm.score}
@@ -143,11 +143,11 @@ export function CompetencyHeatmap({
                   return (
                     <tr
                       key={row.dimensionId}
-                      className="border-b border-[var(--report-border)]/60 last:border-0"
+                      className="border-b border-[var(--workspace-border)]/60 last:border-0"
                     >
                       <td className="px-4 py-3">
                         <div className="min-w-[140px]">
-                          <p className="font-medium leading-snug text-[var(--report-text)]">
+                          <p className="font-medium leading-snug text-[var(--workspace-text-primary)]">
                             {label}
                           </p>
                           <p className="mt-0.5 report-caption">
@@ -202,8 +202,8 @@ function ViewToggle({
       className={cn(
         "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
         active
-          ? "bg-[var(--report-card)] text-[var(--report-text)] shadow-sm"
-          : "text-[var(--report-text-muted)] hover:text-[var(--report-text)]"
+          ? "bg-[var(--workspace-surface-raised)] text-[var(--workspace-text-primary)] shadow-sm"
+          : "text-[var(--workspace-text-secondary)] hover:text-[var(--workspace-text-primary)]"
       )}
     >
       {icon}
@@ -236,7 +236,7 @@ function BarCell({ value, display }: { value: number; display: string }) {
   return (
     <td className="px-3 py-3">
       <div className="mx-auto w-full max-w-[140px] space-y-1.5">
-        <div className="h-2 overflow-hidden rounded-full bg-[var(--report-border)]">
+        <div className="h-2 overflow-hidden rounded-full bg-[var(--workspace-border)]">
           <div
             className="h-full rounded-full transition-all"
             style={{
@@ -245,7 +245,7 @@ function BarCell({ value, display }: { value: number; display: string }) {
             }}
           />
         </div>
-        <p className="text-center font-mono text-[10px] tabular-nums text-[var(--report-text-muted)]">
+        <p className="text-center font-mono text-[10px] tabular-nums text-[var(--workspace-text-secondary)]">
           {display}
         </p>
       </div>
@@ -261,14 +261,14 @@ function LegendSwatch({
   label: string
 }) {
   const swatchClass = {
-    negative: "bg-[var(--report-negative)]",
-    caution: "bg-[var(--report-caution)]",
-    accent: "bg-[var(--report-accent)]",
-    positive: "bg-[var(--report-positive)]",
+    negative: "bg-[var(--workspace-danger)]",
+    caution: "bg-[var(--workspace-warning)]",
+    accent: "bg-[var(--workspace-accent)]",
+    positive: "bg-[var(--workspace-success)]",
   }[tier]
 
   return (
-    <span className="inline-flex items-center gap-1.5 text-xs text-[var(--report-text-muted)]">
+    <span className="inline-flex items-center gap-1.5 text-xs text-[var(--workspace-text-secondary)]">
       <span className={cn("size-2 rounded-sm", swatchClass)} />
       {label}
     </span>

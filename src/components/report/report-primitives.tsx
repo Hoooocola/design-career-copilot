@@ -68,7 +68,7 @@ export function ReportChapter({
 
   return (
     <section id={id} className={cn("scroll-mt-28 space-y-8", className)}>
-      <header className="border-b border-[var(--report-border)] pb-6">
+      <header className="pb-6">
         {label && <p className="report-caption mb-2">{label}</p>}
         <h2 className="report-h2">{title}</h2>
         {subtitle && <p className="report-body mt-2 max-w-2xl">{subtitle}</p>}
@@ -102,7 +102,7 @@ export function ReportMetaLabel({ children }: { children: React.ReactNode }) {
 }
 
 export function ReportDivider() {
-  return <hr className="border-[var(--report-border)]" />
+  return <hr className="border-[var(--workspace-border)]" />
 }
 
 interface InsightBlockProps {
@@ -119,10 +119,10 @@ interface InsightBlockProps {
 }
 
 const priorityStyles = {
-  high: "bg-[var(--report-negative-bg)] text-[var(--report-negative)] border-[var(--report-negative)]/20",
-  medium: "bg-[var(--report-caution-bg)] text-[var(--report-caution)] border-[var(--report-caution)]/20",
-  low: "bg-[var(--report-accent-muted)] text-[var(--report-accent)] border-[var(--report-accent)]/20",
-  neutral: "bg-[var(--report-paper)] text-[var(--report-text-muted)] border-[var(--report-border)]",
+  high: "bg-[var(--workspace-danger-muted)] text-[var(--workspace-danger)] border-[var(--workspace-danger)]/20",
+  medium: "bg-[var(--workspace-warning-muted)] text-[var(--workspace-warning)] border-[var(--workspace-warning)]/20",
+  low: "bg-[var(--workspace-accent-muted)] text-[var(--workspace-accent)] border-[var(--workspace-accent)]/20",
+  neutral: "bg-[var(--workspace-surface)] text-[var(--workspace-text-secondary)] border-[var(--workspace-border)]",
 }
 
 export function UnifiedInsightBlock({
@@ -145,7 +145,7 @@ export function UnifiedInsightBlock({
       )}
     >
       <header className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm font-semibold text-[var(--report-text)]">{category}</p>
+        <p className="text-sm font-semibold text-[var(--workspace-text-primary)]">{category}</p>
         {priority && (
           <span
             className={cn(
@@ -181,15 +181,15 @@ function InsightStep({
     <div
       className={cn(
         "space-y-1.5",
-        accent && "rounded-lg bg-[var(--report-accent-muted)] px-4 py-3"
+        accent && "rounded-lg bg-[var(--workspace-accent-muted)] px-4 py-3"
       )}
     >
       <p className="report-caption">{label}</p>
       <p
         className={cn(
           "text-[0.9375rem] leading-relaxed",
-          muted ? "text-[var(--report-text-muted)]" : "text-[var(--report-text)]",
-          accent && "text-[var(--report-text)]"
+          muted ? "text-[var(--workspace-text-secondary)]" : "text-[var(--workspace-text-primary)]",
+          accent && "text-[var(--workspace-text-primary)]"
         )}
       >
         {content}
@@ -214,38 +214,29 @@ export function CollapsibleSection({
   const [open, setOpen] = useState(defaultOpen)
 
   return (
-    <div
-      className={cn(
-        "overflow-hidden rounded-xl border border-[var(--report-border)] bg-[var(--report-paper)]",
-        className
-      )}
-    >
+    <div className={cn("space-y-3", className)}>
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className="flex w-full items-start justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-[var(--report-card)] sm:px-6"
+        className="group flex w-full items-start justify-between gap-4 py-2 text-left transition-colors duration-200"
         aria-expanded={open}
       >
         <div className="min-w-0">
-          <h3 className="text-sm font-semibold text-[var(--report-text)]">{title}</h3>
+          <h3 className="text-sm font-medium text-[var(--workspace-text-primary)]">{title}</h3>
           {description && (
-            <p className="mt-1 text-sm leading-relaxed text-[var(--report-text-muted)]">
+            <p className="mt-1 text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
               {description}
             </p>
           )}
         </div>
         <ChevronDown
           className={cn(
-            "mt-0.5 size-4 shrink-0 text-[var(--report-text-subtle)] transition-transform",
+            "mt-0.5 size-4 shrink-0 text-[var(--workspace-text-muted)] transition-transform duration-200",
             open && "rotate-180"
           )}
         />
       </button>
-      {open && (
-        <div className="border-t border-[var(--report-border)] px-5 py-5 sm:px-6">
-          {children}
-        </div>
-      )}
+      {open && <div className="pb-2">{children}</div>}
     </div>
   )
 }

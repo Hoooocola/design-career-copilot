@@ -21,10 +21,10 @@ export function OpportunityRanking({ opportunities }: OpportunityRankingProps) {
   }
 
   const priorityStyles: Record<OpportunityPriority, string> = {
-    high: "border-[var(--report-negative)]/25 bg-[var(--report-negative-bg)] text-[var(--report-negative)]",
+    high: "border-[var(--workspace-danger)]/25 bg-[var(--workspace-danger-muted)] text-[var(--workspace-danger)]",
     medium:
-      "border-[var(--report-caution)]/25 bg-[var(--report-caution-bg)] text-[var(--report-caution)]",
-    low: "border-[var(--report-accent)]/25 bg-[var(--report-accent-muted)] text-[var(--report-accent)]",
+      "border-[var(--workspace-warning)]/25 bg-[var(--workspace-warning-muted)] text-[var(--workspace-warning)]",
+    low: "border-[var(--workspace-accent)]/25 bg-[var(--workspace-accent-muted)] text-[var(--workspace-accent)]",
   }
 
   return (
@@ -41,7 +41,7 @@ export function OpportunityRanking({ opportunities }: OpportunityRankingProps) {
                 <p className="report-caption">
                   {roadmap.opportunityLabel} {index + 1}
                 </p>
-                <h4 className="mt-1 text-base font-semibold text-[var(--report-text)]">
+                <h4 className="mt-1 text-base font-semibold text-[var(--workspace-text-primary)]">
                   {item.title}
                 </h4>
               </div>
@@ -87,7 +87,7 @@ function RoadmapMetric({
   return (
     <div className={cn(span && "sm:col-span-2")}>
       <dt className="report-caption">{label}</dt>
-      <dd className="mt-1 text-sm leading-relaxed text-[var(--report-text)]">{value}</dd>
+      <dd className="mt-1 text-sm leading-relaxed text-[var(--workspace-text-primary)]">{value}</dd>
     </div>
   )
 }

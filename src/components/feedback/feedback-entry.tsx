@@ -11,16 +11,16 @@ export function FeedbackEntry() {
   const fb = messages.feedback.entry
 
   return (
-    <div className="rounded-xl border border-border/60 bg-gradient-to-br from-muted/30 via-muted/10 to-transparent px-6 py-8 sm:px-8">
+    <div className="rounded-xl bg-[var(--workspace-surface-raised)] px-6 py-8 sm:px-8">
       <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
-        <div className="mb-4 flex size-10 items-center justify-center rounded-full border border-border/60 bg-background/60">
-          <MessageSquarePlus className="size-4 text-muted-foreground" />
-        </div>
-        <h2 className="text-lg font-semibold tracking-tight">{fb.title}</h2>
-        <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+        <MessageSquarePlus className="mb-4 size-5 text-[var(--workspace-text-muted)]" />
+        <h2 className="text-lg font-semibold tracking-tight text-[var(--workspace-text-primary)]">
+          {fb.title}
+        </h2>
+        <p className="mt-2 text-xs uppercase tracking-wider text-[var(--workspace-text-muted)]">
           {fb.estimatedTime}
         </p>
-        <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
+        <p className="mt-3 max-w-md text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
           {fb.description}
         </p>
         <Button

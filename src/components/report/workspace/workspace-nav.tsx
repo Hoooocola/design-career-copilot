@@ -59,7 +59,7 @@ export function WorkspaceNav() {
   }
 
   return (
-    <div className="workspace-nav sticky top-14 z-40 border-b border-[var(--workspace-border)] bg-[var(--workspace-bg)]/95 backdrop-blur-md">
+    <div className="workspace-nav sticky top-14 z-40 border-b border-[var(--workspace-border)] bg-[var(--workspace-canvas)]/95 backdrop-blur-md">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <nav
           className="-mx-1 flex gap-1 overflow-x-auto py-2.5"
@@ -71,10 +71,10 @@ export function WorkspaceNav() {
               type="button"
               onClick={() => scrollTo(item.id)}
               className={cn(
-                "shrink-0 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                "shrink-0 rounded-md px-3 py-1.5 text-sm font-medium transition-colors duration-200",
                 active === item.id
-                  ? "bg-[var(--workspace-accent)] text-white"
-                  : "text-[var(--workspace-text-secondary)] hover:bg-[var(--workspace-panel)] hover:text-[var(--workspace-text-primary)]"
+                  ? "bg-[var(--workspace-accent-muted)] text-[var(--workspace-accent)]"
+                  : "text-[var(--workspace-text-secondary)] hover:text-[var(--workspace-text-primary)]"
               )}
             >
               {item.label}

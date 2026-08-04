@@ -24,9 +24,9 @@ export function ReviewTracePanel({ traces, embedded }: ReviewTracePanelProps) {
   const content = (
     <>
       {!embedded && (
-        <ReportCard className="mb-2 bg-[var(--report-paper)]">
+        <ReportCard className="mb-2 bg-[var(--workspace-surface)]">
           <p className="report-caption">{rt.auditTrail}</p>
-          <p className="mt-1.5 text-sm leading-relaxed text-[var(--report-text-muted)]">
+          <p className="mt-1.5 text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
             {rt.auditTrailHint}
           </p>
         </ReportCard>

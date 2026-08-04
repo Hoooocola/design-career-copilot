@@ -90,25 +90,11 @@ export function buildCompetencyHeatmap(
   })
 }
 
-const REPORT_HEATMAP = {
-  positive: "#1a7f5a",
-  accent: "#4c7dff",
-  caution: "#b8860b",
-  negative: "#c0392b",
-} as const
-
 function heatmapTierColor(value: number): string {
-  if (value >= 80) return REPORT_HEATMAP.positive
-  if (value >= 60) return REPORT_HEATMAP.accent
-  if (value >= 40) return REPORT_HEATMAP.caution
-  return REPORT_HEATMAP.negative
-}
-
-function withAlpha(hex: string, alpha: number): string {
-  const r = Number.parseInt(hex.slice(1, 3), 16)
-  const g = Number.parseInt(hex.slice(3, 5), 16)
-  const b = Number.parseInt(hex.slice(5, 7), 16)
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`
+  if (value >= 80) return "var(--workspace-success)"
+  if (value >= 60) return "var(--workspace-accent)"
+  if (value >= 40) return "var(--workspace-warning)"
+  return "var(--workspace-danger)"
 }
 
 export function strengthColor(value: number): string {
@@ -116,20 +102,20 @@ export function strengthColor(value: number): string {
 }
 
 export function strengthBg(value: number): string {
-  if (value >= 80) return "bg-[var(--report-positive-bg)]"
-  if (value >= 60) return "bg-[var(--report-accent-muted)]"
-  if (value >= 40) return "bg-[var(--report-caution-bg)]"
-  return "bg-[var(--report-negative-bg)]"
+  if (value >= 80) return "bg-[var(--workspace-success-muted)]"
+  if (value >= 60) return "bg-[var(--workspace-accent-muted)]"
+  if (value >= 40) return "bg-[var(--workspace-warning-muted)]"
+  return "bg-[var(--workspace-danger-muted)]"
 }
 
 /** Solid cell fill for true heatmap — opacity scales with intensity */
 export function heatmapCellBackground(value: number): string {
   const v = Math.min(100, Math.max(0, value)) / 100
-  const alpha = 0.22 + v * 0.62
-  return withAlpha(heatmapTierColor(value), alpha)
+  const mix = Math.round(22 + v * 62)
+  return `color-mix(in oklch, ${heatmapTierColor(value)} ${mix}%, transparent)`
 }
 
 export function heatmapCellTextClass(value: number): string {
-  if (value >= 72) return "font-medium text-[var(--report-text)]"
-  return "text-[var(--report-text)]"
+  if (value >= 72) return "font-medium text-[var(--workspace-text-primary)]"
+  return "text-[var(--workspace-text-primary)]"
 }

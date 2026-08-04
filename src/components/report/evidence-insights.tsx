@@ -81,9 +81,9 @@ export function EvidenceInsights({ insights }: EvidenceInsightsProps) {
 
 function SummaryMetric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg border border-[var(--report-border)] bg-[var(--report-card)] px-4 py-3">
+    <div className="rounded-lg border border-[var(--workspace-border)] bg-[var(--workspace-surface-raised)] px-4 py-3">
       <dt className="report-caption">{label}</dt>
-      <dd className="mt-1 text-xl font-semibold tabular-nums text-[var(--report-text)]">
+      <dd className="mt-1 text-xl font-semibold tabular-nums text-[var(--workspace-text-primary)]">
         {value}
       </dd>
     </div>
