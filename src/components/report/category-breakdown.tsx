@@ -45,16 +45,16 @@ export function CategoryBreakdown({
         {ordered.map((cat) => (
           <ReportCard key={cat.id}>
             <div className="mb-3 flex items-center justify-between">
-              <h3 className="text-base font-semibold text-[var(--report-text)]">
+              <h3 className="text-base font-semibold text-[var(--workspace-text-primary)]">
                 {fw.categories[cat.id]}
               </h3>
-              <span className="font-mono text-sm tabular-nums text-[var(--report-text-muted)]">
+              <span className="font-mono text-sm tabular-nums text-[var(--workspace-text-secondary)]">
                 {cat.score}%
               </span>
             </div>
-            <div className="mb-4 h-1.5 overflow-hidden rounded-full bg-[var(--report-border)]">
+            <div className="mb-4 h-1.5 overflow-hidden rounded-full bg-[var(--workspace-border)]">
               <div
-                className="h-full rounded-full bg-[var(--report-accent)] transition-all"
+                className="h-full rounded-full bg-[var(--workspace-accent)] transition-all"
                 style={{ width: `${cat.score}%` }}
               />
             </div>
@@ -96,25 +96,25 @@ function DimensionRow({
 }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="w-36 shrink-0 truncate text-sm text-[var(--report-text-muted)]">
+      <span className="w-36 shrink-0 truncate text-sm text-[var(--workspace-text-secondary)]">
         {label}
       </span>
-      <div className="h-1 flex-1 overflow-hidden rounded-full bg-[var(--report-border)]">
+      <div className="h-1 flex-1 overflow-hidden rounded-full bg-[var(--workspace-border)]">
         <div
           className={cn(
             "h-full rounded-full transition-all",
             score >= 4
-              ? "bg-[var(--report-positive)]"
+              ? "bg-[var(--workspace-success)]"
               : score >= 3
-                ? "bg-[var(--report-accent)]"
+                ? "bg-[var(--workspace-accent)]"
                 : score >= 2
-                  ? "bg-[var(--report-caution)]"
-                  : "bg-[var(--report-negative)]"
+                  ? "bg-[var(--workspace-warning)]"
+                  : "bg-[var(--workspace-danger)]"
           )}
           style={{ width: `${pct}%` }}
         />
       </div>
-      <span className="w-16 shrink-0 text-right text-xs uppercase text-[var(--report-text-subtle)]">
+      <span className="w-16 shrink-0 text-right text-xs uppercase text-[var(--workspace-text-muted)]">
         {labelKey ? scoreLabels[labelKey] : "—"}
       </span>
     </div>

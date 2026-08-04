@@ -12,11 +12,12 @@ import { cn } from "@/lib/utils"
 
 interface CompetitivePositionProps {
   data: PortfolioBenchmark
+  embedded?: boolean
 }
 
 const PREVIEW_COUNT = 4
 
-export function CompetitivePosition({ data }: CompetitivePositionProps) {
+export function CompetitivePosition({ data, embedded }: CompetitivePositionProps) {
   const { messages } = useLocale()
   const cp = messages.report.competitivePosition
   const bm = messages.report.benchmark
@@ -29,25 +30,27 @@ export function CompetitivePosition({ data }: CompetitivePositionProps) {
 
   return (
     <section id="competitive-position" className="space-y-4">
-      <div>
-        <h3 className="report-h3">{cp.title}</h3>
-        <p className="report-body mt-1 text-[0.9375rem]">{cp.description}</p>
-      </div>
+      {!embedded && (
+        <div>
+          <h3 className="report-h3">{cp.title}</h3>
+          <p className="report-body mt-1 text-[0.9375rem]">{cp.description}</p>
+        </div>
+      )}
 
       <ReportCard className="overflow-hidden p-0">
         {/* Comparison group + headline */}
-        <div className="grid gap-4 border-b border-[var(--report-border)] px-6 py-5 sm:grid-cols-[1fr_auto] sm:items-center sm:px-8">
+        <div className="grid gap-4 border-b border-[var(--workspace-border)] px-6 py-5 sm:grid-cols-[1fr_auto] sm:items-center sm:px-8">
           <div>
             <p className="report-caption">{cp.comparisonGroup}</p>
-            <p className="mt-1 text-base font-semibold text-[var(--report-text)]">
+            <p className="mt-1 text-base font-semibold text-[var(--workspace-text-primary)]">
               {data.cohortLabel}
             </p>
           </div>
-          <div className="rounded-lg border border-[var(--report-accent)]/20 bg-[var(--report-accent-muted)] px-4 py-3 text-center sm:text-right">
-            <p className="report-caption text-[var(--report-accent)]">
+          <div className="rounded-lg border border-[var(--workspace-accent)]/20 bg-[var(--workspace-accent-muted)] px-4 py-3 text-center sm:text-right">
+            <p className="report-caption text-[var(--workspace-accent)]">
               {cp.overallStanding}
             </p>
-            <p className="mt-0.5 text-lg font-semibold tabular-nums text-[var(--report-accent)]">
+            <p className="mt-0.5 text-lg font-semibold tabular-nums text-[var(--workspace-accent)]">
               {messages.report.score.benchmark.replace("{percent}", String(topPercentile))}
             </p>
           </div>
@@ -55,7 +58,7 @@ export function CompetitivePosition({ data }: CompetitivePositionProps) {
 
         <div className="grid lg:grid-cols-[1.2fr_1fr]">
           {/* Percentile preview */}
-          <div className="border-b border-[var(--report-border)] px-6 py-5 lg:border-b-0 lg:border-r sm:px-8">
+          <div className="border-b border-[var(--workspace-border)] px-6 py-5 lg:border-b-0 lg:border-r sm:px-8">
             <p className="report-caption">{cp.percentileRanking}</p>
             <ul className="mt-4 space-y-3">
               {preview.map((item) => (
@@ -69,7 +72,7 @@ export function CompetitivePosition({ data }: CompetitivePositionProps) {
               ))}
             </ul>
             {sorted.length > PREVIEW_COUNT && (
-              <p className="mt-3 text-xs text-[var(--report-text-subtle)]">
+              <p className="mt-3 text-xs text-[var(--workspace-text-muted)]">
                 {cp.moreDimensions.replace("{count}", String(sorted.length - PREVIEW_COUNT))}
               </p>
             )}
@@ -82,9 +85,9 @@ export function CompetitivePosition({ data }: CompetitivePositionProps) {
               {data.strongestAreas.map((area, i) => (
                 <li
                   key={i}
-                  className="flex gap-2.5 text-[0.9375rem] leading-snug text-[var(--report-text)]"
+                  className="flex gap-2.5 text-[0.9375rem] leading-snug text-[var(--workspace-text-primary)]"
                 >
-                  <span className="mt-2 size-1.5 shrink-0 rounded-full bg-[var(--report-positive)]" />
+                  <span className="mt-2 size-1.5 shrink-0 rounded-full bg-[var(--workspace-success)]" />
                   {area}
                 </li>
               ))}
@@ -92,8 +95,8 @@ export function CompetitivePosition({ data }: CompetitivePositionProps) {
           </div>
         </div>
 
-        <div className="border-t border-[var(--report-border)] bg-[var(--report-paper)] px-6 py-3 sm:px-8">
-          <p className="text-xs text-[var(--report-text-subtle)]">{cp.methodologyNote}</p>
+        <div className="border-t border-[var(--workspace-border)] bg-[var(--workspace-surface)] px-6 py-3 sm:px-8">
+          <p className="text-xs text-[var(--workspace-text-muted)]">{cp.methodologyNote}</p>
         </div>
       </ReportCard>
     </section>
@@ -119,23 +122,23 @@ function PercentilePreviewRow({
   return (
     <li className="space-y-1.5">
       <div className="flex items-center justify-between gap-3">
-        <span className="text-sm font-medium text-[var(--report-text)]">{label}</span>
+        <span className="text-sm font-medium text-[var(--workspace-text-primary)]">{label}</span>
         <span
           className={cn(
             "shrink-0 rounded-md px-2 py-0.5 text-xs font-medium",
             item.tier === "top"
-              ? "bg-[var(--report-accent-muted)] text-[var(--report-accent)]"
-              : "bg-[var(--report-negative-bg)] text-[var(--report-negative)]"
+              ? "bg-[var(--workspace-accent-muted)] text-[var(--workspace-accent)]"
+              : "bg-[var(--workspace-danger-muted)] text-[var(--workspace-danger)]"
           )}
         >
           {tierLabel}
         </span>
       </div>
-      <div className="relative h-1.5 overflow-hidden rounded-full bg-[var(--report-border)]">
+      <div className="relative h-1.5 overflow-hidden rounded-full bg-[var(--workspace-border)]">
         <div
           className={cn(
             "absolute inset-y-0 left-0 rounded-full",
-            item.tier === "top" ? "bg-[var(--report-accent)]" : "bg-[var(--report-negative)]"
+            item.tier === "top" ? "bg-[var(--workspace-accent)]" : "bg-[var(--workspace-danger)]"
           )}
           style={{ width: `${item.percentile}%` }}
         />

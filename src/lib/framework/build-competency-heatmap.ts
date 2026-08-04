@@ -90,46 +90,33 @@ export function buildCompetencyHeatmap(
   })
 }
 
-const REPORT_HEATMAP = {
-  positive: "#1a7f5a",
-  accent: "#4c7dff",
-  caution: "#b8860b",
-  negative: "#c0392b",
-} as const
-
 function heatmapTierColor(value: number): string {
-  if (value >= 80) return REPORT_HEATMAP.positive
-  if (value >= 60) return REPORT_HEATMAP.accent
-  if (value >= 40) return REPORT_HEATMAP.caution
-  return REPORT_HEATMAP.negative
-}
-
-function withAlpha(hex: string, alpha: number): string {
-  const r = Number.parseInt(hex.slice(1, 3), 16)
-  const g = Number.parseInt(hex.slice(3, 5), 16)
-  const b = Number.parseInt(hex.slice(5, 7), 16)
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`
+  if (value < 40) return "var(--workspace-danger)"
+  return "var(--workspace-text-primary)"
 }
 
 export function strengthColor(value: number): string {
-  return heatmapTierColor(value)
+  if (value < 40) return "var(--workspace-danger)"
+  return "var(--workspace-text-muted)"
 }
 
 export function strengthBg(value: number): string {
-  if (value >= 80) return "bg-[var(--report-positive-bg)]"
-  if (value >= 60) return "bg-[var(--report-accent-muted)]"
-  if (value >= 40) return "bg-[var(--report-caution-bg)]"
-  return "bg-[var(--report-negative-bg)]"
+  if (value < 40) return "bg-[var(--workspace-danger-muted)]"
+  return "bg-[var(--workspace-surface-raised)]"
 }
 
-/** Solid cell fill for true heatmap — opacity scales with intensity */
+/** Solid cell fill for true heatmap — neutral scale with danger for gaps */
 export function heatmapCellBackground(value: number): string {
   const v = Math.min(100, Math.max(0, value)) / 100
-  const alpha = 0.22 + v * 0.62
-  return withAlpha(heatmapTierColor(value), alpha)
+  if (value < 40) {
+    const mix = Math.round(10 + (1 - v) * 18)
+    return `color-mix(in oklch, var(--workspace-danger) ${mix}%, var(--workspace-surface-raised))`
+  }
+  const mix = Math.round(6 + v * 16)
+  return `color-mix(in oklch, var(--workspace-text-primary) ${mix}%, var(--workspace-surface-raised))`
 }
 
 export function heatmapCellTextClass(value: number): string {
-  if (value >= 72) return "font-medium text-[var(--report-text)]"
-  return "text-[var(--report-text)]"
+  if (value >= 72) return "font-medium text-[var(--workspace-text-primary)]"
+  return "text-[var(--workspace-text-primary)]"
 }
