@@ -4,7 +4,6 @@ import { useState } from "react"
 import { ChevronDown } from "lucide-react"
 
 import { useLocale } from "@/components/providers/locale-provider"
-import { ReportMetaLabel } from "@/components/report/report-primitives"
 import {
   buildReportScoreMetrics,
   computeTopPercentile,
@@ -55,53 +54,52 @@ export function ExecutiveSnapshot({ report, benchmark }: ExecutiveSnapshotProps)
 
   return (
     <div className="space-y-10">
-      <div className="grid gap-12 lg:grid-cols-[minmax(0,17rem)_1fr] lg:gap-20 xl:gap-24">
-        <div className="space-y-8">
-          <div>
-            <p className="workspace-label">{snap.careerReadiness}</p>
-            <div className="mt-3 flex items-baseline gap-1">
-              <span className="text-6xl font-semibold tabular-nums tracking-tight text-[var(--workspace-text-primary)]">
-                {metrics.score}
-              </span>
-              <span className="text-xl text-[var(--workspace-text-muted)]">
-                {scoreLabels.outOf}
-              </span>
-            </div>
-            <p className="mt-2 text-lg font-medium text-[var(--workspace-accent)]">
-              {scoreLabels.bands[band]}
-            </p>
-          </div>
-
-          <div>
-            <p className="workspace-label">{snap.benchmark}</p>
-            <p className="mt-2 text-base font-medium text-[var(--workspace-text-primary)]">
-              {scoreLabels.benchmark.replace("{percent}", String(topPercentile))}
-            </p>
-            <p className="mt-1.5 text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
-              {benchmark.cohortLabel}
-            </p>
-          </div>
+      <div className="max-w-3xl space-y-8">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span className="text-decision tabular-nums">{metrics.score}</span>
+          <span className="text-2xl text-[var(--workspace-text-muted)]">/</span>
+          <span className="text-xl font-medium text-[var(--workspace-text-primary)] sm:text-2xl">
+            {scoreLabels.bands[band]}
+          </span>
         </div>
 
-        <div className="space-y-9">
-          <div>
-            <p className="workspace-label">{snap.aiJudgment}</p>
-            <p className="mt-3 max-w-2xl text-lg leading-relaxed text-[var(--workspace-text-primary)]">
-              {aiJudgment}
-            </p>
-          </div>
+        <p className="text-reasoning max-w-2xl text-[var(--workspace-text-secondary)]">
+          {aiJudgment}
+        </p>
 
-          <div className="space-y-7">
-            <JudgmentRow label={snap.strongestSignal} value={topStrength} />
-            <JudgmentRow label={snap.criticalRisk} value={topRisk} />
-            {primaryRec && (
-              <JudgmentRow
-                label={snap.primaryRecommendation}
-                value={primaryRec.title}
-                detail={primaryRec.description}
-              />
+        <div className="space-y-5">
+          {topStrength && (
+            <VerdictItem label={snap.strongestSignal} value={topStrength} />
+          )}
+          {topRisk && (
+            <VerdictItem
+              label={snap.hiringRisk}
+              value={topRisk}
+              tone="risk"
+            />
+          )}
+          {primaryRec && (
+            <VerdictItem
+              label={snap.nextBestAction}
+              value={primaryRec.title}
+              detail={primaryRec.description}
+            />
+          )}
+        </div>
+
+        <div className="space-y-1 border-t border-[color-mix(in_oklch,var(--workspace-border)_50%,transparent)] pt-6">
+          <p className="text-metadata">
+            {snap.evidenceConfidence}{" "}
+            <span className="text-[var(--workspace-text-secondary)]">
+              {scoreLabels.confidenceLevels[metrics.confidence]}
+            </span>
+          </p>
+          <p className="text-metadata">
+            {snap.evidenceConfidenceHint.replace(
+              "{coverage}",
+              String(metrics.evidenceCoverage)
             )}
-          </div>
+          </p>
         </div>
       </div>
 
@@ -109,7 +107,7 @@ export function ExecutiveSnapshot({ report, benchmark }: ExecutiveSnapshotProps)
         <button
           type="button"
           onClick={() => setDetailsOpen((open) => !open)}
-          className="group flex items-center gap-2 text-sm text-[var(--workspace-text-muted)] transition-colors duration-200 hover:text-[var(--workspace-text-secondary)]"
+          className="flex items-center gap-2 text-metadata transition-colors duration-200 hover:text-[var(--workspace-text-secondary)]"
           aria-expanded={detailsOpen}
         >
           {detailsOpen ? snap.hideSupportingDetails : snap.showSupportingDetails}
@@ -122,29 +120,35 @@ export function ExecutiveSnapshot({ report, benchmark }: ExecutiveSnapshotProps)
         </button>
 
         {detailsOpen && (
-          <div className="mt-6 space-y-6 border-t border-[color-mix(in_oklch,var(--workspace-border)_60%,transparent)] pt-6">
-            <dl className="grid gap-6 sm:grid-cols-3">
-              <DetailMetric
-                label={scoreLabels.confidence}
-                value={scoreLabels.confidenceLevels[metrics.confidence]}
+          <div className="mt-5 space-y-5 border-t border-[color-mix(in_oklch,var(--workspace-border)_50%,transparent)] pt-5">
+            <p className="text-metadata">
+              {scoreLabels.benchmark.replace("{percent}", String(topPercentile))}
+              {" · "}
+              {benchmark.cohortLabel}
+            </p>
+
+            <dl className="grid gap-4 sm:grid-cols-3">
+              <SupportingMetric
+                label={scoreLabels.readinessBand}
+                value={`${metrics.readiness} / 100`}
               />
-              <DetailMetric
+              <SupportingMetric
                 label={scoreLabels.evidenceCoverage}
                 value={`${metrics.evidenceCoverage}%`}
               />
-              <DetailMetric
-                label={scoreLabels.readinessBand}
-                value={`${metrics.readiness} / 100`}
+              <SupportingMetric
+                label={scoreLabels.confidence}
+                value={scoreLabels.confidenceLevels[metrics.confidence]}
               />
             </dl>
 
             {(strengths.length > 1 || risks.length > 1) && (
-              <div className="grid gap-6 sm:grid-cols-2">
+              <div className="grid gap-5 sm:grid-cols-2">
                 {strengths.length > 1 && (
-                  <DetailList title={snap.topStrengths} items={strengths.slice(1)} />
+                  <SupportingList title={snap.topStrengths} items={strengths.slice(1)} />
                 )}
                 {risks.length > 1 && (
-                  <DetailList title={snap.criticalRisks} items={risks.slice(1)} />
+                  <SupportingList title={snap.criticalRisks} items={risks.slice(1)} />
                 )}
               </div>
             )}
@@ -159,23 +163,32 @@ export function ExecutiveSnapshot({ report, benchmark }: ExecutiveSnapshotProps)
   )
 }
 
-function JudgmentRow({
+function VerdictItem({
   label,
   value,
   detail,
+  tone,
 }: {
   label: string
-  value?: string
+  value: string
   detail?: string
+  tone?: "risk"
 }) {
   return (
     <div>
-      <p className="workspace-label">{label}</p>
-      <p className="mt-2 text-base leading-relaxed text-[var(--workspace-text-primary)]">
-        {value ?? "—"}
+      <p className="text-metadata">{label}</p>
+      <p
+        className={cn(
+          "mt-1 text-reasoning",
+          tone === "risk"
+            ? "text-[var(--workspace-text-primary)]"
+            : "text-[var(--workspace-text-primary)]"
+        )}
+      >
+        {value}
       </p>
       {detail && (
-        <p className="mt-1.5 text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
+        <p className="mt-1 text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
           {detail}
         </p>
       )}
@@ -183,21 +196,21 @@ function JudgmentRow({
   )
 }
 
-function DetailMetric({ label, value }: { label: string; value: string }) {
+function SupportingMetric({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <ReportMetaLabel>{label}</ReportMetaLabel>
-      <p className="mt-1 text-sm font-medium tabular-nums text-[var(--workspace-text-primary)]">
+      <p className="text-metadata">{label}</p>
+      <p className="mt-1 text-sm tabular-nums text-[var(--workspace-text-primary)]">
         {value}
       </p>
     </div>
   )
 }
 
-function DetailList({ title, items }: { title: string; items: string[] }) {
+function SupportingList({ title, items }: { title: string; items: string[] }) {
   return (
     <div>
-      <ReportMetaLabel>{title}</ReportMetaLabel>
+      <p className="text-metadata">{title}</p>
       <ul className="mt-2 space-y-1.5">
         {items.map((item, i) => (
           <li key={i} className="text-sm leading-relaxed text-[var(--workspace-text-secondary)]">

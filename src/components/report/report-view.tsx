@@ -111,6 +111,8 @@ export function ReportView({
             <CompetencyHeatmap
               dimensionScores={report.framework.dimensionScores}
               evidenceInsights={report.framework.evidenceInsights}
+              topStrengths={report.framework.competencyOverview.topStrengths}
+              topGaps={report.framework.competencyOverview.criticalGaps}
             />
             <div className="grid gap-8 lg:grid-cols-2">
               <SkillRadarChart categories={report.framework.categoryBreakdown} />

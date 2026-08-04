@@ -73,8 +73,8 @@ export function WorkspaceNav() {
               className={cn(
                 "shrink-0 rounded-md px-3 py-1.5 text-sm font-medium transition-colors duration-200",
                 active === item.id
-                  ? "bg-[var(--workspace-accent-muted)] text-[var(--workspace-accent)]"
-                  : "text-[var(--workspace-text-secondary)] hover:text-[var(--workspace-text-primary)]"
+                  ? "text-[var(--workspace-text-primary)]"
+                  : "text-[var(--workspace-text-muted)] hover:text-[var(--workspace-text-secondary)]"
               )}
             >
               {item.label}

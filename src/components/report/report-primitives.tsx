@@ -69,7 +69,7 @@ export function ReportChapter({
   return (
     <section id={id} className={cn("scroll-mt-28 space-y-8", className)}>
       <header className="pb-6">
-        {label && <p className="report-caption mb-2">{label}</p>}
+        {label && <p className="text-metadata mb-2">{label}</p>}
         <h2 className="report-h2">{title}</h2>
         {subtitle && <p className="report-body mt-2 max-w-2xl">{subtitle}</p>}
       </header>

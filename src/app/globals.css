@@ -240,10 +240,8 @@
 }
 
 .report-caption {
-  font-size: 0.6875rem;
-  line-height: 1.4;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.8125rem;
+  line-height: 1.5;
   color: var(--workspace-text-muted);
 }
 
@@ -251,10 +249,28 @@
   border-left: 2px solid var(--workspace-accent);
 }
 
+.text-decision {
+  font-size: clamp(2.75rem, 5vw, 3.75rem);
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--workspace-text-primary);
+}
+
+.text-reasoning {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--workspace-text-primary);
+}
+
+.text-metadata {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--workspace-text-muted);
+}
+
 .workspace-label {
-  font-size: 0.6875rem;
-  line-height: 1.4;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.8125rem;
+  line-height: 1.5;
   color: var(--workspace-text-muted);
 }

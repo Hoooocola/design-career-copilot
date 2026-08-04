@@ -335,6 +335,10 @@ export const zh: Messages = {
       competitivePosition: "竞争定位",
       aiJudgment: "AI 核心判断",
       benchmark: "基准对比",
+      hiringRisk: "招聘风险",
+      nextBestAction: "下一步行动",
+      evidenceConfidence: "证据置信度：",
+      evidenceConfidenceHint: "基于 {coverage}% 作品集证据覆盖率",
       strongestSignal: "最强信号",
       biggestHiringRisk: "最大招聘风险",
       topStrength: "最大优势",
@@ -457,6 +461,14 @@ export const zh: Messages = {
       moreDimensions: "完整分析中还有 {count} 个维度",
       methodologyNote: "完整基准分解、最弱领域与战略分析见下方方法论章节。",
     },
+    capabilityProfile: {
+      title: "能力画像",
+      description: "作品集最强之处 — 以及招聘风险集中区域",
+      topStrengths: "核心优势",
+      topGaps: "主要短板",
+      dimensionMatrix: "完整维度矩阵（{count}）",
+      dimensionMatrixHint: "11 维评审框架，含分数、证据覆盖与视觉强度",
+    },
     heatmap: {
       title: "作品集能力热力图",
       description:
@@ -469,6 +481,7 @@ export const zh: Messages = {
       barView: "柱状图",
       sortedByScore: "按分数从高到低排序",
       legend: "强度",
+      legendNeutral: "中性色阶 — 仅在证据薄弱时高亮风险",
       legendLow: "短板",
       legendMid: "发展中",
       legendGood: "达标",

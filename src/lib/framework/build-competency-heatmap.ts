@@ -91,28 +91,29 @@ export function buildCompetencyHeatmap(
 }
 
 function heatmapTierColor(value: number): string {
-  if (value >= 80) return "var(--workspace-success)"
-  if (value >= 60) return "var(--workspace-accent)"
-  if (value >= 40) return "var(--workspace-warning)"
-  return "var(--workspace-danger)"
+  if (value < 40) return "var(--workspace-danger)"
+  return "var(--workspace-text-primary)"
 }
 
 export function strengthColor(value: number): string {
-  return heatmapTierColor(value)
+  if (value < 40) return "var(--workspace-danger)"
+  return "var(--workspace-text-muted)"
 }
 
 export function strengthBg(value: number): string {
-  if (value >= 80) return "bg-[var(--workspace-success-muted)]"
-  if (value >= 60) return "bg-[var(--workspace-accent-muted)]"
-  if (value >= 40) return "bg-[var(--workspace-warning-muted)]"
-  return "bg-[var(--workspace-danger-muted)]"
+  if (value < 40) return "bg-[var(--workspace-danger-muted)]"
+  return "bg-[var(--workspace-surface-raised)]"
 }
 
-/** Solid cell fill for true heatmap — opacity scales with intensity */
+/** Solid cell fill for true heatmap — neutral scale with danger for gaps */
 export function heatmapCellBackground(value: number): string {
   const v = Math.min(100, Math.max(0, value)) / 100
-  const mix = Math.round(22 + v * 62)
-  return `color-mix(in oklch, ${heatmapTierColor(value)} ${mix}%, transparent)`
+  if (value < 40) {
+    const mix = Math.round(10 + (1 - v) * 18)
+    return `color-mix(in oklch, var(--workspace-danger) ${mix}%, var(--workspace-surface-raised))`
+  }
+  const mix = Math.round(6 + v * 16)
+  return `color-mix(in oklch, var(--workspace-text-primary) ${mix}%, var(--workspace-surface-raised))`
 }
 
 export function heatmapCellTextClass(value: number): string {
