@@ -188,8 +188,8 @@ export function ReportPageClient() {
 
   if (!portfolioFileName || !report) {
     return (
-      <div className="report-canvas flex flex-1 items-center justify-center py-32">
-        <Loader2 className="size-6 animate-spin text-[var(--report-text-muted)]" />
+      <div className="report-workspace flex flex-1 items-center justify-center py-32">
+        <Loader2 className="size-6 animate-spin text-[var(--workspace-text-secondary)]" />
       </div>
     )
   }

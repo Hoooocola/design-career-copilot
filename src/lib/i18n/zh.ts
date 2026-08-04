@@ -269,6 +269,22 @@ export const zh: Messages = {
       subtitle: "由 AI Career Intelligence Engine 生成",
       assessmentDate: "评估日期",
     },
+    workspace: {
+      title: "职业智能工作台",
+      newAssessment: "新建评估",
+      targetRole: "目标岗位",
+      reviewerPersona: "评审视角",
+      assessmentDate: "评估日期",
+      navigation: {
+        ariaLabel: "工作台章节导航",
+        careerPosition: "职业定位",
+        capabilityMap: "能力图谱",
+        evidenceQuality: "证据质量",
+        priorityOpportunities: "优先机会",
+        careerActionPlan: "职业行动计划",
+        methodology: "方法论",
+      },
+    },
     navigation: {
       ariaLabel: "报告章节导航",
       readingProgress: "阅读进度",
