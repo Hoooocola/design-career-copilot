@@ -45,10 +45,8 @@ export function CompetencyHeatmap({
     >
       <div className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-            {hm.sortedByScore}
-          </p>
-          <div className="inline-flex rounded-lg border border-border/60 bg-muted/30 p-0.5">
+          <p className="report-caption">{hm.sortedByScore}</p>
+          <div className="inline-flex rounded-lg border border-[var(--report-border)] bg-[var(--report-paper)] p-0.5">
             <ViewToggle
               active={view === "heatmap"}
               onClick={() => setView("heatmap")}
@@ -65,20 +63,20 @@ export function CompetencyHeatmap({
         </div>
 
         {view === "heatmap" ? (
-          <div className="overflow-x-auto rounded-xl border border-border/60 bg-muted/10">
+          <div className="overflow-x-auto rounded-xl border border-[var(--report-border)] bg-[var(--report-card)]">
             <table className="w-full min-w-[640px] border-collapse text-sm">
               <thead>
-                <tr className="border-b border-border/40">
-                  <th className="px-4 py-3 text-left font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                <tr className="border-b border-[var(--report-border)]">
+                  <th className="px-4 py-3 text-left report-caption">
                     {hm.dimension}
                   </th>
-                  <th className="px-1 py-3 text-center font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                  <th className="px-1 py-3 text-center report-caption">
                     {hm.score}
                   </th>
-                  <th className="px-1 py-3 text-center font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                  <th className="px-1 py-3 text-center report-caption">
                     {hm.coverage}
                   </th>
-                  <th className="px-1 py-3 text-center font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                  <th className="px-1 py-3 text-center report-caption">
                     {hm.visualStrength}
                   </th>
                 </tr>
@@ -93,11 +91,13 @@ export function CompetencyHeatmap({
                   return (
                     <tr
                       key={row.dimensionId}
-                      className="border-b border-border/20 last:border-0"
+                      className="border-b border-[var(--report-border)]/60 last:border-0"
                     >
                       <td className="px-4 py-2">
-                        <p className="font-medium leading-snug">{label}</p>
-                        <p className="mt-0.5 font-mono text-[10px] uppercase text-muted-foreground">
+                        <p className="font-medium leading-snug text-[var(--report-text)]">
+                          {label}
+                        </p>
+                        <p className="mt-0.5 report-caption">
                           {fw.scoreLabels[row.scoreLabel]}
                         </p>
                       </td>
@@ -117,20 +117,18 @@ export function CompetencyHeatmap({
             </table>
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-border/60 bg-muted/10">
+          <div className="overflow-x-auto rounded-xl border border-[var(--report-border)] bg-[var(--report-card)]">
             <table className="w-full min-w-[640px] border-collapse text-sm">
               <thead>
-                <tr className="border-b border-border/40 text-left">
-                  <th className="px-4 py-3 font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-                    {hm.dimension}
-                  </th>
-                  <th className="px-3 py-3 text-center font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                <tr className="border-b border-[var(--report-border)] text-left">
+                  <th className="px-4 py-3 report-caption">{hm.dimension}</th>
+                  <th className="px-3 py-3 text-center report-caption">
                     {hm.score}
                   </th>
-                  <th className="px-3 py-3 text-center font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                  <th className="px-3 py-3 text-center report-caption">
                     {hm.coverage}
                   </th>
-                  <th className="px-3 py-3 text-center font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                  <th className="px-3 py-3 text-center report-caption">
                     {hm.visualStrength}
                   </th>
                 </tr>
@@ -145,12 +143,14 @@ export function CompetencyHeatmap({
                   return (
                     <tr
                       key={row.dimensionId}
-                      className="border-b border-border/30 last:border-0"
+                      className="border-b border-[var(--report-border)]/60 last:border-0"
                     >
                       <td className="px-4 py-3">
                         <div className="min-w-[140px]">
-                          <p className="font-medium leading-snug">{label}</p>
-                          <p className="mt-0.5 font-mono text-[10px] uppercase text-muted-foreground">
+                          <p className="font-medium leading-snug text-[var(--report-text)]">
+                            {label}
+                          </p>
+                          <p className="mt-0.5 report-caption">
                             {fw.scoreLabels[row.scoreLabel]}
                           </p>
                         </div>
@@ -173,13 +173,11 @@ export function CompetencyHeatmap({
         )}
 
         <div className="flex flex-wrap items-center gap-4 px-1">
-          <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-            {hm.legend}
-          </span>
-          <LegendSwatch color="rose" label={hm.legendLow} />
-          <LegendSwatch color="amber" label={hm.legendMid} />
-          <LegendSwatch color="sky" label={hm.legendGood} />
-          <LegendSwatch color="emerald" label={hm.legendHigh} />
+          <span className="report-caption">{hm.legend}</span>
+          <LegendSwatch tier="negative" label={hm.legendLow} />
+          <LegendSwatch tier="caution" label={hm.legendMid} />
+          <LegendSwatch tier="accent" label={hm.legendGood} />
+          <LegendSwatch tier="positive" label={hm.legendHigh} />
         </div>
       </div>
     </ReportSection>
@@ -204,8 +202,8 @@ function ViewToggle({
       className={cn(
         "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
         active
-          ? "bg-background text-foreground shadow-sm"
-          : "text-muted-foreground hover:text-foreground"
+          ? "bg-[var(--report-card)] text-[var(--report-text)] shadow-sm"
+          : "text-[var(--report-text-muted)] hover:text-[var(--report-text)]"
       )}
     >
       {icon}
@@ -238,7 +236,7 @@ function BarCell({ value, display }: { value: number; display: string }) {
   return (
     <td className="px-3 py-3">
       <div className="mx-auto w-full max-w-[140px] space-y-1.5">
-        <div className="h-2 overflow-hidden rounded-full bg-muted/80">
+        <div className="h-2 overflow-hidden rounded-full bg-[var(--report-border)]">
           <div
             className="h-full rounded-full transition-all"
             style={{
@@ -247,7 +245,7 @@ function BarCell({ value, display }: { value: number; display: string }) {
             }}
           />
         </div>
-        <p className="text-center font-mono text-[10px] tabular-nums text-muted-foreground">
+        <p className="text-center font-mono text-[10px] tabular-nums text-[var(--report-text-muted)]">
           {display}
         </p>
       </div>
@@ -256,21 +254,21 @@ function BarCell({ value, display }: { value: number; display: string }) {
 }
 
 function LegendSwatch({
-  color,
+  tier,
   label,
 }: {
-  color: "rose" | "amber" | "sky" | "emerald"
+  tier: "negative" | "caution" | "accent" | "positive"
   label: string
 }) {
   const swatchClass = {
-    rose: "bg-rose-500/60",
-    amber: "bg-amber-500/60",
-    sky: "bg-sky-500/60",
-    emerald: "bg-emerald-500/60",
-  }[color]
+    negative: "bg-[var(--report-negative)]",
+    caution: "bg-[var(--report-caution)]",
+    accent: "bg-[var(--report-accent)]",
+    positive: "bg-[var(--report-positive)]",
+  }[tier]
 
   return (
-    <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+    <span className="inline-flex items-center gap-1.5 text-xs text-[var(--report-text-muted)]">
       <span className={cn("size-2 rounded-sm", swatchClass)} />
       {label}
     </span>

@@ -65,9 +65,7 @@ export function ImprovementSimulator({
     <ReportSection title={sim.title} description={sim.description}>
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         <div className="space-y-2">
-          <p className="mb-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-            {sim.actionsLabel}
-          </p>
+          <p className="mb-3 report-caption">{sim.actionsLabel}</p>
           {scenarios.map((scenario) => (
             <ScenarioCard
               key={scenario.id}
@@ -80,7 +78,7 @@ export function ImprovementSimulator({
               isTopRoi={scenario.id === scenarios[0]?.id}
             />
           ))}
-          <p className="pt-2 text-xs leading-relaxed text-muted-foreground">
+          <p className="pt-2 text-xs leading-relaxed text-[var(--report-text-muted)]">
             {sim.disclaimer}
           </p>
         </div>
@@ -88,8 +86,8 @@ export function ImprovementSimulator({
         <div className="report-card p-5 sm:p-6">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
-              <Sparkles className="size-4 text-amber-400/90" />
-              <p className="text-sm font-semibold tracking-tight">
+              <Sparkles className="size-4 text-[var(--report-caution)]" />
+              <p className="text-sm font-semibold tracking-tight text-[var(--report-text)]">
                 {sim.projectionTitle}
               </p>
             </div>
@@ -124,11 +122,9 @@ export function ImprovementSimulator({
             />
           </div>
 
-          <div className="mt-5 rounded-lg border border-border/40 bg-background/40 px-4 py-3">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-              {sim.rationaleLabel}
-            </p>
-            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+          <div className="mt-5 rounded-lg border border-[var(--report-border)] bg-[var(--report-paper)] px-4 py-3">
+            <p className="report-caption">{sim.rationaleLabel}</p>
+            <p className="mt-1.5 text-sm leading-relaxed text-[var(--report-text-muted)]">
               {projection.rationale}
             </p>
           </div>
@@ -162,28 +158,30 @@ function ScenarioCard({
       className={cn(
         "w-full rounded-xl border px-4 py-3.5 text-left transition-colors",
         active
-          ? "border-primary/30 bg-primary/5"
-          : "border-border/60 bg-muted/15 hover:border-border hover:bg-muted/25"
+          ? "border-[var(--report-accent)]/30 bg-[var(--report-accent-muted)]"
+          : "border-[var(--report-border)] bg-[var(--report-paper)] hover:border-[var(--report-border-strong)] hover:bg-[var(--report-card)]"
       )}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-sm font-medium leading-snug">{scenario.title}</p>
-          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+          <p className="text-sm font-medium leading-snug text-[var(--report-text)]">
+            {scenario.title}
+          </p>
+          <p className="mt-1 text-xs leading-relaxed text-[var(--report-text-muted)]">
             {scenario.description}
           </p>
         </div>
         {isTopRoi && (
           <Badge
             variant="outline"
-            className="shrink-0 border-emerald-500/25 bg-emerald-500/10 font-mono text-[9px] uppercase tracking-wider text-emerald-400"
+            className="shrink-0 border-[var(--report-positive)]/25 bg-[var(--report-positive-bg)] font-mono text-[9px] uppercase tracking-wider text-[var(--report-positive)]"
           >
             <TrendingUp className="mr-1 size-3" />
             {roiHint}
           </Badge>
         )}
       </div>
-      <div className="mt-3 flex gap-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+      <div className="mt-3 flex gap-3 font-mono text-[10px] uppercase tracking-wider text-[var(--report-text-subtle)]">
         <span>
           {impactLabel} {scenario.impact}/5
         </span>
@@ -213,13 +211,11 @@ function ProjectionRow({
   const delta = after - before
 
   return (
-    <div className="rounded-lg border border-border/40 bg-background/50 px-4 py-3">
-      <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-        {label}
-      </p>
+    <div className="rounded-lg border border-[var(--report-border)] bg-[var(--report-paper)] px-4 py-3">
+      <p className="report-caption">{label}</p>
       <div className="mt-2 flex flex-wrap items-end gap-3">
         <MetricBlock label={currentLabel} value={before} suffix={suffix} />
-        <ArrowRight className="mb-1 size-4 text-muted-foreground/50" />
+        <ArrowRight className="mb-1 size-4 text-[var(--report-text-subtle)]" />
         <MetricBlock
           label={projectedLabel}
           value={after}
@@ -227,7 +223,7 @@ function ProjectionRow({
           highlight
         />
         {delta > 0 && (
-          <span className="mb-0.5 font-mono text-xs text-emerald-400">
+          <span className="mb-0.5 font-mono text-xs text-[var(--report-positive)]">
             +{delta}
             {suffix}
           </span>
@@ -251,25 +247,23 @@ function BenchmarkRow({
   projectedLabel: string
 }) {
   return (
-    <div className="rounded-lg border border-border/40 bg-background/50 px-4 py-3">
-      <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-        {label}
-      </p>
+    <div className="rounded-lg border border-[var(--report-border)] bg-[var(--report-paper)] px-4 py-3">
+      <p className="report-caption">{label}</p>
       <div className="mt-2 flex flex-wrap items-end gap-3">
         <div>
-          <p className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/70">
+          <p className="font-mono text-[9px] uppercase tracking-wider text-[var(--report-text-subtle)]">
             {currentLabel}
           </p>
-          <p className="font-mono text-xl font-semibold tabular-nums">
+          <p className="font-mono text-xl font-semibold tabular-nums text-[var(--report-text)]">
             {before.label}
           </p>
         </div>
-        <ArrowRight className="mb-1 size-4 text-muted-foreground/50" />
+        <ArrowRight className="mb-1 size-4 text-[var(--report-text-subtle)]" />
         <div>
-          <p className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/70">
+          <p className="font-mono text-[9px] uppercase tracking-wider text-[var(--report-text-subtle)]">
             {projectedLabel}
           </p>
-          <p className="font-mono text-xl font-semibold tabular-nums text-emerald-400">
+          <p className="font-mono text-xl font-semibold tabular-nums text-[var(--report-positive)]">
             {after.label}
           </p>
         </div>
@@ -291,13 +285,13 @@ function MetricBlock({
 }) {
   return (
     <div>
-      <p className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/70">
+      <p className="font-mono text-[9px] uppercase tracking-wider text-[var(--report-text-subtle)]">
         {label}
       </p>
       <p
         className={cn(
-          "font-mono text-xl font-semibold tabular-nums",
-          highlight && "text-emerald-400"
+          "font-mono text-xl font-semibold tabular-nums text-[var(--report-text)]",
+          highlight && "text-[var(--report-positive)]"
         )}
       >
         {value}
@@ -315,9 +309,10 @@ function ConfidenceBadge({
   labels: Record<"high" | "medium" | "low", string>
 }) {
   const styles = {
-    high: "border-emerald-500/25 bg-emerald-500/10 text-emerald-400",
-    medium: "border-amber-500/25 bg-amber-500/10 text-amber-400",
-    low: "border-muted-foreground/25 bg-muted text-muted-foreground",
+    high: "border-[var(--report-positive)]/25 bg-[var(--report-positive-bg)] text-[var(--report-positive)]",
+    medium:
+      "border-[var(--report-caution)]/25 bg-[var(--report-caution-bg)] text-[var(--report-caution)]",
+    low: "border-[var(--report-border)] bg-[var(--report-paper)] text-[var(--report-text-muted)]",
   }
 
   return (

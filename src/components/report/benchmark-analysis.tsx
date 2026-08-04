@@ -32,33 +32,31 @@ export function BenchmarkAnalysis({ data }: BenchmarkAnalysisProps) {
     >
       <div className="space-y-6">
         <div className="rounded-xl border border-[var(--report-border)] bg-[var(--report-paper)] px-5 py-4">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-            {bm.cohortComparison}
-          </p>
-          <p className="mt-1.5 text-base font-medium tracking-tight">
+          <p className="report-caption">{bm.cohortComparison}</p>
+          <p className="mt-1.5 text-base font-medium tracking-tight text-[var(--report-text)]">
             {data.cohortLabel}
           </p>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-2 text-sm leading-relaxed text-[var(--report-text-muted)]">
             {bm.cohortNote}
           </p>
           <Badge
             variant="outline"
-            className="mt-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground"
+            className="mt-3 border-[var(--report-border)] font-mono text-[10px] uppercase tracking-wider text-[var(--report-text-subtle)]"
           >
             {bm.simulatedData}
           </Badge>
         </div>
 
-        <section className="rounded-xl border border-border/60 bg-background">
-          <header className="border-b border-border/40 px-5 py-4">
-            <h3 className="text-sm font-semibold tracking-tight">
+        <section className="overflow-hidden rounded-xl border border-[var(--report-border)] bg-[var(--report-card)]">
+          <header className="border-b border-[var(--report-border)] px-5 py-4">
+            <h3 className="text-sm font-semibold tracking-tight text-[var(--report-text)]">
               {bm.percentileRanking}
             </h3>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className="mt-1 text-xs text-[var(--report-text-muted)]">
               {bm.percentileRankingHint}
             </p>
           </header>
-          <div className="divide-y divide-border/30">
+          <div className="divide-y divide-[var(--report-border)]/60">
             {sorted.map((item) => (
               <PercentileRow
                 key={item.dimensionId}
@@ -74,14 +72,14 @@ export function BenchmarkAnalysis({ data }: BenchmarkAnalysisProps) {
         <div className="grid gap-4 lg:grid-cols-2">
           <AnalysisBlock
             title={bm.strongestAreas}
-            icon={<ArrowUp className="size-3.5 text-emerald-400" />}
-            accent="border-emerald-500/20"
+            icon={<ArrowUp className="size-3.5 text-[var(--report-positive)]" />}
+            variant="positive"
             items={data.strongestAreas}
           />
           <AnalysisBlock
             title={bm.weakestAreas}
-            icon={<ArrowDown className="size-3.5 text-rose-400" />}
-            accent="border-rose-500/20"
+            icon={<ArrowDown className="size-3.5 text-[var(--report-negative)]" />}
+            variant="negative"
             items={data.weakestAreas}
           />
         </div>
@@ -91,13 +89,13 @@ export function BenchmarkAnalysis({ data }: BenchmarkAnalysisProps) {
             title={bm.competitiveAdvantage}
             label={bm.keyInsight}
             content={data.competitiveAdvantage}
-            variant="advantage"
+            variant="accent"
           />
           <InsightBlock
             title={bm.improvementPotential}
             label={bm.strategicImplication}
             content={data.improvementPotential}
-            variant="potential"
+            variant="caution"
           />
         </div>
       </div>
@@ -123,22 +121,25 @@ function PercentileRow({
 
   return (
     <div className="grid gap-3 px-5 py-4 sm:grid-cols-[minmax(140px,180px)_1fr_auto] sm:items-center">
-      <span className="text-sm font-medium">{label}</span>
+      <span className="text-sm font-medium text-[var(--report-text)]">{label}</span>
       <div className="space-y-1.5">
-        <div className="relative h-2 overflow-hidden rounded-sm bg-muted/80">
+        <div className="relative h-2 overflow-hidden rounded-sm bg-[var(--report-border)]">
           <div
-            className={cn(
-              "absolute inset-y-0 left-0 rounded-sm",
-              item.tier === "top" ? "bg-sky-500/80" : "bg-rose-500/70"
-            )}
-            style={{ width: `${item.percentile}%` }}
+            className="absolute inset-y-0 left-0 rounded-sm"
+            style={{
+              width: `${item.percentile}%`,
+              backgroundColor:
+                item.tier === "top"
+                  ? "var(--report-accent)"
+                  : "var(--report-negative)",
+            }}
           />
           <div
-            className="absolute inset-y-0 w-px bg-border/80"
+            className="absolute inset-y-0 w-px bg-[var(--report-border-strong)]"
             style={{ left: "50%" }}
           />
         </div>
-        <div className="flex justify-between font-mono text-[9px] uppercase tracking-wider text-muted-foreground/70">
+        <div className="flex justify-between font-mono text-[9px] uppercase tracking-wider text-[var(--report-text-subtle)]">
           <span>0</span>
           <span>{tierBottomLabel}</span>
           <span>{tierTopLabel}</span>
@@ -150,8 +151,8 @@ function PercentileRow({
         className={cn(
           "w-fit shrink-0 font-mono text-[10px] uppercase tracking-wider",
           item.tier === "top"
-            ? "border-sky-500/25 bg-sky-500/10 text-sky-400"
-            : "border-rose-500/25 bg-rose-500/10 text-rose-400"
+            ? "border-[var(--report-accent)]/25 bg-[var(--report-accent-muted)] text-[var(--report-accent)]"
+            : "border-[var(--report-negative)]/25 bg-[var(--report-negative-bg)] text-[var(--report-negative)]"
         )}
       >
         {tierLabel}
@@ -163,27 +164,34 @@ function PercentileRow({
 function AnalysisBlock({
   title,
   icon,
-  accent,
+  variant,
   items,
 }: {
   title: string
   icon: React.ReactNode
-  accent: string
+  variant: "positive" | "negative"
   items: string[]
 }) {
+  const variantClass = {
+    positive: "border-[var(--report-positive)]/20 bg-[var(--report-positive-bg)]",
+    negative: "border-[var(--report-negative)]/20 bg-[var(--report-negative-bg)]",
+  }[variant]
+
   return (
-    <section className={cn("rounded-xl border bg-muted/10 p-5", accent)}>
+    <section className={cn("rounded-xl border p-5", variantClass)}>
       <div className="mb-3 flex items-center gap-2">
         {icon}
-        <h3 className="text-sm font-semibold tracking-tight">{title}</h3>
+        <h3 className="text-sm font-semibold tracking-tight text-[var(--report-text)]">
+          {title}
+        </h3>
       </div>
       <ul className="space-y-2.5">
         {items.map((item, index) => (
           <li
             key={index}
-            className="flex gap-2.5 text-sm leading-relaxed text-muted-foreground"
+            className="flex gap-2.5 text-sm leading-relaxed text-[var(--report-text-muted)]"
           >
-            <span className="mt-2 size-1 shrink-0 rounded-full bg-muted-foreground/40" />
+            <span className="mt-2 size-1 shrink-0 rounded-full bg-[var(--report-text-subtle)]" />
             {item}
           </li>
         ))}
@@ -201,23 +209,21 @@ function InsightBlock({
   title: string
   label: string
   content: string
-  variant: "advantage" | "potential"
+  variant: "accent" | "caution"
 }) {
+  const accentBar =
+    variant === "accent" ? "bg-[var(--report-accent)]" : "bg-[var(--report-caution)]"
+
   return (
-    <section className="rounded-xl border border-border/60 bg-muted/10 p-5">
-      <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-        {label}
-      </p>
-      <h3 className="mt-2 text-sm font-semibold tracking-tight">{title}</h3>
-      <p className="mt-3 text-sm leading-[1.7] text-muted-foreground">
+    <section className="rounded-xl border border-[var(--report-border)] bg-[var(--report-paper)] p-5">
+      <p className="report-caption">{label}</p>
+      <h3 className="mt-2 text-sm font-semibold tracking-tight text-[var(--report-text)]">
+        {title}
+      </h3>
+      <p className="mt-3 text-sm leading-[1.7] text-[var(--report-text-muted)]">
         {content}
       </p>
-      <div
-        className={cn(
-          "mt-4 h-0.5 w-12 rounded-full",
-          variant === "advantage" ? "bg-sky-500/60" : "bg-amber-500/60"
-        )}
-      />
+      <div className={cn("mt-4 h-0.5 w-12 rounded-full opacity-60", accentBar)} />
     </section>
   )
 }

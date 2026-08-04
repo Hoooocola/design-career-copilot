@@ -90,31 +90,46 @@ export function buildCompetencyHeatmap(
   })
 }
 
+const REPORT_HEATMAP = {
+  positive: "#1a7f5a",
+  accent: "#4c7dff",
+  caution: "#b8860b",
+  negative: "#c0392b",
+} as const
+
+function heatmapTierColor(value: number): string {
+  if (value >= 80) return REPORT_HEATMAP.positive
+  if (value >= 60) return REPORT_HEATMAP.accent
+  if (value >= 40) return REPORT_HEATMAP.caution
+  return REPORT_HEATMAP.negative
+}
+
+function withAlpha(hex: string, alpha: number): string {
+  const r = Number.parseInt(hex.slice(1, 3), 16)
+  const g = Number.parseInt(hex.slice(3, 5), 16)
+  const b = Number.parseInt(hex.slice(5, 7), 16)
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`
+}
+
 export function strengthColor(value: number): string {
-  if (value >= 80) return "oklch(0.62 0.17 155)"
-  if (value >= 60) return "oklch(0.58 0.14 245)"
-  if (value >= 40) return "oklch(0.72 0.14 75)"
-  return "oklch(0.58 0.18 25)"
+  return heatmapTierColor(value)
 }
 
 export function strengthBg(value: number): string {
-  if (value >= 80) return "bg-emerald-500/20"
-  if (value >= 60) return "bg-sky-500/20"
-  if (value >= 40) return "bg-amber-500/20"
-  return "bg-rose-500/20"
+  if (value >= 80) return "bg-[var(--report-positive-bg)]"
+  if (value >= 60) return "bg-[var(--report-accent-muted)]"
+  if (value >= 40) return "bg-[var(--report-caution-bg)]"
+  return "bg-[var(--report-negative-bg)]"
 }
 
 /** Solid cell fill for true heatmap — opacity scales with intensity */
 export function heatmapCellBackground(value: number): string {
   const v = Math.min(100, Math.max(0, value)) / 100
   const alpha = 0.22 + v * 0.62
-  if (value >= 80) return `oklch(0.62 0.17 155 / ${alpha})`
-  if (value >= 60) return `oklch(0.58 0.14 245 / ${alpha})`
-  if (value >= 40) return `oklch(0.72 0.14 75 / ${alpha})`
-  return `oklch(0.58 0.18 25 / ${alpha})`
+  return withAlpha(heatmapTierColor(value), alpha)
 }
 
 export function heatmapCellTextClass(value: number): string {
-  if (value >= 72) return "text-foreground font-medium"
-  return "text-foreground/90"
+  if (value >= 72) return "font-medium text-[var(--report-text)]"
+  return "text-[var(--report-text)]"
 }
