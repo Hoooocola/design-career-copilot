@@ -7,6 +7,7 @@ import type { ReviewTraceItem } from "@/types/report"
 
 interface ReviewTracePanelProps {
   traces: ReviewTraceItem[]
+  embedded?: boolean
 }
 
 function confidenceVariant(score: number): "high" | "medium" | "low" {
@@ -15,19 +16,21 @@ function confidenceVariant(score: number): "high" | "medium" | "low" {
   return "low"
 }
 
-export function ReviewTracePanel({ traces }: ReviewTracePanelProps) {
+export function ReviewTracePanel({ traces, embedded }: ReviewTracePanelProps) {
   const { messages } = useLocale()
   const rt = messages.report.reviewTrace
   const block = messages.report.insightBlock
 
-  return (
-    <ReportSection title={rt.title} description={rt.description}>
-      <ReportCard className="mb-2 bg-[var(--report-paper)]">
-        <p className="report-caption">{rt.auditTrail}</p>
-        <p className="mt-1.5 text-sm leading-relaxed text-[var(--report-text-muted)]">
-          {rt.auditTrailHint}
-        </p>
-      </ReportCard>
+  const content = (
+    <>
+      {!embedded && (
+        <ReportCard className="mb-2 bg-[var(--workspace-surface)]">
+          <p className="report-caption">{rt.auditTrail}</p>
+          <p className="mt-1.5 text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
+            {rt.auditTrailHint}
+          </p>
+        </ReportCard>
+      )}
 
       <div className="space-y-4">
         {traces.map((trace, index) => {
@@ -52,6 +55,14 @@ export function ReviewTracePanel({ traces }: ReviewTracePanelProps) {
           )
         })}
       </div>
+    </>
+  )
+
+  if (embedded) return content
+
+  return (
+    <ReportSection title={rt.title} description={rt.description}>
+      {content}
     </ReportSection>
   )
 }

@@ -78,7 +78,7 @@ export function ImprovementSimulator({
               isTopRoi={scenario.id === scenarios[0]?.id}
             />
           ))}
-          <p className="pt-2 text-xs leading-relaxed text-[var(--report-text-muted)]">
+          <p className="pt-2 text-xs leading-relaxed text-[var(--workspace-text-secondary)]">
             {sim.disclaimer}
           </p>
         </div>
@@ -86,8 +86,8 @@ export function ImprovementSimulator({
         <div className="report-card p-5 sm:p-6">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
-              <Sparkles className="size-4 text-[var(--report-caution)]" />
-              <p className="text-sm font-semibold tracking-tight text-[var(--report-text)]">
+              <Sparkles className="size-4 text-[var(--workspace-warning)]" />
+              <p className="text-sm font-semibold tracking-tight text-[var(--workspace-text-primary)]">
                 {sim.projectionTitle}
               </p>
             </div>
@@ -122,9 +122,9 @@ export function ImprovementSimulator({
             />
           </div>
 
-          <div className="mt-5 rounded-lg border border-[var(--report-border)] bg-[var(--report-paper)] px-4 py-3">
+          <div className="mt-5 rounded-lg border border-[var(--workspace-border)] bg-[var(--workspace-surface)] px-4 py-3">
             <p className="report-caption">{sim.rationaleLabel}</p>
-            <p className="mt-1.5 text-sm leading-relaxed text-[var(--report-text-muted)]">
+            <p className="mt-1.5 text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
               {projection.rationale}
             </p>
           </div>
@@ -158,30 +158,30 @@ function ScenarioCard({
       className={cn(
         "w-full rounded-xl border px-4 py-3.5 text-left transition-colors",
         active
-          ? "border-[var(--report-accent)]/30 bg-[var(--report-accent-muted)]"
-          : "border-[var(--report-border)] bg-[var(--report-paper)] hover:border-[var(--report-border-strong)] hover:bg-[var(--report-card)]"
+          ? "border-[var(--workspace-accent)]/30 bg-[var(--workspace-accent-muted)]"
+          : "border-[var(--workspace-border)] bg-[var(--workspace-surface)] hover:border-[var(--workspace-border)] hover:bg-[var(--workspace-surface-raised)]"
       )}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-sm font-medium leading-snug text-[var(--report-text)]">
+          <p className="text-sm font-medium leading-snug text-[var(--workspace-text-primary)]">
             {scenario.title}
           </p>
-          <p className="mt-1 text-xs leading-relaxed text-[var(--report-text-muted)]">
+          <p className="mt-1 text-xs leading-relaxed text-[var(--workspace-text-secondary)]">
             {scenario.description}
           </p>
         </div>
         {isTopRoi && (
           <Badge
             variant="outline"
-            className="shrink-0 border-[var(--report-positive)]/25 bg-[var(--report-positive-bg)] font-mono text-[9px] uppercase tracking-wider text-[var(--report-positive)]"
+            className="shrink-0 border-[var(--workspace-success)]/25 bg-[var(--workspace-success-muted)] font-mono text-[9px] uppercase tracking-wider text-[var(--workspace-success)]"
           >
             <TrendingUp className="mr-1 size-3" />
             {roiHint}
           </Badge>
         )}
       </div>
-      <div className="mt-3 flex gap-3 font-mono text-[10px] uppercase tracking-wider text-[var(--report-text-subtle)]">
+      <div className="mt-3 flex gap-3 font-mono text-[10px] uppercase tracking-wider text-[var(--workspace-text-muted)]">
         <span>
           {impactLabel} {scenario.impact}/5
         </span>
@@ -211,11 +211,11 @@ function ProjectionRow({
   const delta = after - before
 
   return (
-    <div className="rounded-lg border border-[var(--report-border)] bg-[var(--report-paper)] px-4 py-3">
+    <div className="rounded-lg border border-[var(--workspace-border)] bg-[var(--workspace-surface)] px-4 py-3">
       <p className="report-caption">{label}</p>
       <div className="mt-2 flex flex-wrap items-end gap-3">
         <MetricBlock label={currentLabel} value={before} suffix={suffix} />
-        <ArrowRight className="mb-1 size-4 text-[var(--report-text-subtle)]" />
+        <ArrowRight className="mb-1 size-4 text-[var(--workspace-text-muted)]" />
         <MetricBlock
           label={projectedLabel}
           value={after}
@@ -223,7 +223,7 @@ function ProjectionRow({
           highlight
         />
         {delta > 0 && (
-          <span className="mb-0.5 font-mono text-xs text-[var(--report-positive)]">
+          <span className="mb-0.5 font-mono text-xs text-[var(--workspace-success)]">
             +{delta}
             {suffix}
           </span>
@@ -247,23 +247,23 @@ function BenchmarkRow({
   projectedLabel: string
 }) {
   return (
-    <div className="rounded-lg border border-[var(--report-border)] bg-[var(--report-paper)] px-4 py-3">
+    <div className="rounded-lg border border-[var(--workspace-border)] bg-[var(--workspace-surface)] px-4 py-3">
       <p className="report-caption">{label}</p>
       <div className="mt-2 flex flex-wrap items-end gap-3">
         <div>
-          <p className="font-mono text-[9px] uppercase tracking-wider text-[var(--report-text-subtle)]">
+          <p className="font-mono text-[9px] uppercase tracking-wider text-[var(--workspace-text-muted)]">
             {currentLabel}
           </p>
-          <p className="font-mono text-xl font-semibold tabular-nums text-[var(--report-text)]">
+          <p className="font-mono text-xl font-semibold tabular-nums text-[var(--workspace-text-primary)]">
             {before.label}
           </p>
         </div>
-        <ArrowRight className="mb-1 size-4 text-[var(--report-text-subtle)]" />
+        <ArrowRight className="mb-1 size-4 text-[var(--workspace-text-muted)]" />
         <div>
-          <p className="font-mono text-[9px] uppercase tracking-wider text-[var(--report-text-subtle)]">
+          <p className="font-mono text-[9px] uppercase tracking-wider text-[var(--workspace-text-muted)]">
             {projectedLabel}
           </p>
-          <p className="font-mono text-xl font-semibold tabular-nums text-[var(--report-positive)]">
+          <p className="font-mono text-xl font-semibold tabular-nums text-[var(--workspace-success)]">
             {after.label}
           </p>
         </div>
@@ -285,13 +285,13 @@ function MetricBlock({
 }) {
   return (
     <div>
-      <p className="font-mono text-[9px] uppercase tracking-wider text-[var(--report-text-subtle)]">
+      <p className="font-mono text-[9px] uppercase tracking-wider text-[var(--workspace-text-muted)]">
         {label}
       </p>
       <p
         className={cn(
-          "font-mono text-xl font-semibold tabular-nums text-[var(--report-text)]",
-          highlight && "text-[var(--report-positive)]"
+          "font-mono text-xl font-semibold tabular-nums text-[var(--workspace-text-primary)]",
+          highlight && "text-[var(--workspace-success)]"
         )}
       >
         {value}
@@ -309,10 +309,10 @@ function ConfidenceBadge({
   labels: Record<"high" | "medium" | "low", string>
 }) {
   const styles = {
-    high: "border-[var(--report-positive)]/25 bg-[var(--report-positive-bg)] text-[var(--report-positive)]",
+    high: "border-[var(--workspace-success)]/25 bg-[var(--workspace-success-muted)] text-[var(--workspace-success)]",
     medium:
-      "border-[var(--report-caution)]/25 bg-[var(--report-caution-bg)] text-[var(--report-caution)]",
-    low: "border-[var(--report-border)] bg-[var(--report-paper)] text-[var(--report-text-muted)]",
+      "border-[var(--workspace-warning)]/25 bg-[var(--workspace-warning-muted)] text-[var(--workspace-warning)]",
+    low: "border-[var(--workspace-border)] bg-[var(--workspace-surface)] text-[var(--workspace-text-secondary)]",
   }
 
   return (

@@ -21,7 +21,7 @@ export function ActionPlan({ items }: ActionPlanProps) {
       <div className="space-y-4">
         {items.map((item) => (
           <div key={item.priority} className="relative">
-            <span className="absolute -left-1 top-6 flex size-7 items-center justify-center rounded-full border border-[var(--report-border)] bg-[var(--report-card)] text-xs font-semibold text-[var(--report-text)]">
+            <span className="absolute -left-1 top-6 flex size-7 items-center justify-center rounded-full border border-[var(--workspace-border)] bg-[var(--workspace-surface-raised)] text-xs font-semibold text-[var(--workspace-text-primary)]">
               {item.priority}
             </span>
             <UnifiedInsightBlock

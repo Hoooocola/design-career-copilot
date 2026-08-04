@@ -55,7 +55,7 @@ export function SkillRadarChart({ categories }: SkillRadarChartProps) {
   return (
     <ReportSection title={fw.skillRadar} description={fw.skillRadarDescription}>
       <ReportCard className="flex flex-col items-center gap-6 py-8 lg:flex-row lg:justify-center lg:gap-12">
-        <svg viewBox="0 0 320 320" className="h-64 w-64 shrink-0 text-[var(--report-border-strong)]">
+        <svg viewBox="0 0 320 320" className="h-64 w-64 shrink-0 text-[var(--workspace-border)]">
           {levels.map((level) => {
             const pts = ordered
               .map((_, i) => {
@@ -91,14 +91,14 @@ export function SkillRadarChart({ categories }: SkillRadarChartProps) {
           })}
           <polygon
             points={dataPoints}
-            fill="color-mix(in srgb, var(--report-accent) 18%, transparent)"
-            stroke="var(--report-accent)"
+            fill="color-mix(in srgb, var(--workspace-accent) 18%, transparent)"
+            stroke="var(--workspace-accent)"
             strokeWidth={2}
           />
           {ordered.map((item, i) => {
             const p = pointAt(i, item.score)
             return (
-              <circle key={item.id} cx={p.x} cy={p.y} r={3} fill="var(--report-accent)" />
+              <circle key={item.id} cx={p.x} cy={p.y} r={3} fill="var(--workspace-accent)" />
             )
           })}
           {ordered.map((item, i) => {
@@ -110,7 +110,7 @@ export function SkillRadarChart({ categories }: SkillRadarChartProps) {
                 y={lp.y}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="fill-[var(--report-text-muted)] text-[9px]"
+                className="fill-[var(--workspace-text-secondary)] text-[9px]"
               >
                 {item.label}
               </text>
@@ -120,8 +120,8 @@ export function SkillRadarChart({ categories }: SkillRadarChartProps) {
         <div className="grid w-full max-w-xs gap-2 px-4">
           {ordered.map((item) => (
             <div key={item.id} className="flex items-center justify-between text-sm">
-              <span className="text-[var(--report-text-muted)]">{item.label}</span>
-              <span className="font-mono tabular-nums text-[var(--report-text)]">
+              <span className="text-[var(--workspace-text-secondary)]">{item.label}</span>
+              <span className="font-mono tabular-nums text-[var(--workspace-text-primary)]">
                 {item.score}
               </span>
             </div>
