@@ -269,6 +269,23 @@ export const zh: Messages = {
       subtitle: "由 AI Career Intelligence Engine 生成",
       assessmentDate: "评估日期",
     },
+    workspace: {
+      title: "职业智能工作台",
+      newAssessment: "新建评估",
+      targetRole: "目标岗位",
+      reviewerPersona: "评审视角",
+      assessmentDate: "评估日期",
+      appendix: "附录",
+      navigation: {
+        ariaLabel: "工作台章节导航",
+        careerPosition: "职业定位",
+        capabilityMap: "能力图谱",
+        evidenceQuality: "证据质量",
+        priorityOpportunities: "优先机会",
+        careerActionPlan: "职业行动计划",
+        methodology: "方法论",
+      },
+    },
     navigation: {
       ariaLabel: "报告章节导航",
       readingProgress: "阅读进度",
@@ -280,21 +297,29 @@ export const zh: Messages = {
       methodology: "方法论",
     },
     chapters: {
-      snapshot: {
-        title: "执行摘要",
-        subtitle: "岗位匹配度、准备度及核心优势与风险的精炼评估。",
+      careerPosition: {
+        title: "职业定位",
+        subtitle: "我处于什么位置？",
       },
-      capability: {
+      capabilityMap: {
         title: "能力图谱",
-        subtitle: "从战略、工艺、系统到沟通的结构化能力深度视图。",
+        subtitle: "哪些能力定义了我的 profile？",
       },
-      evidence: {
-        title: "证据与差距",
-        subtitle: "可追溯的发现、作品集证据、评审推理与已识别差距。",
+      evidenceQuality: {
+        title: "证据质量",
+        subtitle: "AI 为何得出这些结论？",
       },
-      action: {
-        title: "优先级行动计划",
-        subtitle: "排序后的改进机会与可执行的职业提升路线。",
+      priorityOpportunities: {
+        title: "优先机会",
+        subtitle: "我应该先改进什么？",
+      },
+      careerActionPlan: {
+        title: "职业行动计划",
+        subtitle: "我应该如何执行？",
+      },
+      methodology: {
+        title: "方法论",
+        subtitle: "同侪基准方法论与完整百分位分析。",
       },
     },
     snapshot: {
@@ -496,8 +521,8 @@ export const zh: Messages = {
         low: "低置信度",
       },
     },
-    gapAnalysis: "差距分析",
-    gapAnalysisDescription: "作品集未能充分满足岗位要求的关键领域",
+    gapAnalysis: "证据缺口",
+    gapAnalysisDescription: "作品集证据缺失、薄弱或不足以支撑目标岗位的领域",
     actionPlan: "行动计划",
     actionPlanDescription: "提升求职竞争力的优先步骤",
     levels: {
