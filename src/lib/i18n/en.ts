@@ -280,6 +280,7 @@ We're looking for a designer who can...`,
       targetRole: "Target Role",
       reviewerPersona: "Reviewer Lens",
       assessmentDate: "Assessment Date",
+      appendix: "Appendix",
       navigation: {
         ariaLabel: "Workspace sections",
         careerPosition: "Career Position",
@@ -301,25 +302,29 @@ We're looking for a designer who can...`,
       methodology: "Methodology",
     },
     chapters: {
-      snapshot: {
-        title: "Executive Snapshot",
-        subtitle:
-          "A concise assessment of role fit, readiness, and the highest-signal strengths and risks.",
+      careerPosition: {
+        title: "Career Position",
+        subtitle: "Where do I stand?",
       },
-      capability: {
+      capabilityMap: {
         title: "Capability Map",
-        subtitle:
-          "Structured view of competency depth across strategy, craft, systems, and communication.",
+        subtitle: "What capabilities define my profile?",
       },
-      evidence: {
-        title: "Evidence & Gaps",
-        subtitle:
-          "Traceable findings linked to portfolio evidence, reviewer reasoning, and identified gaps.",
+      evidenceQuality: {
+        title: "Evidence Quality",
+        subtitle: "Why does AI believe this?",
       },
-      action: {
-        title: "Prioritized Action Plan",
-        subtitle:
-          "Ranked opportunities and a practical roadmap to strengthen candidacy.",
+      priorityOpportunities: {
+        title: "Priority Opportunities",
+        subtitle: "What should I improve first?",
+      },
+      careerActionPlan: {
+        title: "Career Action Plan",
+        subtitle: "How should I execute?",
+      },
+      methodology: {
+        title: "Methodology",
+        subtitle: "Peer benchmark methodology and detailed percentile analysis.",
       },
     },
     snapshot: {
@@ -527,8 +532,9 @@ We're looking for a designer who can...`,
         low: "Low confidence",
       },
     },
-    gapAnalysis: "Gap Analysis",
-    gapAnalysisDescription: "Key areas where your portfolio doesn't fully meet role expectations",
+    gapAnalysis: "Evidence Gaps",
+    gapAnalysisDescription:
+      "Areas where portfolio evidence is missing, weak, or insufficient for the target role",
     actionPlan: "Action Plan",
     actionPlanDescription: "Prioritized steps to strengthen your candidacy",
     levels: {

@@ -1,13 +1,10 @@
 "use client"
 
-import { Loader2 } from "lucide-react"
-
 import { ActionPlan } from "@/components/report/action-plan"
 import { BenchmarkAnalysis } from "@/components/report/benchmark-analysis"
 import { CompetitivePosition } from "@/components/report/competitive-position"
 import { CategoryBreakdown } from "@/components/report/category-breakdown"
 import { CompetencyHeatmap } from "@/components/report/competency-heatmap"
-import { CompetencyOverviewPanel } from "@/components/report/competency-overview"
 import { ConsensusConflictPanel } from "@/components/report/consensus-conflict"
 import { EvidenceInsights } from "@/components/report/evidence-insights"
 import { ExecutiveSnapshot } from "@/components/report/executive-snapshot"
@@ -21,7 +18,6 @@ import { ReviewTracePanel } from "@/components/report/review-trace"
 import { ReportChapter, ReportDivider } from "@/components/report/report-primitives"
 import { SkillCoverage } from "@/components/report/skill-coverage"
 import { SkillRadarChart } from "@/components/report/skill-radar-chart"
-import { StrengthsWeaknesses } from "@/components/report/strengths-weaknesses"
 import { ReportWorkspace } from "@/components/report/workspace/report-workspace"
 import { WorkspaceHeader } from "@/components/report/workspace/workspace-header"
 import { WorkspaceNav } from "@/components/report/workspace/workspace-nav"
@@ -47,7 +43,8 @@ export function ReportView({
   isRefreshing,
 }: ReportViewProps) {
   const { messages } = useLocale()
-  const chapters = messages.report.chapters
+  const ch = messages.report.chapters
+  const ws = messages.report.workspace
 
   const roleLabel =
     report.meta?.targetRole &&
@@ -82,8 +79,8 @@ export function ReportView({
           <ReportChapter
             id="career-position-inner"
             number={1}
-            title={chapters.snapshot.title}
-            subtitle={chapters.snapshot.subtitle}
+            title={ch.careerPosition.title}
+            subtitle={ch.careerPosition.subtitle}
           >
             <ExecutiveSnapshot
               report={report}
@@ -91,10 +88,6 @@ export function ReportView({
               persona={persona}
             />
             <CompetitivePosition data={report.benchmark} />
-            <StrengthsWeaknesses
-              strengths={report.strengths}
-              weaknesses={report.weaknesses}
-            />
           </ReportChapter>
         </div>
 
@@ -104,10 +97,13 @@ export function ReportView({
           <ReportChapter
             id="capability-map-inner"
             number={2}
-            title={chapters.capability.title}
-            subtitle={chapters.capability.subtitle}
+            title={ch.capabilityMap.title}
+            subtitle={ch.capabilityMap.subtitle}
           >
-            <CompetencyOverviewPanel data={report.framework.competencyOverview} />
+            <CompetencyHeatmap
+              dimensionScores={report.framework.dimensionScores}
+              evidenceInsights={report.framework.evidenceInsights}
+            />
             <div className="grid gap-8 lg:grid-cols-2">
               <SkillRadarChart categories={report.framework.categoryBreakdown} />
               <CategoryBreakdown
@@ -115,10 +111,6 @@ export function ReportView({
                 dimensionScores={report.framework.dimensionScores}
               />
             </div>
-            <CompetencyHeatmap
-              dimensionScores={report.framework.dimensionScores}
-              evidenceInsights={report.framework.evidenceInsights}
-            />
             <SkillCoverage skills={report.skillCoverage} />
           </ReportChapter>
         </div>
@@ -129,38 +121,56 @@ export function ReportView({
           <ReportChapter
             id="evidence-quality-inner"
             number={3}
-            title={chapters.evidence.title}
-            subtitle={chapters.evidence.subtitle}
+            title={ch.evidenceQuality.title}
+            subtitle={ch.evidenceQuality.subtitle}
           >
             <EvidenceInsights insights={report.framework.evidenceInsights} />
             <ReviewTracePanel traces={report.reviewTrace} />
-            <GapAnalysis gaps={report.gapAnalysis} />
             <ConsensusConflictPanel data={report.consensusConflict} />
+            <GapAnalysis gaps={report.gapAnalysis} />
           </ReportChapter>
         </div>
 
         <ReportDivider />
 
-        <ReportChapter
-          id="action-inner"
-          number={4}
-          title={chapters.action.title}
-          subtitle={chapters.action.subtitle}
-        >
-          <div id="priority-opportunities" className="space-y-8">
+        <div id="priority-opportunities">
+          <ReportChapter
+            id="priority-opportunities-inner"
+            number={4}
+            title={ch.priorityOpportunities.title}
+            subtitle={ch.priorityOpportunities.subtitle}
+          >
             <OpportunityRanking opportunities={report.opportunityRanking} />
             <ImprovementSimulator report={report} persona={persona} />
-          </div>
-          <div id="career-action-plan" className="space-y-8 pt-8">
+          </ReportChapter>
+        </div>
+
+        <ReportDivider />
+
+        <div id="career-action-plan">
+          <ReportChapter
+            id="career-action-plan-inner"
+            number={5}
+            title={ch.careerActionPlan.title}
+            subtitle={ch.careerActionPlan.subtitle}
+          >
             <ActionPlan items={report.actionPlan} />
             <ImprovementRoadmap data={report.improvementRoadmap} />
-          </div>
-        </ReportChapter>
+          </ReportChapter>
+        </div>
 
         <ReportDivider />
 
         <div id="methodology">
-          <BenchmarkAnalysis data={report.benchmark} />
+          <ReportChapter
+            id="methodology-inner"
+            appendix
+            sectionLabel={ws.appendix}
+            title={ch.methodology.title}
+            subtitle={ch.methodology.subtitle}
+          >
+            <BenchmarkAnalysis data={report.benchmark} />
+          </ReportChapter>
         </div>
 
         <div className="border-t border-[var(--workspace-border)] pt-8">

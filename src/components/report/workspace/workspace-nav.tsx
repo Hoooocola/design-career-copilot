@@ -19,15 +19,16 @@ export type WorkspaceNavSection = (typeof WORKSPACE_NAV_SECTIONS)[number]
 export function WorkspaceNav() {
   const { messages } = useLocale()
   const nav = messages.report.workspace.navigation
+  const ch = messages.report.chapters
   const [active, setActive] = useState<WorkspaceNavSection>("career-position")
 
   const items: { id: WorkspaceNavSection; label: string }[] = [
-    { id: "career-position", label: nav.careerPosition },
-    { id: "capability-map", label: nav.capabilityMap },
-    { id: "evidence-quality", label: nav.evidenceQuality },
-    { id: "priority-opportunities", label: nav.priorityOpportunities },
-    { id: "career-action-plan", label: nav.careerActionPlan },
-    { id: "methodology", label: nav.methodology },
+    { id: "career-position", label: ch.careerPosition.title },
+    { id: "capability-map", label: ch.capabilityMap.title },
+    { id: "evidence-quality", label: ch.evidenceQuality.title },
+    { id: "priority-opportunities", label: ch.priorityOpportunities.title },
+    { id: "career-action-plan", label: ch.careerActionPlan.title },
+    { id: "methodology", label: ch.methodology.title },
   ]
 
   useEffect(() => {

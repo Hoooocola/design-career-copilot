@@ -43,20 +43,30 @@ export function ReportChapter({
   number,
   title,
   subtitle,
+  appendix,
+  sectionLabel,
   children,
   className,
 }: {
   id: string
-  number: number
+  number?: number
   title: string
   subtitle?: string
+  appendix?: boolean
+  sectionLabel?: string
   children: React.ReactNode
   className?: string
 }) {
+  const label = appendix
+    ? sectionLabel ?? "Appendix"
+    : number !== undefined
+      ? String(number).padStart(2, "0")
+      : undefined
+
   return (
     <section id={id} className={cn("scroll-mt-28 space-y-8", className)}>
       <header className="border-b border-[var(--report-border)] pb-6">
-        <p className="report-caption mb-2">Chapter {number}</p>
+        {label && <p className="report-caption mb-2">{label}</p>}
         <h2 className="report-h2">{title}</h2>
         {subtitle && <p className="report-body mt-2 max-w-2xl">{subtitle}</p>}
       </header>
