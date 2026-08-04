@@ -12,11 +12,12 @@ import { cn } from "@/lib/utils"
 
 interface CompetitivePositionProps {
   data: PortfolioBenchmark
+  embedded?: boolean
 }
 
 const PREVIEW_COUNT = 4
 
-export function CompetitivePosition({ data }: CompetitivePositionProps) {
+export function CompetitivePosition({ data, embedded }: CompetitivePositionProps) {
   const { messages } = useLocale()
   const cp = messages.report.competitivePosition
   const bm = messages.report.benchmark
@@ -29,10 +30,12 @@ export function CompetitivePosition({ data }: CompetitivePositionProps) {
 
   return (
     <section id="competitive-position" className="space-y-4">
-      <div>
-        <h3 className="report-h3">{cp.title}</h3>
-        <p className="report-body mt-1 text-[0.9375rem]">{cp.description}</p>
-      </div>
+      {!embedded && (
+        <div>
+          <h3 className="report-h3">{cp.title}</h3>
+          <p className="report-body mt-1 text-[0.9375rem]">{cp.description}</p>
+        </div>
+      )}
 
       <ReportCard className="overflow-hidden p-0">
         {/* Comparison group + headline */}

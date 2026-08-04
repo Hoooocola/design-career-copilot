@@ -15,7 +15,7 @@ import { FeedbackEntry } from "@/components/feedback/feedback-entry"
 import { ReportEngagementTracker } from "@/components/report/report-engagement-tracker"
 import { OpportunityRanking } from "@/components/report/opportunity-ranking"
 import { ReviewTracePanel } from "@/components/report/review-trace"
-import { ReportChapter, ReportDivider } from "@/components/report/report-primitives"
+import { CollapsibleSection, ReportChapter, ReportDivider } from "@/components/report/report-primitives"
 import { SkillCoverage } from "@/components/report/skill-coverage"
 import { SkillRadarChart } from "@/components/report/skill-radar-chart"
 import { ReportWorkspace } from "@/components/report/workspace/report-workspace"
@@ -45,6 +45,7 @@ export function ReportView({
   const { messages } = useLocale()
   const ch = messages.report.chapters
   const ws = messages.report.workspace
+  const collapse = messages.report.collapsible
 
   const roleLabel =
     report.meta?.targetRole &&
@@ -86,8 +87,15 @@ export function ReportView({
               report={report}
               portfolioFileName={portfolioFileName}
               persona={persona}
+              benchmark={report.benchmark}
             />
-            <CompetitivePosition data={report.benchmark} />
+            <CollapsibleSection
+              title={collapse.competitiveDetail}
+              description={collapse.competitiveDetailHint}
+              defaultOpen={false}
+            >
+              <CompetitivePosition data={report.benchmark} embedded />
+            </CollapsibleSection>
           </ReportChapter>
         </div>
 
@@ -125,7 +133,13 @@ export function ReportView({
             subtitle={ch.evidenceQuality.subtitle}
           >
             <EvidenceInsights insights={report.framework.evidenceInsights} />
-            <ReviewTracePanel traces={report.reviewTrace} />
+            <CollapsibleSection
+              title={collapse.reviewTrace}
+              description={collapse.reviewTraceHint}
+              defaultOpen={false}
+            >
+              <ReviewTracePanel traces={report.reviewTrace} embedded />
+            </CollapsibleSection>
             <ConsensusConflictPanel data={report.consensusConflict} />
             <GapAnalysis gaps={report.gapAnalysis} />
           </ReportChapter>
@@ -169,7 +183,13 @@ export function ReportView({
             title={ch.methodology.title}
             subtitle={ch.methodology.subtitle}
           >
-            <BenchmarkAnalysis data={report.benchmark} />
+            <CollapsibleSection
+              title={collapse.fullBenchmark}
+              description={collapse.fullBenchmarkHint}
+              defaultOpen={false}
+            >
+              <BenchmarkAnalysis data={report.benchmark} embedded />
+            </CollapsibleSection>
           </ReportChapter>
         </div>
 

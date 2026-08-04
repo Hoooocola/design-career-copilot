@@ -1,5 +1,8 @@
 "use client"
 
+import { useState } from "react"
+import { ChevronDown } from "lucide-react"
+
 import { cn } from "@/lib/utils"
 
 export function ReportPaper({
@@ -191,6 +194,58 @@ function InsightStep({
       >
         {content}
       </p>
+    </div>
+  )
+}
+
+export function CollapsibleSection({
+  title,
+  description,
+  defaultOpen = false,
+  children,
+  className,
+}: {
+  title: string
+  description?: string
+  defaultOpen?: boolean
+  children: React.ReactNode
+  className?: string
+}) {
+  const [open, setOpen] = useState(defaultOpen)
+
+  return (
+    <div
+      className={cn(
+        "overflow-hidden rounded-xl border border-[var(--report-border)] bg-[var(--report-paper)]",
+        className
+      )}
+    >
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        className="flex w-full items-start justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-[var(--report-card)] sm:px-6"
+        aria-expanded={open}
+      >
+        <div className="min-w-0">
+          <h3 className="text-sm font-semibold text-[var(--report-text)]">{title}</h3>
+          {description && (
+            <p className="mt-1 text-sm leading-relaxed text-[var(--report-text-muted)]">
+              {description}
+            </p>
+          )}
+        </div>
+        <ChevronDown
+          className={cn(
+            "mt-0.5 size-4 shrink-0 text-[var(--report-text-subtle)] transition-transform",
+            open && "rotate-180"
+          )}
+        />
+      </button>
+      {open && (
+        <div className="border-t border-[var(--report-border)] px-5 py-5 sm:px-6">
+          {children}
+        </div>
+      )}
     </div>
   )
 }
