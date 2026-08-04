@@ -21,6 +21,7 @@ import { OpportunityRanking } from "@/components/report/opportunity-ranking"
 import { ReviewTracePanel } from "@/components/report/review-trace"
 import { PersonaSelector } from "@/components/report/persona-selector"
 import { ReportChapter, ReportDivider } from "@/components/report/report-primitives"
+import { ReportDocumentHeader } from "@/components/report/report-document-header"
 import { ReportStickyNav } from "@/components/report/report-sticky-nav"
 import { SkillCoverage } from "@/components/report/skill-coverage"
 import { SkillRadarChart } from "@/components/report/skill-radar-chart"
@@ -33,6 +34,7 @@ import { cn } from "@/lib/utils"
 interface ReportViewProps {
   report: PortfolioReport
   portfolioFileName?: string
+  assessmentDate: Date
   persona: ReviewerPersona
   onPersonaChange: (persona: ReviewerPersona) => void
   isRefreshing?: boolean
@@ -41,6 +43,7 @@ interface ReportViewProps {
 export function ReportView({
   report,
   portfolioFileName,
+  assessmentDate,
   persona,
   onPersonaChange,
   isRefreshing,
@@ -65,20 +68,24 @@ export function ReportView({
       <ReportStickyNav />
 
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="report-paper overflow-hidden rounded-2xl border border-[var(--report-border-strong)] shadow-[0_1px_3px_rgba(23,26,32,0.06)]">
-          <header className="border-b border-[var(--report-border)] px-6 py-8 sm:px-10 sm:py-10">
-            <Link
-              href="/"
-              className="mb-6 inline-flex items-center gap-1.5 text-sm text-[var(--report-text-muted)] transition-colors hover:text-[var(--report-text)]"
-            >
-              <ArrowLeft className="size-3.5" />
-              {messages.report.newAnalysis}
-            </Link>
+        <Link
+          href="/"
+          className="mb-4 inline-flex items-center gap-1.5 text-sm text-[var(--report-text-muted)] transition-colors hover:text-[var(--report-text)]"
+        >
+          <ArrowLeft className="size-3.5" />
+          {messages.report.newAnalysis}
+        </Link>
 
+        <div className="report-paper overflow-hidden rounded-2xl border border-[var(--report-border-strong)] shadow-[0_1px_3px_rgba(23,26,32,0.06)]">
+          <ReportDocumentHeader assessmentDate={assessmentDate} />
+
+          <header className="border-b border-[var(--report-border)] px-6 py-6 sm:px-10 sm:py-8">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div>
-                <p className="report-caption mb-3">{messages.report.documentTitle}</p>
-                <h1 className="report-h1">{messages.report.title}</h1>
+                <p className="report-caption mb-2">{messages.report.documentTitle}</p>
+                <h2 className="text-xl font-semibold tracking-tight text-[var(--report-text)] sm:text-2xl">
+                  {messages.report.title}
+                </h2>
                 {portfolioFileName && (
                   <p className="mt-2 text-base text-[var(--report-text-muted)]">
                     {portfolioFileName}

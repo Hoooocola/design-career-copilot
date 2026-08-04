@@ -40,6 +40,7 @@ export function ReportPageClient() {
   const router = useRouter()
   const { locale } = useLocale()
   const [portfolioFileName, setPortfolioFileName] = useState<string>()
+  const [assessmentDate, setAssessmentDate] = useState<Date>(() => new Date())
   const [report, setReport] = useState<PortfolioReport | null>(null)
   const [persona, setPersona] = useState<ReviewerPersona>(DEFAULT_REVIEWER_PERSONA)
   const [isRefreshing, setIsRefreshing] = useState(false)
@@ -106,6 +107,9 @@ export function ReportPageClient() {
         if (!sessionStorage.getItem(SESSION_KEYS.reportId)) {
           sessionStorage.setItem(SESSION_KEYS.reportId, crypto.randomUUID())
         }
+        if (!sessionStorage.getItem(SESSION_KEYS.reportGeneratedAt)) {
+          sessionStorage.setItem(SESSION_KEYS.reportGeneratedAt, new Date().toISOString())
+        }
         setReport(mock)
         return
       }
@@ -142,6 +146,15 @@ export function ReportPageClient() {
     }
 
     setPortfolioFileName(fileName)
+
+    const storedGeneratedAt = sessionStorage.getItem(SESSION_KEYS.reportGeneratedAt)
+    if (storedGeneratedAt) {
+      setAssessmentDate(new Date(storedGeneratedAt))
+    } else {
+      const now = new Date().toISOString()
+      sessionStorage.setItem(SESSION_KEYS.reportGeneratedAt, now)
+      setAssessmentDate(new Date(now))
+    }
 
     const activePersona =
       storedPersona && isReviewerPersona(storedPersona)
@@ -185,6 +198,7 @@ export function ReportPageClient() {
     <ReportView
       report={report}
       portfolioFileName={portfolioFileName}
+      assessmentDate={assessmentDate}
       persona={persona}
       onPersonaChange={handlePersonaChange}
       isRefreshing={isRefreshing}

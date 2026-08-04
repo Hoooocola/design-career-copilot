@@ -13,6 +13,7 @@ export const SESSION_KEYS = {
   jobDescription: "dcc-job-description",
   report: "dcc-report",
   reportId: "dcc-report-id",
+  reportGeneratedAt: "dcc-report-generated-at",
   locale: "dcc-locale",
   reviewerPersona: "dcc-reviewer-persona",
   analyticsSessionId: "dcc-analytics-session-id",

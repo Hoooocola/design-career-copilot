@@ -264,6 +264,11 @@ export const zh: Messages = {
       "查看 HR、设计主管、AI 产品负责人、设计工程师各自如何评估你的作品集。",
     title: "作品集评审报告",
     documentTitle: "职业评估报告",
+    document: {
+      title: "Design Career Copilot 评估报告",
+      subtitle: "由 AI Career Intelligence Engine 生成",
+      assessmentDate: "评估日期",
+    },
     navigation: {
       ariaLabel: "报告章节导航",
       readingProgress: "阅读进度",

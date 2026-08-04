@@ -53,6 +53,7 @@ export function AnalysisForm() {
       sessionStorage.setItem(SESSION_KEYS.locale, locale)
       sessionStorage.setItem(SESSION_KEYS.reviewerPersona, DEFAULT_REVIEWER_PERSONA)
       sessionStorage.removeItem(SESSION_KEYS.report)
+      sessionStorage.removeItem(SESSION_KEYS.reportGeneratedAt)
       trackAnalyticsEvent("portfolio_uploaded", {
         fileName: file!.name,
         fileSize: file!.size,

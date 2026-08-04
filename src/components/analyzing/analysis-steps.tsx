@@ -70,6 +70,7 @@ export function AnalysisSteps() {
 
       sessionStorage.setItem(SESSION_KEYS.report, JSON.stringify(data))
       sessionStorage.setItem(SESSION_KEYS.reportId, crypto.randomUUID())
+      sessionStorage.setItem(SESSION_KEYS.reportGeneratedAt, new Date().toISOString())
       trackAnalyticsEvent("analysis_completed", {
         persona: analysisPersona,
         locale: analysisLocale,
