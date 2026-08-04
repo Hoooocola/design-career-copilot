@@ -31,7 +31,7 @@ export function BenchmarkAnalysis({ data }: BenchmarkAnalysisProps) {
       trackingId="benchmark"
     >
       <div className="space-y-6">
-        <div className="rounded-xl border border-border/60 bg-gradient-to-br from-muted/30 to-muted/10 px-5 py-4">
+        <div className="rounded-xl border border-[var(--report-border)] bg-[var(--report-paper)] px-5 py-4">
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
             {bm.cohortComparison}
           </p>

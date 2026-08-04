@@ -1,6 +1,7 @@
 "use client"
 
 import { ReportSection } from "@/components/report/report-section"
+import { UnifiedInsightBlock } from "@/components/report/report-primitives"
 import { useLocale } from "@/components/providers/locale-provider"
 import type { ActionItem } from "@/types/report"
 
@@ -10,35 +11,34 @@ interface ActionPlanProps {
 
 export function ActionPlan({ items }: ActionPlanProps) {
   const { messages } = useLocale()
+  const block = messages.report.insightBlock
 
   return (
     <ReportSection
       title={messages.report.actionPlan}
       description={messages.report.actionPlanDescription}
     >
-      <ol className="space-y-3">
+      <div className="space-y-4">
         {items.map((item) => (
-          <li
-            key={item.priority}
-            className="flex gap-4 rounded-xl border border-border/60 bg-muted/20 p-4"
-          >
-            <span className="flex size-7 shrink-0 items-center justify-center rounded-lg border border-border/60 bg-background font-mono text-xs font-medium">
+          <div key={item.priority} className="relative">
+            <span className="absolute -left-1 top-6 flex size-7 items-center justify-center rounded-full border border-[var(--report-border)] bg-[var(--report-card)] text-xs font-semibold text-[var(--report-text)]">
               {item.priority}
             </span>
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-2">
-                <h3 className="text-sm font-medium">{item.title}</h3>
-                <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                  {item.timeframe}
-                </span>
-              </div>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                {item.description}
-              </p>
-            </div>
-          </li>
+            <UnifiedInsightBlock
+              className="ml-4"
+              category={item.title}
+              priority={item.timeframe}
+              priorityVariant="neutral"
+              finding={item.title}
+              evidence={item.description}
+              implication={item.description}
+              findingLabel={block.finding}
+              evidenceLabel={block.evidence}
+              implicationLabel={block.implication}
+            />
+          </div>
         ))}
-      </ol>
+      </div>
     </ReportSection>
   )
 }

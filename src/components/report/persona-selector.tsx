@@ -50,18 +50,18 @@ export function PersonaSelector({
               disabled={disabled}
               onClick={() => onChange(persona)}
               className={cn(
-                "rounded-xl border px-3 py-3 text-left transition-all",
+                "rounded-lg border px-3 py-3 text-left transition-colors",
                 selected
-                  ? "border-border bg-muted/50 shadow-[0_0_20px_-6px_oklch(0.55_0.15_265/0.2)]"
-                  : "border-border/50 bg-transparent hover:border-border hover:bg-muted/30",
+                  ? "border-[var(--report-accent)] bg-[var(--report-accent-muted)]"
+                  : "border-[var(--report-border)] bg-[var(--report-card)] hover:border-[var(--report-border-strong)]",
                 disabled && "pointer-events-none opacity-50"
               )}
             >
-              <p className="text-sm font-medium">
+              <p className="text-sm font-medium text-[var(--report-text)]">
                 {messages.report.reviewerPersonas[persona]}
               </p>
               {!compact && (
-                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                <p className="mt-1 text-xs leading-relaxed text-[var(--report-text-muted)]">
                   {messages.report.reviewerPersonaDescriptions[persona]}
                 </p>
               )}

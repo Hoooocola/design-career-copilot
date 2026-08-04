@@ -1,6 +1,7 @@
 "use client"
 
 import { ReportSection } from "@/components/report/report-section"
+import { ReportCard } from "@/components/report/report-primitives"
 import { useLocale } from "@/components/providers/locale-provider"
 import type { CategoryScore, DimensionScore } from "@/types/framework"
 import type { CategoryId, DimensionId } from "@/types/framework"
@@ -40,21 +41,20 @@ export function CategoryBreakdown({
       title={fw.categoryBreakdown}
       description={fw.categoryBreakdownDescription}
     >
-      <div className="space-y-6">
+      <div className="space-y-5">
         {ordered.map((cat) => (
-          <div
-            key={cat.id}
-            className="rounded-xl border border-border/60 bg-muted/20 p-4"
-          >
+          <ReportCard key={cat.id}>
             <div className="mb-3 flex items-center justify-between">
-              <h3 className="text-sm font-medium">{fw.categories[cat.id]}</h3>
-              <span className="font-mono text-sm tabular-nums text-muted-foreground">
+              <h3 className="text-base font-semibold text-[var(--report-text)]">
+                {fw.categories[cat.id]}
+              </h3>
+              <span className="font-mono text-sm tabular-nums text-[var(--report-text-muted)]">
                 {cat.score}%
               </span>
             </div>
-            <div className="mb-4 h-1.5 overflow-hidden rounded-full bg-muted">
+            <div className="mb-4 h-1.5 overflow-hidden rounded-full bg-[var(--report-border)]">
               <div
-                className="h-full rounded-full bg-primary/80 transition-all"
+                className="h-full rounded-full bg-[var(--report-accent)] transition-all"
                 style={{ width: `${cat.score}%` }}
               />
             </div>
@@ -74,7 +74,7 @@ export function CategoryBreakdown({
                 )
               })}
             </div>
-          </div>
+          </ReportCard>
         ))}
       </div>
     </ReportSection>
@@ -96,25 +96,25 @@ function DimensionRow({
 }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="w-36 shrink-0 truncate text-xs text-muted-foreground">
+      <span className="w-36 shrink-0 truncate text-sm text-[var(--report-text-muted)]">
         {label}
       </span>
-      <div className="h-1 flex-1 overflow-hidden rounded-full bg-muted/80">
+      <div className="h-1 flex-1 overflow-hidden rounded-full bg-[var(--report-border)]">
         <div
           className={cn(
             "h-full rounded-full transition-all",
             score >= 4
-              ? "bg-emerald-500/70"
+              ? "bg-[var(--report-positive)]"
               : score >= 3
-                ? "bg-sky-500/70"
+                ? "bg-[var(--report-accent)]"
                 : score >= 2
-                  ? "bg-amber-500/70"
-                  : "bg-rose-500/70"
+                  ? "bg-[var(--report-caution)]"
+                  : "bg-[var(--report-negative)]"
           )}
           style={{ width: `${pct}%` }}
         />
       </div>
-      <span className="w-16 shrink-0 text-right font-mono text-[10px] uppercase text-muted-foreground">
+      <span className="w-16 shrink-0 text-right text-xs uppercase text-[var(--report-text-subtle)]">
         {labelKey ? scoreLabels[labelKey] : "—"}
       </span>
     </div>

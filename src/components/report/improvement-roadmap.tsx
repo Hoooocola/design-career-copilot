@@ -35,7 +35,7 @@ export function ImprovementRoadmap({ data }: ImprovementRoadmapProps) {
       trackingId="roadmap"
     >
       <div className="space-y-6">
-        <div className="rounded-xl border border-border/60 bg-muted/10 px-5 py-4">
+        <div className="report-card px-5 py-4">
           <div className="flex flex-wrap items-center gap-2">
             <Badge
               variant="outline"

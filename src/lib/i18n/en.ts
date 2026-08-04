@@ -268,6 +268,78 @@ We're looking for a designer who can...`,
     switchReviewerHint:
       "Explore how HR, Design Lead, AI Product Lead, and Design Engineer each evaluate your portfolio.",
     title: "Portfolio Review Report",
+    documentTitle: "Career Assessment Report",
+    navigation: {
+      ariaLabel: "Report sections",
+      readingProgress: "Reading progress",
+      overview: "Overview",
+      capability: "Capability",
+      evidence: "Evidence",
+      gaps: "Gaps",
+      actionPlan: "Action Plan",
+      methodology: "Methodology",
+    },
+    chapters: {
+      snapshot: {
+        title: "Executive Snapshot",
+        subtitle:
+          "A concise assessment of role fit, readiness, and the highest-signal strengths and risks.",
+      },
+      capability: {
+        title: "Capability Map",
+        subtitle:
+          "Structured view of competency depth across strategy, craft, systems, and communication.",
+      },
+      evidence: {
+        title: "Evidence & Gaps",
+        subtitle:
+          "Traceable findings linked to portfolio evidence, reviewer reasoning, and identified gaps.",
+      },
+      action: {
+        title: "Prioritized Action Plan",
+        subtitle:
+          "Ranked opportunities and a practical roadmap to strengthen candidacy.",
+      },
+    },
+    snapshot: {
+      candidateProfile: "Portfolio",
+      targetRole: "Target Role",
+      seniorityLabel: "Seniority",
+      reviewerLens: "Reviewer Lens",
+      overallAssessment: "Overall Assessment",
+      topStrengths: "Top Strengths",
+      criticalRisks: "Critical Risks",
+      reviewerVerdict: "Reviewer Verdict",
+      seniority: {
+        junior: "Junior",
+        mid: "Mid-level",
+        senior: "Senior",
+        staff: "Staff",
+      },
+    },
+    score: {
+      outOf: "/ 100",
+      readinessBand: "Readiness Band",
+      benchmark: "Top {percent}% of comparable portfolios",
+      confidence: "Confidence",
+      evidenceCoverage: "Evidence Coverage",
+      confidenceLevels: {
+        high: "High",
+        medium: "Medium",
+        low: "Low",
+      },
+      bands: {
+        exceptional: "Exceptional Potential",
+        strong: "Strong Potential",
+        developing: "Developing Fit",
+        early: "Early Stage Fit",
+      },
+    },
+    insightBlock: {
+      finding: "Finding",
+      evidence: "Evidence",
+      implication: "Implication / Action",
+    },
     demoMode: "Demo Mode",
     aiGenerated: "AI Generated",
     exportPdf: "Export PDF",

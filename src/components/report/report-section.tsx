@@ -1,5 +1,6 @@
 import type { EngagementSectionId } from "@/types/engagement"
 import { cn } from "@/lib/utils"
+import { ReportSectionHeader } from "@/components/report/report-primitives"
 
 interface ReportSectionProps {
   title: string
@@ -18,15 +19,10 @@ export function ReportSection({
 }: ReportSectionProps) {
   return (
     <section
-      className={cn("space-y-4", className)}
+      className={cn("space-y-5", className)}
       data-engagement-section={trackingId}
     >
-      <div>
-        <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
-        {description && (
-          <p className="mt-1 text-sm text-muted-foreground">{description}</p>
-        )}
-      </div>
+      <ReportSectionHeader title={title} description={description} />
       {children}
     </section>
   )

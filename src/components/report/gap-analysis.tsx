@@ -1,10 +1,9 @@
 "use client"
 
 import { ReportSection } from "@/components/report/report-section"
-import { Badge } from "@/components/ui/badge"
+import { UnifiedInsightBlock } from "@/components/report/report-primitives"
 import { useLocale } from "@/components/providers/locale-provider"
 import type { GapItem } from "@/types/report"
-import { cn } from "@/lib/utils"
 
 interface GapAnalysisProps {
   gaps: GapItem[]
@@ -12,20 +11,13 @@ interface GapAnalysisProps {
 
 export function GapAnalysis({ gaps }: GapAnalysisProps) {
   const { messages } = useLocale()
+  const block = messages.report.insightBlock
+  const impactLabels = messages.report.impact
 
-  const impactConfig = {
-    high: {
-      label: messages.report.impact.high,
-      className: "bg-rose-500/15 text-rose-400 border-rose-500/20",
-    },
-    medium: {
-      label: messages.report.impact.medium,
-      className: "bg-amber-500/15 text-amber-400 border-amber-500/20",
-    },
-    low: {
-      label: messages.report.impact.low,
-      className: "bg-sky-500/15 text-sky-400 border-sky-500/20",
-    },
+  const impactVariant = {
+    high: "high" as const,
+    medium: "medium" as const,
+    low: "low" as const,
   }
 
   return (
@@ -34,29 +26,21 @@ export function GapAnalysis({ gaps }: GapAnalysisProps) {
       description={messages.report.gapAnalysisDescription}
       trackingId="gap_analysis"
     >
-      <div className="space-y-3">
-        {gaps.map((gap) => {
-          const config = impactConfig[gap.impact]
-          return (
-            <div
-              key={gap.area}
-              className="rounded-xl border border-border/60 bg-muted/20 p-4"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <h3 className="text-sm font-medium">{gap.area}</h3>
-                <Badge
-                  variant="outline"
-                  className={cn("font-mono text-[10px] uppercase", config.className)}
-                >
-                  {config.label}
-                </Badge>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {gap.description}
-              </p>
-            </div>
-          )
-        })}
+      <div className="space-y-4">
+        {gaps.map((gap) => (
+          <UnifiedInsightBlock
+            key={gap.area}
+            category={gap.area}
+            priority={impactLabels[gap.impact]}
+            priorityVariant={impactVariant[gap.impact]}
+            finding={gap.area}
+            evidence={gap.description}
+            implication={`${impactLabels[gap.impact]} · ${gap.description}`}
+            findingLabel={block.finding}
+            evidenceLabel={block.evidence}
+            implicationLabel={block.implication}
+          />
+        ))}
       </div>
     </ReportSection>
   )

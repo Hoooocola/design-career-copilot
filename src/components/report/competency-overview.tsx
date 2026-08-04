@@ -1,6 +1,7 @@
 "use client"
 
 import { ReportSection } from "@/components/report/report-section"
+import { ReportCard } from "@/components/report/report-primitives"
 import { useLocale } from "@/components/providers/locale-provider"
 import type { CompetencyOverview } from "@/types/framework"
 
@@ -17,50 +18,56 @@ export function CompetencyOverviewPanel({ data }: CompetencyOverviewProps) {
       title={fw.competencyOverview}
       description={fw.competencyOverviewDescription}
     >
-      <div className="grid gap-4 lg:grid-cols-[200px_1fr]">
-        <div className="flex flex-col items-center justify-center rounded-xl border border-border/60 bg-muted/20 py-8">
-          <span className="text-4xl font-semibold tabular-nums">
+      <div className="grid gap-5 lg:grid-cols-[220px_1fr]">
+        <ReportCard className="flex flex-col items-center justify-center py-10 text-center">
+          <span className="text-5xl font-semibold tabular-nums text-[var(--report-text)]">
             {data.overallReadiness}
           </span>
-          <span className="mt-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-            {fw.overallReadiness}
-          </span>
-        </div>
-        <div className="space-y-4">
-          <div className="rounded-xl border border-border/60 bg-muted/20 p-4">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-emerald-400">
-              {fw.topStrengths}
-            </p>
-            <ul className="mt-2 space-y-1.5">
-              {data.topStrengths.map((item, i) => (
-                <li key={i} className="text-sm text-muted-foreground">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="rounded-xl border border-border/60 bg-muted/20 p-4">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-rose-400">
-              {fw.criticalGaps}
-            </p>
-            <ul className="mt-2 space-y-1.5">
-              {data.criticalGaps.map((item, i) => (
-                <li key={i} className="text-sm text-muted-foreground">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="rounded-xl border border-border/60 border-l-2 border-l-primary/50 bg-muted/20 p-4">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-              {fw.reviewerVerdict}
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              {data.reviewerVerdict}
-            </p>
-          </div>
+          <span className="report-caption mt-2">{fw.overallReadiness}</span>
+        </ReportCard>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <MetricPanel title={fw.topStrengths} items={data.topStrengths} variant="positive" />
+          <MetricPanel title={fw.criticalGaps} items={data.criticalGaps} variant="negative" />
         </div>
       </div>
     </ReportSection>
+  )
+}
+
+function MetricPanel({
+  title,
+  items,
+  variant,
+}: {
+  title: string
+  items: string[]
+  variant: "positive" | "negative"
+}) {
+  return (
+    <ReportCard
+      className={
+        variant === "positive"
+          ? "bg-[var(--report-positive-bg)]"
+          : "bg-[var(--report-negative-bg)]"
+      }
+    >
+      <p
+        className={
+          variant === "positive"
+            ? "text-xs font-semibold uppercase tracking-wider text-[var(--report-positive)]"
+            : "text-xs font-semibold uppercase tracking-wider text-[var(--report-negative)]"
+        }
+      >
+        {title}
+      </p>
+      <ul className="mt-3 space-y-2">
+        {items.map((item, i) => (
+          <li key={i} className="text-sm leading-relaxed text-[var(--report-text-muted)]">
+            {item}
+          </li>
+        ))}
+      </ul>
+    </ReportCard>
   )
 }

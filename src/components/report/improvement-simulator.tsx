@@ -85,7 +85,7 @@ export function ImprovementSimulator({
           </p>
         </div>
 
-        <div className="rounded-xl border border-border/60 bg-gradient-to-br from-muted/25 to-muted/5 p-5 sm:p-6">
+        <div className="report-card p-5 sm:p-6">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <Sparkles className="size-4 text-amber-400/90" />

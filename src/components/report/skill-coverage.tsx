@@ -1,7 +1,7 @@
 "use client"
 
 import { ReportSection } from "@/components/report/report-section"
-import { Badge } from "@/components/ui/badge"
+import { ReportCard } from "@/components/report/report-primitives"
 import { useLocale } from "@/components/providers/locale-provider"
 import type { SkillCoverageItem } from "@/types/report"
 import { cn } from "@/lib/utils"
@@ -16,49 +16,54 @@ export function SkillCoverage({ skills }: SkillCoverageProps) {
   const levelConfig = {
     strong: {
       label: messages.report.levels.strong,
-      className: "bg-emerald-500/15 text-emerald-400 border-emerald-500/20",
+      className:
+        "bg-[var(--report-positive-bg)] text-[var(--report-positive)] border-[var(--report-positive)]/20",
     },
     partial: {
       label: messages.report.levels.partial,
-      className: "bg-amber-500/15 text-amber-400 border-amber-500/20",
+      className:
+        "bg-[var(--report-caution-bg)] text-[var(--report-caution)] border-[var(--report-caution)]/20",
     },
     missing: {
       label: messages.report.levels.missing,
-      className: "bg-rose-500/15 text-rose-400 border-rose-500/20",
+      className:
+        "bg-[var(--report-negative-bg)] text-[var(--report-negative)] border-[var(--report-negative)]/20",
     },
-  }
+  } as const
 
   return (
     <ReportSection
       title={messages.report.skillCoverage}
       description={messages.report.skillCoverageDescription}
     >
-      <div className="divide-y divide-border/50 rounded-xl border border-border/60">
+      <ReportCard className="divide-y divide-[var(--report-border)] p-0">
         {skills.map((item) => {
-          const config = levelConfig[item.level]
+          const config = levelConfig[item.level] ?? levelConfig.missing
           return (
             <div
               key={item.skill}
-              className="flex items-center justify-between gap-4 px-4 py-3"
+              className="flex items-center justify-between gap-4 px-5 py-4"
             >
               <div className="flex items-center gap-3">
-                <span className="text-sm font-medium">{item.skill}</span>
+                <span className="text-base font-medium text-[var(--report-text)]">
+                  {item.skill}
+                </span>
                 {item.required && (
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">
-                    {messages.common.required}
-                  </span>
+                  <span className="report-caption">{messages.common.required}</span>
                 )}
               </div>
-              <Badge
-                variant="outline"
-                className={cn("font-mono text-[10px] uppercase", config.className)}
+              <span
+                className={cn(
+                  "rounded-md border px-2.5 py-0.5 text-xs font-medium",
+                  config.className
+                )}
               >
                 {config.label}
-              </Badge>
+              </span>
             </div>
           )
         })}
-      </div>
+      </ReportCard>
     </ReportSection>
   )
 }
