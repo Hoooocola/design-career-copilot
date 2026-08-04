@@ -72,15 +72,15 @@ export function ReportStickyNav() {
   }
 
   return (
-    <div className="sticky top-14 z-40 border-b border-[var(--report-border)] bg-[var(--report-paper)]/95 backdrop-blur-md">
+    <div className="sticky top-14 z-40 border-b border-[var(--workspace-border)] bg-[var(--workspace-surface)]/95 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-3 sm:px-6">
         <div className="flex items-center justify-between gap-4">
           <p className="report-caption hidden sm:block">{nav.readingProgress}</p>
           <p className="report-caption tabular-nums">{progress}%</p>
         </div>
-        <div className="h-0.5 overflow-hidden rounded-full bg-[var(--report-border)]">
+        <div className="h-0.5 overflow-hidden rounded-full bg-[var(--workspace-border)]">
           <div
-            className="h-full bg-[var(--report-accent)] transition-all duration-300"
+            className="h-full bg-[var(--workspace-accent)] transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -96,8 +96,8 @@ export function ReportStickyNav() {
               className={cn(
                 "shrink-0 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
                 active === item.id
-                  ? "bg-[var(--report-accent)] text-white"
-                  : "text-[var(--report-text-muted)] hover:bg-[var(--report-card)] hover:text-[var(--report-text)]"
+                  ? "bg-[var(--workspace-accent)] text-white"
+                  : "text-[var(--workspace-text-secondary)] hover:bg-[var(--workspace-surface-raised)] hover:text-[var(--workspace-text-primary)]"
               )}
             >
               {item.label}
