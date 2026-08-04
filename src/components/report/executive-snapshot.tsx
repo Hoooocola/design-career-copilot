@@ -7,9 +7,10 @@ import { useLocale } from "@/components/providers/locale-provider"
 import { ReportCard, ReportMetaLabel } from "@/components/report/report-primitives"
 import {
   buildReportScoreMetrics,
+  computeTopPercentile,
   getReadinessBand,
 } from "@/lib/report/metrics"
-import type { PortfolioReport } from "@/types/report"
+import type { PortfolioBenchmark, PortfolioReport } from "@/types/report"
 import type { ReviewerPersona } from "@/types/reviewer"
 import { cn } from "@/lib/utils"
 
@@ -17,6 +18,7 @@ interface ExecutiveSnapshotProps {
   report: PortfolioReport
   portfolioFileName?: string
   persona: ReviewerPersona
+  benchmark: PortfolioBenchmark
 }
 
 function getPrimaryRecommendation(report: PortfolioReport) {
@@ -37,12 +39,15 @@ function getPrimaryRecommendation(report: PortfolioReport) {
 export function ExecutiveSnapshot({
   report,
   portfolioFileName,
+  benchmark,
 }: ExecutiveSnapshotProps) {
   const { messages } = useLocale()
   const snap = messages.report.snapshot
   const scoreLabels = messages.report.score
+  const cp = messages.report.competitivePosition
   const metrics = buildReportScoreMetrics(report)
   const band = getReadinessBand(metrics.score)
+  const topPercentile = computeTopPercentile(benchmark)
   const [detailsOpen, setDetailsOpen] = useState(false)
 
   const roleLabel =
@@ -62,45 +67,51 @@ export function ExecutiveSnapshot({
 
   return (
     <div className="space-y-4">
-      {/* ── Above the fold ── */}
       <ReportCard className="overflow-hidden p-0">
-        {/* Profile strip */}
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b border-[var(--report-border)] bg-[var(--report-paper)] px-6 py-4 sm:px-8">
-          {portfolioFileName && (
-            <ProfileField label={snap.candidateProfile} value={portfolioFileName} />
-          )}
-          {roleLabel && <ProfileField label={snap.targetRole} value={roleLabel} />}
-        </div>
+        {(portfolioFileName || roleLabel) && (
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b border-[var(--report-border)] bg-[var(--report-paper)] px-6 py-3 sm:px-8">
+            {portfolioFileName && (
+              <ProfileField label={snap.candidateProfile} value={portfolioFileName} />
+            )}
+            {roleLabel && <ProfileField label={snap.targetRole} value={roleLabel} />}
+          </div>
+        )}
 
-        {/* Hero grid: Score | Strength + Risk */}
-        <div className="grid lg:grid-cols-[minmax(200px,240px)_1fr]">
-          <ScoreHero
+        <div className="grid lg:grid-cols-2 lg:divide-x lg:divide-[var(--report-border)]">
+          <ReadinessPanel
             score={metrics.score}
+            readiness={metrics.readiness}
             bandLabel={scoreLabels.bands[band]}
             outOfLabel={scoreLabels.outOf}
-            matchScoreLabel={snap.matchScore}
-            readinessLabel={scoreLabels.readinessBand}
+            roleReadinessLabel={snap.roleReadiness}
+            readinessScoreLabel={scoreLabels.readinessBand}
           />
-
-          <div className="grid gap-px bg-[var(--report-border)] sm:grid-cols-2">
-            <SignalCard
-              label={snap.topStrength}
-              value={topStrength}
-              variant="positive"
-              moreCount={strengths.length > 1 ? strengths.length - 1 : 0}
-              moreLabel={snap.additionalItems}
-            />
-            <SignalCard
-              label={snap.criticalRisk}
-              value={topRisk}
-              variant="negative"
-              moreCount={risks.length > 1 ? risks.length - 1 : 0}
-              moreLabel={snap.additionalItems}
-            />
-          </div>
+          <CompetitivePanel
+            label={snap.competitivePosition}
+            standingLabel={cp.overallStanding}
+            standingValue={scoreLabels.benchmark.replace("{percent}", String(topPercentile))}
+            cohortLabel={cp.comparisonGroup}
+            cohortValue={benchmark.cohortLabel}
+          />
         </div>
 
-        {/* Primary recommendation */}
+        <div className="grid gap-px bg-[var(--report-border)] sm:grid-cols-2">
+          <SignalCard
+            label={snap.strongestSignal}
+            value={topStrength}
+            variant="positive"
+            moreCount={strengths.length > 1 ? strengths.length - 1 : 0}
+            moreLabel={snap.additionalItems}
+          />
+          <SignalCard
+            label={snap.biggestHiringRisk}
+            value={topRisk}
+            variant="negative"
+            moreCount={risks.length > 1 ? risks.length - 1 : 0}
+            moreLabel={snap.additionalItems}
+          />
+        </div>
+
         {primaryRec && (
           <div className="border-t border-[var(--report-border)] bg-[var(--report-accent-muted)] px-6 py-5 sm:px-8">
             <p className="report-caption text-[var(--report-accent)]">
@@ -116,8 +127,7 @@ export function ExecutiveSnapshot({
         )}
       </ReportCard>
 
-      {/* ── Supporting details (de-emphasized) ── */}
-      <div className="rounded-xl border border-[var(--report-border)] bg-[var(--report-paper)]">
+      <div className="overflow-hidden rounded-xl border border-[var(--report-border)] bg-[var(--report-paper)]">
         <button
           type="button"
           onClick={() => setDetailsOpen((open) => !open)}
@@ -154,12 +164,6 @@ export function ExecutiveSnapshot({
                 value={`${metrics.readiness} / 100`}
               />
             </dl>
-
-            <p className="text-xs leading-relaxed text-[var(--report-text-subtle)]">
-              {scoreLabels.benchmark.replace("{percent}", String(metrics.topPercentile))}
-              {" · "}
-              {messages.report.matchScoreBasis}
-            </p>
 
             {verdict && (
               <div className="border-t border-[var(--report-border)] pt-4">
@@ -208,30 +212,65 @@ function ProfileField({ label, value }: { label: string; value: string }) {
   )
 }
 
-function ScoreHero({
+function ReadinessPanel({
   score,
+  readiness,
   bandLabel,
   outOfLabel,
-  matchScoreLabel,
-  readinessLabel,
+  roleReadinessLabel,
+  readinessScoreLabel,
 }: {
   score: number
+  readiness: number
   bandLabel: string
   outOfLabel: string
-  matchScoreLabel: string
-  readinessLabel: string
+  roleReadinessLabel: string
+  readinessScoreLabel: string
 }) {
   return (
-    <div className="flex flex-col justify-center border-b border-[var(--report-border)] px-6 py-8 sm:px-8 lg:border-b-0 lg:border-r">
-      <p className="report-caption">{matchScoreLabel}</p>
+    <div className="px-6 py-6 sm:px-8 sm:py-7">
+      <p className="report-caption">{roleReadinessLabel}</p>
       <div className="mt-2 flex items-baseline gap-1">
-        <span className="text-6xl font-semibold tabular-nums tracking-tight text-[var(--report-text)]">
+        <span className="text-5xl font-semibold tabular-nums tracking-tight text-[var(--report-text)]">
           {score}
         </span>
-        <span className="text-xl text-[var(--report-text-subtle)]">{outOfLabel}</span>
+        <span className="text-lg text-[var(--report-text-subtle)]">{outOfLabel}</span>
       </div>
-      <p className="mt-3 text-lg font-semibold text-[var(--report-accent)]">{bandLabel}</p>
-      <p className="mt-1 text-xs text-[var(--report-text-subtle)]">{readinessLabel}</p>
+      <p className="mt-2 text-base font-semibold text-[var(--report-accent)]">{bandLabel}</p>
+      <p className="mt-3 text-sm text-[var(--report-text-muted)]">
+        {readinessScoreLabel}:{" "}
+        <span className="font-medium tabular-nums text-[var(--report-text)]">
+          {readiness}/100
+        </span>
+      </p>
+    </div>
+  )
+}
+
+function CompetitivePanel({
+  label,
+  standingLabel,
+  standingValue,
+  cohortLabel,
+  cohortValue,
+}: {
+  label: string
+  standingLabel: string
+  standingValue: string
+  cohortLabel: string
+  cohortValue: string
+}) {
+  return (
+    <div className="border-t border-[var(--report-border)] px-6 py-6 sm:border-t-0 sm:px-8 sm:py-7">
+      <p className="report-caption">{label}</p>
+      <p className="mt-2 text-2xl font-semibold tabular-nums text-[var(--report-accent)]">
+        {standingValue}
+      </p>
+      <p className="mt-1 text-xs text-[var(--report-text-subtle)]">{standingLabel}</p>
+      <div className="mt-4 border-t border-[var(--report-border)] pt-3">
+        <p className="report-caption">{cohortLabel}</p>
+        <p className="mt-1 text-sm font-medium text-[var(--report-text)]">{cohortValue}</p>
+      </div>
     </div>
   )
 }
@@ -252,7 +291,7 @@ function SignalCard({
   return (
     <div
       className={cn(
-        "flex flex-col justify-center bg-[var(--report-card)] px-6 py-6 sm:px-7",
+        "flex flex-col justify-center bg-[var(--report-card)] px-6 py-5 sm:px-7",
         variant === "positive" && "border-l-[3px] border-l-[var(--report-positive)]",
         variant === "negative" && "border-l-[3px] border-l-[var(--report-negative)]"
       )}

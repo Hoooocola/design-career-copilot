@@ -14,9 +14,10 @@ import { cn } from "@/lib/utils"
 
 interface BenchmarkAnalysisProps {
   data: PortfolioBenchmark
+  embedded?: boolean
 }
 
-export function BenchmarkAnalysis({ data }: BenchmarkAnalysisProps) {
+export function BenchmarkAnalysis({ data, embedded }: BenchmarkAnalysisProps) {
   const { messages } = useLocale()
   const bm = messages.report.benchmark
 
@@ -24,12 +25,7 @@ export function BenchmarkAnalysis({ data }: BenchmarkAnalysisProps) {
     (a, b) => b.percentile - a.percentile
   )
 
-  return (
-    <ReportSection
-      title={bm.detailedTitle}
-      description={bm.detailedDescription}
-      trackingId="benchmark"
-    >
+  const content = (
       <div className="space-y-6">
         <div className="rounded-xl border border-[var(--report-border)] bg-[var(--report-paper)] px-5 py-4">
           <p className="report-caption">{bm.cohortComparison}</p>
@@ -99,6 +95,17 @@ export function BenchmarkAnalysis({ data }: BenchmarkAnalysisProps) {
           />
         </div>
       </div>
+  )
+
+  if (embedded) return content
+
+  return (
+    <ReportSection
+      title={bm.detailedTitle}
+      description={bm.detailedDescription}
+      trackingId="benchmark"
+    >
+      {content}
     </ReportSection>
   )
 }

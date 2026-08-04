@@ -291,3 +291,67 @@
   font-variant-numeric: tabular-nums;
   color: var(--report-text);
 }
+
+/* ── Report V3: Dark Career Intelligence Workspace ── */
+.report-workspace {
+  --workspace-bg: #080a0e;
+  --workspace-surface: #0e131b;
+  --workspace-panel: #151c27;
+  --workspace-elevated: #1b2431;
+  --workspace-border: #293445;
+  --workspace-border-strong: #354158;
+  --workspace-text-primary: #f2f5f8;
+  --workspace-text-secondary: #a6b0be;
+  --workspace-accent: #5c82ff;
+  --workspace-caution: #c9a227;
+  --workspace-positive: #3ecf8e;
+  --workspace-negative: #e35d6a;
+
+  /* Bridge legacy report tokens for leaf components (Phase A) */
+  --report-bg: var(--workspace-bg);
+  --report-paper: var(--workspace-surface);
+  --report-card: var(--workspace-panel);
+  --report-text: var(--workspace-text-primary);
+  --report-text-muted: var(--workspace-text-secondary);
+  --report-text-subtle: #7a8494;
+  --report-accent: var(--workspace-accent);
+  --report-accent-muted: color-mix(in srgb, var(--workspace-accent) 14%, transparent);
+  --report-border: var(--workspace-border);
+  --report-border-strong: var(--workspace-border-strong);
+  --report-positive: var(--workspace-positive);
+  --report-positive-bg: color-mix(in srgb, var(--workspace-positive) 12%, transparent);
+  --report-negative: var(--workspace-negative);
+  --report-negative-bg: color-mix(in srgb, var(--workspace-negative) 12%, transparent);
+  --report-caution: var(--workspace-caution);
+  --report-caution-bg: color-mix(in srgb, var(--workspace-caution) 12%, transparent);
+
+  background-color: var(--workspace-bg);
+  color: var(--workspace-text-primary);
+}
+
+.workspace-label {
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--workspace-text-secondary);
+}
+
+.report-workspace .report-h2,
+.report-workspace .report-h3 {
+  color: var(--workspace-text-primary);
+}
+
+.report-workspace .report-body,
+.report-workspace .report-caption {
+  color: var(--workspace-text-secondary);
+}
+
+.report-workspace .report-card {
+  background-color: var(--workspace-panel);
+  border-color: var(--workspace-border);
+}
+
+.report-workspace .report-accent-line {
+  border-left-color: var(--workspace-accent);
+}

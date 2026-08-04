@@ -1,14 +1,10 @@
 "use client"
 
-import Link from "next/link"
-import { ArrowLeft, Loader2 } from "lucide-react"
-
 import { ActionPlan } from "@/components/report/action-plan"
 import { BenchmarkAnalysis } from "@/components/report/benchmark-analysis"
 import { CompetitivePosition } from "@/components/report/competitive-position"
 import { CategoryBreakdown } from "@/components/report/category-breakdown"
 import { CompetencyHeatmap } from "@/components/report/competency-heatmap"
-import { CompetencyOverviewPanel } from "@/components/report/competency-overview"
 import { ConsensusConflictPanel } from "@/components/report/consensus-conflict"
 import { EvidenceInsights } from "@/components/report/evidence-insights"
 import { ExecutiveSnapshot } from "@/components/report/executive-snapshot"
@@ -19,17 +15,15 @@ import { FeedbackEntry } from "@/components/feedback/feedback-entry"
 import { ReportEngagementTracker } from "@/components/report/report-engagement-tracker"
 import { OpportunityRanking } from "@/components/report/opportunity-ranking"
 import { ReviewTracePanel } from "@/components/report/review-trace"
-import { PersonaSelector } from "@/components/report/persona-selector"
-import { ReportChapter, ReportDivider } from "@/components/report/report-primitives"
-import { ReportDocumentHeader } from "@/components/report/report-document-header"
-import { ReportStickyNav } from "@/components/report/report-sticky-nav"
+import { CollapsibleSection, ReportChapter, ReportDivider } from "@/components/report/report-primitives"
 import { SkillCoverage } from "@/components/report/skill-coverage"
 import { SkillRadarChart } from "@/components/report/skill-radar-chart"
-import { StrengthsWeaknesses } from "@/components/report/strengths-weaknesses"
+import { ReportWorkspace } from "@/components/report/workspace/report-workspace"
+import { WorkspaceHeader } from "@/components/report/workspace/workspace-header"
+import { WorkspaceNav } from "@/components/report/workspace/workspace-nav"
 import { useLocale } from "@/components/providers/locale-provider"
 import type { PortfolioReport } from "@/types/report"
 import type { ReviewerPersona } from "@/types/reviewer"
-import { cn } from "@/lib/utils"
 
 interface ReportViewProps {
   report: PortfolioReport
@@ -49,8 +43,9 @@ export function ReportView({
   isRefreshing,
 }: ReportViewProps) {
   const { messages } = useLocale()
-  const fw = messages.report.framework
-  const chapters = messages.report.chapters
+  const ch = messages.report.chapters
+  const ws = messages.report.workspace
+  const collapse = messages.report.collapsible
 
   const roleLabel =
     report.meta?.targetRole &&
@@ -61,187 +56,147 @@ export function ReportView({
       : report.meta?.targetRole?.replace(/_/g, " ")
 
   return (
-    <div className="report-canvas min-h-screen">
+    <ReportWorkspace
+      header={
+        <WorkspaceHeader
+          portfolioFileName={portfolioFileName}
+          targetRoleLabel={roleLabel}
+          assessmentDate={assessmentDate}
+          persona={persona}
+          onPersonaChange={onPersonaChange}
+          isRefreshing={isRefreshing}
+          isDemo={report.meta?.source === "mock"}
+          isAiGenerated={report.meta?.source !== "mock"}
+        />
+      }
+      nav={<WorkspaceNav />}
+    >
       <ReportEngagementTracker
         resetKey={`${persona}-${report.matchScore}-${report.meta?.source ?? "unknown"}`}
       />
-      <ReportStickyNav />
 
-      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
-        <Link
-          href="/"
-          className="mb-4 inline-flex items-center gap-1.5 text-sm text-[var(--report-text-muted)] transition-colors hover:text-[var(--report-text)]"
-        >
-          <ArrowLeft className="size-3.5" />
-          {messages.report.newAnalysis}
-        </Link>
+      <div className="space-y-16">
+        <div id="career-position">
+          <ReportChapter
+            id="career-position-inner"
+            number={1}
+            title={ch.careerPosition.title}
+            subtitle={ch.careerPosition.subtitle}
+          >
+            <ExecutiveSnapshot
+              report={report}
+              portfolioFileName={portfolioFileName}
+              persona={persona}
+              benchmark={report.benchmark}
+            />
+            <CollapsibleSection
+              title={collapse.competitiveDetail}
+              description={collapse.competitiveDetailHint}
+              defaultOpen={false}
+            >
+              <CompetitivePosition data={report.benchmark} embedded />
+            </CollapsibleSection>
+          </ReportChapter>
+        </div>
 
-        <div className="report-paper overflow-hidden rounded-2xl border border-[var(--report-border-strong)] shadow-[0_1px_3px_rgba(23,26,32,0.06)]">
-          <ReportDocumentHeader assessmentDate={assessmentDate} />
+        <ReportDivider />
 
-          <header className="border-b border-[var(--report-border)] px-6 py-6 sm:px-10 sm:py-8">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <p className="report-caption mb-2">{messages.report.documentTitle}</p>
-                <h2 className="text-xl font-semibold tracking-tight text-[var(--report-text)] sm:text-2xl">
-                  {messages.report.title}
-                </h2>
-                {portfolioFileName && (
-                  <p className="mt-2 text-base text-[var(--report-text-muted)]">
-                    {portfolioFileName}
-                  </p>
-                )}
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {report.meta?.source === "mock" && (
-                  <StatusBadge label={messages.report.demoMode} variant="caution" />
-                )}
-                <StatusBadge label={messages.report.reviewerPersonas[persona]} />
-                {roleLabel && <StatusBadge label={roleLabel} />}
-                {report.meta?.source !== "mock" && (
-                  <StatusBadge label={messages.report.aiGenerated} variant="accent" />
-                )}
-              </div>
-            </div>
-          </header>
-
-          <div className="border-b border-[var(--report-border)] px-6 py-6 sm:px-10">
-            <p className="report-caption">{fw.switchReviewer}</p>
-            <p className="mt-1 text-sm text-[var(--report-text-muted)]">
-              {messages.report.switchReviewerHint}
-            </p>
-            <div className="mt-4">
-              <PersonaSelector
-                value={persona}
-                onChange={onPersonaChange}
-                disabled={isRefreshing}
-                compact
+        <div id="capability-map">
+          <ReportChapter
+            id="capability-map-inner"
+            number={2}
+            title={ch.capabilityMap.title}
+            subtitle={ch.capabilityMap.subtitle}
+          >
+            <CompetencyHeatmap
+              dimensionScores={report.framework.dimensionScores}
+              evidenceInsights={report.framework.evidenceInsights}
+            />
+            <div className="grid gap-8 lg:grid-cols-2">
+              <SkillRadarChart categories={report.framework.categoryBreakdown} />
+              <CategoryBreakdown
+                categories={report.framework.categoryBreakdown}
+                dimensionScores={report.framework.dimensionScores}
               />
             </div>
-            {isRefreshing && (
-              <div className="mt-3 flex items-center gap-2 text-sm text-[var(--report-text-muted)]">
-                <Loader2 className="size-3.5 animate-spin" />
-                {fw.regeneratingPersona}
-              </div>
-            )}
-          </div>
+            <SkillCoverage skills={report.skillCoverage} />
+          </ReportChapter>
+        </div>
 
-          <div className="space-y-16 px-6 py-10 sm:px-10 sm:py-12">
-            <div id="overview">
-              <ReportChapter
-                id="overview-inner"
-                number={1}
-                title={chapters.snapshot.title}
-                subtitle={chapters.snapshot.subtitle}
-              >
-                <ExecutiveSnapshot
-                  report={report}
-                  portfolioFileName={portfolioFileName}
-                  persona={persona}
-                />
-                <CompetitivePosition data={report.benchmark} />
-                <StrengthsWeaknesses
-                  strengths={report.strengths}
-                  weaknesses={report.weaknesses}
-                />
-              </ReportChapter>
-            </div>
+        <ReportDivider />
 
-            <ReportDivider />
+        <div id="evidence-quality">
+          <ReportChapter
+            id="evidence-quality-inner"
+            number={3}
+            title={ch.evidenceQuality.title}
+            subtitle={ch.evidenceQuality.subtitle}
+          >
+            <EvidenceInsights insights={report.framework.evidenceInsights} />
+            <CollapsibleSection
+              title={collapse.reviewTrace}
+              description={collapse.reviewTraceHint}
+              defaultOpen={false}
+            >
+              <ReviewTracePanel traces={report.reviewTrace} embedded />
+            </CollapsibleSection>
+            <ConsensusConflictPanel data={report.consensusConflict} />
+            <GapAnalysis gaps={report.gapAnalysis} />
+          </ReportChapter>
+        </div>
 
-            <div id="capability">
-              <ReportChapter
-                id="capability-inner"
-                number={2}
-                title={chapters.capability.title}
-                subtitle={chapters.capability.subtitle}
-              >
-                <CompetencyOverviewPanel data={report.framework.competencyOverview} />
-                <div className="grid gap-8 lg:grid-cols-2">
-                  <SkillRadarChart categories={report.framework.categoryBreakdown} />
-                  <CategoryBreakdown
-                    categories={report.framework.categoryBreakdown}
-                    dimensionScores={report.framework.dimensionScores}
-                  />
-                </div>
-                <CompetencyHeatmap
-                  dimensionScores={report.framework.dimensionScores}
-                  evidenceInsights={report.framework.evidenceInsights}
-                />
-                <SkillCoverage skills={report.skillCoverage} />
-              </ReportChapter>
-            </div>
+        <ReportDivider />
 
-            <ReportDivider />
+        <div id="priority-opportunities">
+          <ReportChapter
+            id="priority-opportunities-inner"
+            number={4}
+            title={ch.priorityOpportunities.title}
+            subtitle={ch.priorityOpportunities.subtitle}
+          >
+            <OpportunityRanking opportunities={report.opportunityRanking} />
+            <ImprovementSimulator report={report} persona={persona} />
+          </ReportChapter>
+        </div>
 
-            <div id="evidence">
-              <ReportChapter
-                id="evidence-inner"
-                number={3}
-                title={chapters.evidence.title}
-                subtitle={chapters.evidence.subtitle}
-              >
-                <EvidenceInsights insights={report.framework.evidenceInsights} />
-                <ReviewTracePanel traces={report.reviewTrace} />
-                <div id="gaps">
-                  <GapAnalysis gaps={report.gapAnalysis} />
-                </div>
-                <ConsensusConflictPanel data={report.consensusConflict} />
-              </ReportChapter>
-            </div>
+        <ReportDivider />
 
-            <ReportDivider />
+        <div id="career-action-plan">
+          <ReportChapter
+            id="career-action-plan-inner"
+            number={5}
+            title={ch.careerActionPlan.title}
+            subtitle={ch.careerActionPlan.subtitle}
+          >
+            <ActionPlan items={report.actionPlan} />
+            <ImprovementRoadmap data={report.improvementRoadmap} />
+          </ReportChapter>
+        </div>
 
-            <div id="action-plan">
-              <ReportChapter
-                id="action-inner"
-                number={4}
-                title={chapters.action.title}
-                subtitle={chapters.action.subtitle}
-              >
-                <OpportunityRanking opportunities={report.opportunityRanking} />
-                <ImprovementSimulator report={report} persona={persona} />
-                <ActionPlan items={report.actionPlan} />
-                <ImprovementRoadmap data={report.improvementRoadmap} />
-              </ReportChapter>
-            </div>
+        <ReportDivider />
 
-            <ReportDivider />
+        <div id="methodology">
+          <ReportChapter
+            id="methodology-inner"
+            appendix
+            sectionLabel={ws.appendix}
+            title={ch.methodology.title}
+            subtitle={ch.methodology.subtitle}
+          >
+            <CollapsibleSection
+              title={collapse.fullBenchmark}
+              description={collapse.fullBenchmarkHint}
+              defaultOpen={false}
+            >
+              <BenchmarkAnalysis data={report.benchmark} embedded />
+            </CollapsibleSection>
+          </ReportChapter>
+        </div>
 
-            <div id="methodology">
-              <BenchmarkAnalysis data={report.benchmark} />
-            </div>
-
-            <div className="border-t border-[var(--report-border)] pt-8">
-              <FeedbackEntry />
-            </div>
-          </div>
+        <div className="border-t border-[var(--workspace-border)] pt-8">
+          <FeedbackEntry />
         </div>
       </div>
-    </div>
-  )
-}
-
-function StatusBadge({
-  label,
-  variant = "neutral",
-}: {
-  label: string
-  variant?: "neutral" | "accent" | "caution"
-}) {
-  return (
-    <span
-      className={cn(
-        "inline-flex rounded-md border px-2.5 py-1 text-xs font-medium",
-        variant === "accent" &&
-          "border-[var(--report-accent)]/25 bg-[var(--report-accent-muted)] text-[var(--report-accent)]",
-        variant === "caution" &&
-          "border-[var(--report-caution)]/25 bg-[var(--report-caution-bg)] text-[var(--report-caution)]",
-        variant === "neutral" &&
-          "border-[var(--report-border)] bg-[var(--report-card)] text-[var(--report-text-muted)]"
-      )}
-    >
-      {label}
-    </span>
+    </ReportWorkspace>
   )
 }
