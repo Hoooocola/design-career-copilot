@@ -21,15 +21,11 @@ type ViewMode = "heatmap" | "bar"
 interface CompetencyHeatmapProps {
   dimensionScores: DimensionScore[]
   evidenceInsights: EvidenceInsight[]
-  topStrengths: string[]
-  topGaps: string[]
 }
 
 export function CompetencyHeatmap({
   dimensionScores,
   evidenceInsights,
-  topStrengths,
-  topGaps,
 }: CompetencyHeatmapProps) {
   const { messages } = useLocale()
   const hm = messages.report.heatmap
@@ -50,154 +46,88 @@ export function CompetencyHeatmap({
     )
   }
 
-  function buildSignals(
-    dimensionRows: CompetencyHeatmapRow[],
-    items: string[],
-    fallbackPrefix: string
-  ) {
-    return items.slice(0, 3).map((body, index) => {
-      const row = dimensionRows[index]
-      return {
-        index: index + 1,
-        label: row ? dimensionLabel(row) : `${fallbackPrefix} ${index + 1}`,
-        body,
-      }
-    })
-  }
-
   return (
-    <div className="space-y-10">
-      <section className="space-y-6">
-        <div>
-          <h3 className="report-h3">{cp.title}</h3>
-          <p className="report-body mt-2 max-w-2xl">{cp.description}</p>
-        </div>
-
-        <div className="grid gap-10 sm:grid-cols-2 sm:gap-12">
-          <NumberedSignalColumn
-            title={cp.topStrengths}
-            signals={buildSignals(rows, topStrengths, cp.topStrengths)}
-          />
-          <NumberedSignalColumn
-            title={cp.topGaps}
-            signals={buildSignals([...rows].reverse(), topGaps, cp.topGaps)}
-          />
-        </div>
-      </section>
-
-      <CollapsibleSection
-        title={cp.dimensionMatrix.replace("{count}", String(rows.length))}
-        description={cp.dimensionMatrixHint}
-        defaultOpen={false}
-      >
-        <div className="space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-metadata">{hm.sortedByScore}</p>
-            <div className="inline-flex rounded-lg bg-[var(--workspace-surface-raised)] p-0.5">
-              <ViewToggle
-                active={view === "heatmap"}
-                onClick={() => setView("heatmap")}
-                icon={<Grid3x3 className="size-3.5" />}
-                label={hm.heatmapView}
-              />
-              <ViewToggle
-                active={view === "bar"}
-                onClick={() => setView("bar")}
-                icon={<BarChart3 className="size-3.5" />}
-                label={hm.barView}
-              />
-            </div>
+    <CollapsibleSection
+      title={cp.dimensionMatrix.replace("{count}", String(rows.length))}
+      description={cp.dimensionMatrixHint}
+      defaultOpen={false}
+    >
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-metadata">{hm.sortedByScore}</p>
+          <div className="inline-flex rounded-lg bg-[var(--workspace-surface-raised)] p-0.5">
+            <ViewToggle
+              active={view === "heatmap"}
+              onClick={() => setView("heatmap")}
+              icon={<Grid3x3 className="size-3.5" />}
+              label={hm.heatmapView}
+            />
+            <ViewToggle
+              active={view === "bar"}
+              onClick={() => setView("bar")}
+              icon={<BarChart3 className="size-3.5" />}
+              label={hm.barView}
+            />
           </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[640px] border-collapse text-sm">
-              <thead>
-                <tr className="border-b border-[color-mix(in_oklch,var(--workspace-border)_60%,transparent)]">
-                  <th className="px-4 py-3 text-left text-metadata">{hm.dimension}</th>
-                  <th className="px-1 py-3 text-center text-metadata">{hm.score}</th>
-                  <th className="px-1 py-3 text-center text-metadata">{hm.coverage}</th>
-                  <th className="px-1 py-3 text-center text-metadata">{hm.visualStrength}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((row) => {
-                  const label = dimensionLabel(row)
-                  const scorePct = (row.score / 5) * 100
-
-                  return (
-                    <tr
-                      key={row.dimensionId}
-                      className="border-b border-[color-mix(in_oklch,var(--workspace-border)_40%,transparent)] last:border-0"
-                    >
-                      <td className="px-4 py-3">
-                        <p className="font-medium leading-snug text-[var(--workspace-text-primary)]">
-                          {label}
-                        </p>
-                        <p className="mt-0.5 text-metadata">
-                          {fw.scoreLabels[row.scoreLabel]}
-                        </p>
-                      </td>
-                      {view === "heatmap" ? (
-                        <>
-                          <HeatmapCell value={scorePct} display={`${row.score}/5`} />
-                          <HeatmapCell value={row.coverage} display={`${row.coverage}%`} />
-                          <HeatmapCell
-                            value={row.visualStrength}
-                            display={`${row.visualStrength}%`}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          <BarCell value={scorePct} display={`${row.score}/5`} />
-                          <BarCell value={row.coverage} display={`${row.coverage}%`} />
-                          <BarCell
-                            value={row.visualStrength}
-                            display={`${row.visualStrength}%`}
-                          />
-                        </>
-                      )}
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-
-          <p className="text-metadata">{hm.legendNeutral}</p>
         </div>
-      </CollapsibleSection>
-    </div>
-  )
-}
 
-function NumberedSignalColumn({
-  title,
-  signals,
-}: {
-  title: string
-  signals: { index: number; label: string; body: string }[]
-}) {
-  return (
-    <div>
-      <p className="text-metadata">{title}</p>
-      <div className="mt-5 space-y-6">
-        {signals.map((signal) => (
-          <article key={signal.index} className="grid grid-cols-[2.5rem_1fr] gap-x-3">
-            <span className="pt-0.5 font-mono text-sm tabular-nums text-[var(--workspace-text-muted)]">
-              {String(signal.index).padStart(2, "0")}
-            </span>
-            <div>
-              <h4 className="text-[1.0625rem] font-medium leading-snug text-[var(--workspace-text-primary)]">
-                {signal.label}
-              </h4>
-              <p className="mt-2 text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
-                {signal.body}
-              </p>
-            </div>
-          </article>
-        ))}
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[640px] border-collapse text-sm">
+            <thead>
+              <tr className="border-b border-[color-mix(in_oklch,var(--workspace-border)_60%,transparent)]">
+                <th className="px-4 py-3 text-left text-metadata">{hm.dimension}</th>
+                <th className="px-1 py-3 text-center text-metadata">{hm.score}</th>
+                <th className="px-1 py-3 text-center text-metadata">{hm.coverage}</th>
+                <th className="px-1 py-3 text-center text-metadata">{hm.visualStrength}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row) => {
+                const label = dimensionLabel(row)
+                const scorePct = (row.score / 5) * 100
+
+                return (
+                  <tr
+                    key={row.dimensionId}
+                    className="border-b border-[color-mix(in_oklch,var(--workspace-border)_40%,transparent)] last:border-0"
+                  >
+                    <td className="px-4 py-3">
+                      <p className="font-medium leading-snug text-[var(--workspace-text-primary)]">
+                        {label}
+                      </p>
+                      <p className="mt-0.5 text-metadata">
+                        {fw.scoreLabels[row.scoreLabel]}
+                      </p>
+                    </td>
+                    {view === "heatmap" ? (
+                      <>
+                        <HeatmapCell value={scorePct} display={`${row.score}/5`} />
+                        <HeatmapCell value={row.coverage} display={`${row.coverage}%`} />
+                        <HeatmapCell
+                          value={row.visualStrength}
+                          display={`${row.visualStrength}%`}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <BarCell value={scorePct} display={`${row.score}/5`} />
+                        <BarCell value={row.coverage} display={`${row.coverage}%`} />
+                        <BarCell
+                          value={row.visualStrength}
+                          display={`${row.visualStrength}%`}
+                        />
+                      </>
+                    )}
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-metadata">{hm.legendNeutral}</p>
       </div>
-    </div>
+    </CollapsibleSection>
   )
 }
 

@@ -471,6 +471,35 @@ export const zh: Messages = {
       dimensionMatrix: "完整维度矩阵（{count}）",
       dimensionMatrixHint: "11 维评审框架，含分数、证据覆盖与视觉强度",
     },
+    capabilityIntelligence: {
+      title: "能力智能分析",
+      description: "你的能力结构如何匹配目标岗位 — 已匹配优势、成长信号与招聘影响",
+      roleAlignment: {
+        title: "岗位匹配",
+        requirementsIntro: "目标岗位要求",
+        matched: "已匹配 · 强势能力",
+        needsDevelopment: "待发展 · 关键短板",
+        noMatched: "尚无达到强势水平的必需技能。",
+        noGaps: "必需技能中未发现关键发展短板。",
+      },
+      strengthSignals: {
+        title: "优势信号",
+        description: "作品集证据支持强势招聘信号的能力维度",
+        evidence: "证据：",
+      },
+      growthSignals: {
+        title: "成长信号",
+        description: "最影响岗位匹配与面试结果的能力短板",
+        whyItMatters: "重要性：",
+        hiringImpact: "招聘影响：",
+      },
+      hiringImpactLevels: {
+        high: "高影响",
+        medium: "中等影响",
+        low: "较低影响",
+        score: "影响评分 {impact}/5",
+      },
+    },
     heatmap: {
       title: "作品集能力热力图",
       description:

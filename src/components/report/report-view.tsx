@@ -4,6 +4,7 @@ import { ActionPlan } from "@/components/report/action-plan"
 import { BenchmarkAnalysis } from "@/components/report/benchmark-analysis"
 import { CompetitivePosition } from "@/components/report/competitive-position"
 import { CategoryBreakdown } from "@/components/report/category-breakdown"
+import { CapabilityIntelligence } from "@/components/report/capability-intelligence"
 import { CompetencyHeatmap } from "@/components/report/competency-heatmap"
 import { ConsensusConflictPanel } from "@/components/report/consensus-conflict"
 import { EvidenceInsights } from "@/components/report/evidence-insights"
@@ -108,11 +109,19 @@ export function ReportView({
             title={ch.capabilityMap.title}
             subtitle={ch.capabilityMap.subtitle}
           >
+            <CapabilityIntelligence
+              targetRoleLabel={roleLabel}
+              skillCoverage={report.skillCoverage}
+              topStrengths={report.framework.competencyOverview.topStrengths}
+              criticalGaps={report.framework.competencyOverview.criticalGaps}
+              dimensionScores={report.framework.dimensionScores}
+              evidenceInsights={report.framework.evidenceInsights}
+              gapAnalysis={report.gapAnalysis}
+              opportunityRanking={report.opportunityRanking}
+            />
             <CompetencyHeatmap
               dimensionScores={report.framework.dimensionScores}
               evidenceInsights={report.framework.evidenceInsights}
-              topStrengths={report.framework.competencyOverview.topStrengths}
-              topGaps={report.framework.competencyOverview.criticalGaps}
             />
             <div className="grid gap-8 lg:grid-cols-2">
               <SkillRadarChart categories={report.framework.categoryBreakdown} />

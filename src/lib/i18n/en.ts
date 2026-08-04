@@ -480,6 +480,36 @@ We're looking for a designer who can...`,
       dimensionMatrix: "Full dimension matrix ({count})",
       dimensionMatrixHint: "11-dimension rubric with score, evidence coverage, and visual strength",
     },
+    capabilityIntelligence: {
+      title: "Capability intelligence",
+      description:
+        "How your capability structure aligns with the target role — matched strengths, growth signals, and hiring impact",
+      roleAlignment: {
+        title: "Role alignment",
+        requirementsIntro: "Target role requirements",
+        matched: "Matched · strong capabilities",
+        needsDevelopment: "Needs development · critical gaps",
+        noMatched: "No required skills at strong level yet.",
+        noGaps: "No critical development gaps identified among required skills.",
+      },
+      strengthSignals: {
+        title: "Strength signals",
+        description: "Capabilities where portfolio evidence supports a strong hiring signal",
+        evidence: "Evidence:",
+      },
+      growthSignals: {
+        title: "Growth signals",
+        description: "Gaps that most affect role fit and interview outcomes",
+        whyItMatters: "Why it matters:",
+        hiringImpact: "Hiring impact:",
+      },
+      hiringImpactLevels: {
+        high: "High impact",
+        medium: "Moderate impact",
+        low: "Lower impact",
+        score: "Impact score {impact}/5",
+      },
+    },
     heatmap: {
       title: "Portfolio Competency Heatmap",
       description:
