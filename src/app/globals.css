@@ -250,11 +250,23 @@
 }
 
 .text-decision {
-  font-size: clamp(2.75rem, 5vw, 3.75rem);
-  line-height: 1.05;
+  font-size: clamp(3.5rem, 6vw, 4.5rem);
+  line-height: 1;
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   color: var(--workspace-text-primary);
+}
+
+.text-verdict-band {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+.text-verdict-judgment {
+  font-size: clamp(1.125rem, 1.6vw, 1.25rem);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
 }
 
 .text-reasoning {

@@ -50,6 +50,21 @@ export function CompetencyHeatmap({
     )
   }
 
+  function buildSignals(
+    dimensionRows: CompetencyHeatmapRow[],
+    items: string[],
+    fallbackPrefix: string
+  ) {
+    return items.slice(0, 3).map((body, index) => {
+      const row = dimensionRows[index]
+      return {
+        index: index + 1,
+        label: row ? dimensionLabel(row) : `${fallbackPrefix} ${index + 1}`,
+        body,
+      }
+    })
+  }
+
   return (
     <div className="space-y-10">
       <section className="space-y-6">
@@ -58,9 +73,15 @@ export function CompetencyHeatmap({
           <p className="report-body mt-2 max-w-2xl">{cp.description}</p>
         </div>
 
-        <div className="grid gap-8 sm:grid-cols-2">
-          <ProfileColumn title={cp.topStrengths} items={topStrengths} />
-          <ProfileColumn title={cp.topGaps} items={topGaps} />
+        <div className="grid gap-10 sm:grid-cols-2 sm:gap-12">
+          <NumberedSignalColumn
+            title={cp.topStrengths}
+            signals={buildSignals(rows, topStrengths, cp.topStrengths)}
+          />
+          <NumberedSignalColumn
+            title={cp.topGaps}
+            signals={buildSignals([...rows].reverse(), topGaps, cp.topGaps)}
+          />
         </div>
       </section>
 
@@ -149,20 +170,33 @@ export function CompetencyHeatmap({
   )
 }
 
-function ProfileColumn({ title, items }: { title: string; items: string[] }) {
+function NumberedSignalColumn({
+  title,
+  signals,
+}: {
+  title: string
+  signals: { index: number; label: string; body: string }[]
+}) {
   return (
     <div>
       <p className="text-metadata">{title}</p>
-      <ul className="mt-3 space-y-2.5">
-        {items.map((item, i) => (
-          <li
-            key={i}
-            className="text-[0.9375rem] leading-relaxed text-[var(--workspace-text-primary)]"
-          >
-            {item}
-          </li>
+      <div className="mt-5 space-y-6">
+        {signals.map((signal) => (
+          <article key={signal.index} className="grid grid-cols-[2.5rem_1fr] gap-x-3">
+            <span className="pt-0.5 font-mono text-sm tabular-nums text-[var(--workspace-text-muted)]">
+              {String(signal.index).padStart(2, "0")}
+            </span>
+            <div>
+              <h4 className="text-[1.0625rem] font-medium leading-snug text-[var(--workspace-text-primary)]">
+                {signal.label}
+              </h4>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
+                {signal.body}
+              </p>
+            </div>
+          </article>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }

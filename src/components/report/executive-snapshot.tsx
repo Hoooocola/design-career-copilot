@@ -49,57 +49,71 @@ export function ExecutiveSnapshot({ report, benchmark }: ExecutiveSnapshotProps)
   const topStrength = strengths[0]
   const topRisk = risks[0]
   const primaryRec = getPrimaryRecommendation(report)
-  const aiJudgment =
+  const careerVerdict =
     report.framework.competencyOverview.reviewerVerdict ?? report.executiveSummary
 
   return (
-    <div className="space-y-10">
-      <div className="max-w-3xl space-y-8">
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <span className="text-decision tabular-nums">{metrics.score}</span>
-          <span className="text-2xl text-[var(--workspace-text-muted)]">/</span>
-          <span className="text-xl font-medium text-[var(--workspace-text-primary)] sm:text-2xl">
-            {scoreLabels.bands[band]}
-          </span>
+    <div className="space-y-12">
+      <div className="grid gap-12 lg:grid-cols-[minmax(0,16rem)_1fr] lg:gap-16 xl:gap-24">
+        <div className="space-y-8">
+          <div className="space-y-3">
+            <div className="flex items-baseline gap-2">
+              <span className="text-decision tabular-nums">{metrics.score}</span>
+              <span className="text-verdict-band text-[var(--workspace-text-muted)]">
+                {scoreLabels.outOf}
+              </span>
+            </div>
+            <p className="text-verdict-band font-medium text-[var(--workspace-text-primary)]">
+              {scoreLabels.bands[band]}
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <p className="text-metadata">
+              {scoreLabels.readinessBand}{" "}
+              <span className="tabular-nums text-[var(--workspace-text-secondary)]">
+                {metrics.readiness}/100
+              </span>
+            </p>
+          </div>
+
+          <div className="space-y-2 border-t border-[color-mix(in_oklch,var(--workspace-border)_45%,transparent)] pt-6">
+            <p className="text-metadata">
+              {snap.evidenceConfidence}{" "}
+              <span className="font-medium text-[var(--workspace-text-secondary)]">
+                {scoreLabels.confidenceLevels[metrics.confidence]}
+              </span>
+            </p>
+            <p className="text-metadata leading-relaxed">
+              {snap.portfolioSignalsAnalyzed.replace(
+                "{coverage}",
+                String(metrics.evidenceCoverage)
+              )}
+            </p>
+          </div>
         </div>
 
-        <p className="text-reasoning max-w-2xl text-[var(--workspace-text-secondary)]">
-          {aiJudgment}
-        </p>
+        <div className="space-y-8 lg:pt-1">
+          <div className="space-y-4">
+            <p className="text-metadata">{snap.careerVerdict}</p>
+            <p className="text-verdict-judgment max-w-2xl leading-relaxed text-[var(--workspace-text-primary)]">
+              {careerVerdict}
+            </p>
+          </div>
 
-        <div className="space-y-5">
-          {topStrength && (
-            <VerdictItem label={snap.strongestSignal} value={topStrength} />
-          )}
-          {topRisk && (
-            <VerdictItem
-              label={snap.hiringRisk}
-              value={topRisk}
-              tone="risk"
-            />
-          )}
-          {primaryRec && (
-            <VerdictItem
-              label={snap.nextBestAction}
-              value={primaryRec.title}
-              detail={primaryRec.description}
-            />
-          )}
-        </div>
-
-        <div className="space-y-1 border-t border-[color-mix(in_oklch,var(--workspace-border)_50%,transparent)] pt-6">
-          <p className="text-metadata">
-            {snap.evidenceConfidence}{" "}
-            <span className="text-[var(--workspace-text-secondary)]">
-              {scoreLabels.confidenceLevels[metrics.confidence]}
-            </span>
-          </p>
-          <p className="text-metadata">
-            {snap.evidenceConfidenceHint.replace(
-              "{coverage}",
-              String(metrics.evidenceCoverage)
+          <div className="space-y-6">
+            {topStrength && (
+              <VerdictItem label={snap.strongestSignal} value={topStrength} />
             )}
-          </p>
+            {topRisk && <VerdictItem label={snap.hiringRisk} value={topRisk} />}
+            {primaryRec && (
+              <VerdictItem
+                label={snap.nextBestAction}
+                value={primaryRec.title}
+                detail={primaryRec.description}
+              />
+            )}
+          </div>
         </div>
       </div>
 
@@ -120,27 +134,12 @@ export function ExecutiveSnapshot({ report, benchmark }: ExecutiveSnapshotProps)
         </button>
 
         {detailsOpen && (
-          <div className="mt-5 space-y-5 border-t border-[color-mix(in_oklch,var(--workspace-border)_50%,transparent)] pt-5">
+          <div className="mt-5 space-y-5 border-t border-[color-mix(in_oklch,var(--workspace-border)_45%,transparent)] pt-5">
             <p className="text-metadata">
               {scoreLabels.benchmark.replace("{percent}", String(topPercentile))}
               {" · "}
               {benchmark.cohortLabel}
             </p>
-
-            <dl className="grid gap-4 sm:grid-cols-3">
-              <SupportingMetric
-                label={scoreLabels.readinessBand}
-                value={`${metrics.readiness} / 100`}
-              />
-              <SupportingMetric
-                label={scoreLabels.evidenceCoverage}
-                value={`${metrics.evidenceCoverage}%`}
-              />
-              <SupportingMetric
-                label={scoreLabels.confidence}
-                value={scoreLabels.confidenceLevels[metrics.confidence]}
-              />
-            </dl>
 
             {(strengths.length > 1 || risks.length > 1) && (
               <div className="grid gap-5 sm:grid-cols-2">
@@ -167,42 +166,22 @@ function VerdictItem({
   label,
   value,
   detail,
-  tone,
 }: {
   label: string
   value: string
   detail?: string
-  tone?: "risk"
 }) {
   return (
     <div>
       <p className="text-metadata">{label}</p>
-      <p
-        className={cn(
-          "mt-1 text-reasoning",
-          tone === "risk"
-            ? "text-[var(--workspace-text-primary)]"
-            : "text-[var(--workspace-text-primary)]"
-        )}
-      >
+      <p className="mt-1.5 text-[1.0625rem] leading-relaxed text-[var(--workspace-text-primary)]">
         {value}
       </p>
       {detail && (
-        <p className="mt-1 text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
+        <p className="mt-1.5 text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
           {detail}
         </p>
       )}
-    </div>
-  )
-}
-
-function SupportingMetric({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <p className="text-metadata">{label}</p>
-      <p className="mt-1 text-sm tabular-nums text-[var(--workspace-text-primary)]">
-        {value}
-      </p>
     </div>
   )
 }

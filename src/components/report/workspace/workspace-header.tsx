@@ -26,13 +26,12 @@ export function WorkspaceHeader({
 }: WorkspaceHeaderProps) {
   const { messages } = useLocale()
   const ws = messages.report.workspace
-  const fw = messages.report.framework
 
   return (
     <header className="border-b border-[color-mix(in_oklch,var(--workspace-border)_55%,transparent)] bg-[var(--workspace-surface)]">
       <div className="mx-auto max-w-6xl px-4 py-5 sm:px-6">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="min-w-0 space-y-4">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0 space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="text-metadata">{ws.productName}</p>
               <Link
@@ -44,25 +43,22 @@ export function WorkspaceHeader({
               </Link>
             </div>
 
-            <h1 className="text-2xl font-semibold tracking-tight text-[var(--workspace-text-primary)] sm:text-[1.875rem]">
+            <h1 className="text-[1.75rem] font-semibold tracking-tight text-[var(--workspace-text-primary)] sm:text-[2rem]">
               {targetRoleLabel ?? messages.report.title}
             </h1>
           </div>
 
-          <div className="w-full shrink-0 lg:max-w-md">
-            <p className="text-metadata">{fw.switchReviewer}</p>
-            <div className="mt-2">
-              <PersonaSelector
-                value={persona}
-                onChange={onPersonaChange}
-                disabled={isRefreshing}
-                compact
-              />
-            </div>
+          <div className="flex shrink-0 flex-col items-start sm:items-end">
+            <PersonaSelector
+              value={persona}
+              onChange={onPersonaChange}
+              disabled={isRefreshing}
+              compact
+            />
             {isRefreshing && (
               <div className="mt-2 flex items-center gap-2 text-metadata">
                 <Loader2 className="size-3.5 animate-spin" />
-                {fw.regeneratingPersona}
+                {messages.report.framework.regeneratingPersona}
               </div>
             )}
           </div>

@@ -271,6 +271,7 @@ export const zh: Messages = {
     },
     workspace: {
       productName: "Design Career Copilot",
+      perspective: "评审视角",
       title: "职业智能工作台",
       newAssessment: "新建评估",
       targetRole: "目标岗位",
@@ -333,7 +334,8 @@ export const zh: Messages = {
       roleReadiness: "岗位准备度",
       careerReadiness: "职业就绪度",
       competitivePosition: "竞争定位",
-      aiJudgment: "AI 核心判断",
+      careerVerdict: "职业评估结论",
+      portfolioSignalsAnalyzed: "已分析作品集信号 · {coverage}% 证据覆盖",
       benchmark: "基准对比",
       hiringRisk: "招聘风险",
       nextBestAction: "下一步行动",
