@@ -382,7 +382,9 @@ export const zh: Messages = {
     },
     benchmark: {
       title: "基准分析",
+      detailedTitle: "详细基准分析",
       description: "与同类申请者作品集的相对定位",
+      detailedDescription: "完整百分位分解、竞争差距与战略启示",
       cohortComparison: "对比基准",
       cohortNote:
         "百分位排名为当前版本的模拟数据，分布反映目标岗位层级的典型申请者池。",
@@ -406,6 +408,16 @@ export const zh: Messages = {
         visual_design: "视觉设计",
         interaction_design: "交互设计",
       },
+    },
+    competitivePosition: {
+      title: "竞争定位",
+      description: "你的作品集在该岗位同类申请者中的相对排名",
+      comparisonGroup: "对比群体",
+      overallStanding: "综合排名",
+      percentileRanking: "百分位排名",
+      strongestAreas: "最强竞争领域",
+      moreDimensions: "完整分析中还有 {count} 个维度",
+      methodologyNote: "完整基准分解、最弱领域与战略分析见下方方法论章节。",
     },
     heatmap: {
       title: "作品集能力热力图",

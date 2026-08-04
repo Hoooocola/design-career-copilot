@@ -26,8 +26,8 @@ export function BenchmarkAnalysis({ data }: BenchmarkAnalysisProps) {
 
   return (
     <ReportSection
-      title={bm.title}
-      description={bm.description}
+      title={bm.detailedTitle}
+      description={bm.detailedDescription}
       trackingId="benchmark"
     >
       <div className="space-y-6">

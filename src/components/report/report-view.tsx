@@ -5,6 +5,7 @@ import { ArrowLeft, Loader2 } from "lucide-react"
 
 import { ActionPlan } from "@/components/report/action-plan"
 import { BenchmarkAnalysis } from "@/components/report/benchmark-analysis"
+import { CompetitivePosition } from "@/components/report/competitive-position"
 import { CategoryBreakdown } from "@/components/report/category-breakdown"
 import { CompetencyHeatmap } from "@/components/report/competency-heatmap"
 import { CompetencyOverviewPanel } from "@/components/report/competency-overview"
@@ -131,6 +132,7 @@ export function ReportView({
                   portfolioFileName={portfolioFileName}
                   persona={persona}
                 />
+                <CompetitivePosition data={report.benchmark} />
                 <StrengthsWeaknesses
                   strengths={report.strengths}
                   weaknesses={report.weaknesses}

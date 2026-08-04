@@ -391,8 +391,11 @@ We're looking for a designer who can...`,
     },
     benchmark: {
       title: "Benchmark Analysis",
+      detailedTitle: "Detailed Benchmark Analysis",
       description:
         "Peer-relative positioning against comparable applicant portfolios",
+      detailedDescription:
+        "Full percentile breakdown, competitive gaps, and strategic implications",
       cohortComparison: "Compared with",
       cohortNote:
         "Percentile ranks are simulated for this release. Distribution reflects typical applicant pools for the target role tier.",
@@ -417,6 +420,17 @@ We're looking for a designer who can...`,
         visual_design: "Visual Design",
         interaction_design: "Interaction Design",
       },
+    },
+    competitivePosition: {
+      title: "Competitive Position",
+      description: "How your portfolio ranks against comparable applicants for this role",
+      comparisonGroup: "Comparison Group",
+      overallStanding: "Overall Standing",
+      percentileRanking: "Percentile Ranking",
+      strongestAreas: "Strongest Competitive Areas",
+      moreDimensions: "+{count} more dimensions in full analysis",
+      methodologyNote:
+        "Full benchmark breakdown, weakest areas, and strategic analysis are in Methodology below.",
     },
     heatmap: {
       title: "Portfolio Competency Heatmap",
