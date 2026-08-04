@@ -129,36 +129,83 @@
   }
 }
 
-/* ── Report Design System: Editorial Canvas ── */
-.report-canvas {
-  --report-bg: #edebe6;
-  --report-paper: #f8f7f3;
-  --report-card: #ffffff;
-  --report-text: #171a20;
-  --report-text-muted: #5c6370;
-  --report-text-subtle: #8b919a;
-  --report-accent: #4c7dff;
-  --report-accent-muted: #e8efff;
-  --report-border: #e2e0da;
-  --report-border-strong: #d4d1c9;
-  --report-positive: #1a7f5a;
-  --report-positive-bg: #e8f5ef;
-  --report-negative: #c0392b;
-  --report-negative-bg: #fcecea;
-  --report-caution: #b8860b;
-  --report-caution-bg: #fef6e4;
-
-  background-color: var(--report-bg);
-  color: var(--report-text);
+/* ── Career Intelligence Workspace: Semantic Theme Tokens ── */
+:root {
+  --workspace-canvas: oklch(0.985 0.004 265);
+  --workspace-surface: oklch(0.995 0.002 265);
+  --workspace-surface-raised: oklch(0.975 0.006 265);
+  --workspace-border: oklch(0.91 0.008 265);
+  --workspace-text-primary: oklch(0.18 0.012 265);
+  --workspace-text-secondary: oklch(0.42 0.012 265);
+  --workspace-text-muted: oklch(0.58 0.01 265);
+  --workspace-accent: oklch(0.52 0.17 265);
+  --workspace-success: oklch(0.52 0.13 155);
+  --workspace-warning: oklch(0.62 0.12 85);
+  --workspace-danger: oklch(0.52 0.17 25);
+  --workspace-accent-muted: color-mix(
+    in oklch,
+    var(--workspace-accent) 12%,
+    var(--workspace-surface)
+  );
+  --workspace-success-muted: color-mix(
+    in oklch,
+    var(--workspace-success) 12%,
+    var(--workspace-surface)
+  );
+  --workspace-warning-muted: color-mix(
+    in oklch,
+    var(--workspace-warning) 12%,
+    var(--workspace-surface)
+  );
+  --workspace-danger-muted: color-mix(
+    in oklch,
+    var(--workspace-danger) 12%,
+    var(--workspace-surface)
+  );
 }
 
-.report-paper {
-  background-color: var(--report-paper);
+.dark {
+  --workspace-canvas: oklch(0.12 0.008 265);
+  --workspace-surface: oklch(0.16 0.01 265);
+  --workspace-surface-raised: oklch(0.2 0.012 265);
+  --workspace-border: oklch(0.3 0.015 265);
+  --workspace-text-primary: oklch(0.96 0.005 265);
+  --workspace-text-secondary: oklch(0.72 0.01 265);
+  --workspace-text-muted: oklch(0.55 0.01 265);
+  --workspace-accent: oklch(0.62 0.16 265);
+  --workspace-success: oklch(0.72 0.15 155);
+  --workspace-warning: oklch(0.75 0.12 85);
+  --workspace-danger: oklch(0.65 0.18 25);
+  --workspace-accent-muted: color-mix(
+    in oklch,
+    var(--workspace-accent) 14%,
+    var(--workspace-surface)
+  );
+  --workspace-success-muted: color-mix(
+    in oklch,
+    var(--workspace-success) 14%,
+    var(--workspace-surface)
+  );
+  --workspace-warning-muted: color-mix(
+    in oklch,
+    var(--workspace-warning) 14%,
+    var(--workspace-surface)
+  );
+  --workspace-danger-muted: color-mix(
+    in oklch,
+    var(--workspace-danger) 14%,
+    var(--workspace-surface)
+  );
+}
+
+.report-workspace {
+  background-color: var(--workspace-canvas);
+  color: var(--workspace-text-primary);
 }
 
 .report-card {
-  background-color: var(--report-card);
-  border: 1px solid var(--report-border);
+  background-color: var(--workspace-surface-raised);
+  border: 1px solid color-mix(in oklch, var(--workspace-border) 70%, transparent);
   border-radius: 0.75rem;
 }
 
@@ -167,7 +214,7 @@
   line-height: 1.15;
   font-weight: 600;
   letter-spacing: -0.02em;
-  color: var(--report-text);
+  color: var(--workspace-text-primary);
 }
 
 .report-h2 {
@@ -175,7 +222,7 @@
   line-height: 1.25;
   font-weight: 600;
   letter-spacing: -0.015em;
-  color: var(--report-text);
+  color: var(--workspace-text-primary);
 }
 
 .report-h3 {
@@ -183,111 +230,59 @@
   line-height: 1.35;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: var(--report-text);
+  color: var(--workspace-text-primary);
 }
 
 .report-body {
   font-size: 1rem;
   line-height: 1.65;
-  color: var(--report-text-muted);
+  color: var(--workspace-text-secondary);
 }
 
 .report-caption {
-  font-size: 0.75rem;
-  line-height: 1.4;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--report-text-subtle);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--workspace-text-muted);
 }
 
 .report-accent-line {
-  border-left: 3px solid var(--report-accent);
+  border-left: 2px solid var(--workspace-accent);
 }
 
-.report-doc-header {
-  background-color: var(--report-card);
-  border-bottom: 1px solid var(--report-border);
-}
-
-.report-doc-header__rules {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 0 2.5rem;
-}
-
-.report-doc-header__rules--bottom {
-  padding-top: 0;
-}
-
-.report-doc-header__rule {
-  display: block;
-  height: 1px;
-  background-color: var(--report-border-strong);
-}
-
-.report-doc-header__rule--accent {
-  height: 2px;
-  background-color: var(--report-text);
-  opacity: 0.85;
-}
-
-.report-doc-header__body {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 1.75rem 2.5rem 2rem;
-}
-
-@media (min-width: 640px) {
-  .report-doc-header__body {
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 2rem;
-  }
-}
-
-.report-doc-title {
-  font-size: clamp(1.375rem, 2.5vw, 1.625rem);
-  line-height: 1.3;
+.text-decision {
+  font-size: clamp(3.5rem, 6vw, 4.5rem);
+  line-height: 1;
   font-weight: 600;
+  letter-spacing: -0.04em;
+  color: var(--workspace-text-primary);
+}
+
+.text-verdict-band {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  line-height: 1.25;
   letter-spacing: -0.015em;
-  color: var(--report-text);
 }
 
-.report-doc-subtitle {
-  margin-top: 0.5rem;
-  font-size: 0.875rem;
+.text-verdict-judgment {
+  font-size: clamp(1.125rem, 1.6vw, 1.25rem);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
+.text-reasoning {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--workspace-text-primary);
+}
+
+.text-metadata {
+  font-size: 0.8125rem;
   line-height: 1.5;
-  color: var(--report-text-muted);
+  color: var(--workspace-text-muted);
 }
 
-.report-doc-meta {
-  flex-shrink: 0;
-  margin: 0;
-  padding-top: 0.25rem;
-  text-align: left;
-}
-
-@media (min-width: 640px) {
-  .report-doc-meta {
-    text-align: right;
-  }
-}
-
-.report-doc-meta dt {
-  font-size: 0.6875rem;
-  line-height: 1.4;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--report-text-subtle);
-}
-
-.report-doc-meta dd {
-  margin: 0.25rem 0 0;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-  color: var(--report-text);
+.workspace-label {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--workspace-text-muted);
 }

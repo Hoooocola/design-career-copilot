@@ -269,6 +269,25 @@ export const zh: Messages = {
       subtitle: "由 AI Career Intelligence Engine 生成",
       assessmentDate: "评估日期",
     },
+    workspace: {
+      productName: "Design Career Copilot",
+      perspective: "评审视角",
+      title: "职业智能工作台",
+      newAssessment: "新建评估",
+      targetRole: "目标岗位",
+      reviewerPersona: "评审视角",
+      assessmentDate: "评估日期",
+      appendix: "附录",
+      navigation: {
+        ariaLabel: "工作台章节导航",
+        careerPosition: "职业定位",
+        capabilityMap: "能力图谱",
+        evidenceQuality: "证据质量",
+        priorityOpportunities: "优先机会",
+        careerActionPlan: "职业行动计划",
+        methodology: "方法论",
+      },
+    },
     navigation: {
       ariaLabel: "报告章节导航",
       readingProgress: "阅读进度",
@@ -280,21 +299,29 @@ export const zh: Messages = {
       methodology: "方法论",
     },
     chapters: {
-      snapshot: {
-        title: "执行摘要",
-        subtitle: "岗位匹配度、准备度及核心优势与风险的精炼评估。",
+      careerPosition: {
+        title: "职业定位",
+        subtitle: "我处于什么位置？",
       },
-      capability: {
+      capabilityMap: {
         title: "能力图谱",
-        subtitle: "从战略、工艺、系统到沟通的结构化能力深度视图。",
+        subtitle: "哪些能力定义了我的 profile？",
       },
-      evidence: {
-        title: "证据与差距",
-        subtitle: "可追溯的发现、作品集证据、评审推理与已识别差距。",
+      evidenceQuality: {
+        title: "证据质量",
+        subtitle: "AI 为何得出这些结论？",
       },
-      action: {
-        title: "优先级行动计划",
-        subtitle: "排序后的改进机会与可执行的职业提升路线。",
+      priorityOpportunities: {
+        title: "优先机会",
+        subtitle: "我应该先改进什么？",
+      },
+      careerActionPlan: {
+        title: "职业行动计划",
+        subtitle: "我应该如何执行？",
+      },
+      methodology: {
+        title: "方法论",
+        subtitle: "同侪基准方法论与完整百分位分析。",
       },
     },
     snapshot: {
@@ -304,6 +331,18 @@ export const zh: Messages = {
       reviewerLens: "评审视角",
       overallAssessment: "整体评估",
       matchScore: "匹配分数",
+      roleReadiness: "岗位准备度",
+      careerReadiness: "职业就绪度",
+      competitivePosition: "竞争定位",
+      careerVerdict: "职业评估结论",
+      portfolioSignalsAnalyzed: "已分析作品集信号 · {coverage}% 证据覆盖",
+      benchmark: "基准对比",
+      hiringRisk: "招聘风险",
+      nextBestAction: "下一步行动",
+      evidenceConfidence: "证据置信度：",
+      evidenceConfidenceHint: "基于 {coverage}% 作品集证据覆盖率",
+      strongestSignal: "最强信号",
+      biggestHiringRisk: "最大招聘风险",
       topStrength: "最大优势",
       topStrengths: "核心优势",
       criticalRisk: "最大风险",
@@ -424,6 +463,14 @@ export const zh: Messages = {
       moreDimensions: "完整分析中还有 {count} 个维度",
       methodologyNote: "完整基准分解、最弱领域与战略分析见下方方法论章节。",
     },
+    capabilityProfile: {
+      title: "能力画像",
+      description: "作品集最强之处 — 以及招聘风险集中区域",
+      topStrengths: "核心优势",
+      topGaps: "主要短板",
+      dimensionMatrix: "完整维度矩阵（{count}）",
+      dimensionMatrixHint: "11 维评审框架，含分数、证据覆盖与视觉强度",
+    },
     heatmap: {
       title: "作品集能力热力图",
       description:
@@ -436,6 +483,7 @@ export const zh: Messages = {
       barView: "柱状图",
       sortedByScore: "按分数从高到低排序",
       legend: "强度",
+      legendNeutral: "中性色阶 — 仅在证据薄弱时高亮风险",
       legendLow: "短板",
       legendMid: "发展中",
       legendGood: "达标",
@@ -473,6 +521,33 @@ export const zh: Messages = {
       priorityMedium: "中优先级",
       priorityLow: "低优先级",
     },
+    careerUpgradeRoadmap: {
+      title: "职业升级路线图",
+      description: "按优先级排列的升级路径——展示差距、招聘影响、预期提升与成本",
+      opportunityLabel: "升级项",
+      currentGap: "当前差距",
+      hiringImpact: "招聘影响",
+      expectedScoreImprovement: "预期分数提升",
+      effort: "投入成本",
+      priorityHigh: "高优先级",
+      priorityMedium: "中优先级",
+      priorityLow: "低优先级",
+    },
+    evidenceQuality: {
+      evidenceCoverage: "证据覆盖度",
+      strongEvidenceCount: "强证据数量",
+      missingEvidenceCount: "缺失证据数量",
+      detailedEvidence: "详细证据（{count}）",
+      detailedEvidenceHint: "除 Top 3 信号外的更多证据洞察",
+    },
+    collapsible: {
+      competitiveDetail: "详细竞争分析",
+      competitiveDetailHint: "百分位排名与最强竞争领域",
+      reviewTrace: "评审追溯",
+      reviewTraceHint: "逐步评审推理与证据审计链",
+      fullBenchmark: "完整基准分析",
+      fullBenchmarkHint: "完整百分位分解与战略基准洞察",
+    },
     improvementSimulator: {
       title: "作品集改进模拟器",
       description:
@@ -496,8 +571,8 @@ export const zh: Messages = {
         low: "低置信度",
       },
     },
-    gapAnalysis: "差距分析",
-    gapAnalysisDescription: "作品集未能充分满足岗位要求的关键领域",
+    gapAnalysis: "证据缺口",
+    gapAnalysisDescription: "作品集证据缺失、薄弱或不足以支撑目标岗位的领域",
     actionPlan: "行动计划",
     actionPlanDescription: "提升求职竞争力的优先步骤",
     levels: {

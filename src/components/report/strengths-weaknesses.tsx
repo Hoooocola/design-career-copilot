@@ -22,7 +22,7 @@ export function StrengthsWeaknesses({
           {strengths.map((item, i) => (
             <li key={i}>
               <ReportCard accent className="py-4">
-                <p className="text-[0.9375rem] leading-relaxed text-[var(--report-text)]">
+                <p className="text-[0.9375rem] leading-relaxed text-[var(--workspace-text-primary)]">
                   {item}
                 </p>
               </ReportCard>
@@ -35,8 +35,8 @@ export function StrengthsWeaknesses({
         <ul className="space-y-3">
           {weaknesses.map((item, i) => (
             <li key={i}>
-              <ReportCard accent className="border-l-[var(--report-negative)] py-4">
-                <p className="text-[0.9375rem] leading-relaxed text-[var(--report-text)]">
+              <ReportCard accent className="border-l-[var(--workspace-danger)] py-4">
+                <p className="text-[0.9375rem] leading-relaxed text-[var(--workspace-text-primary)]">
                   {item}
                 </p>
               </ReportCard>

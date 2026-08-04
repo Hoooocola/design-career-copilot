@@ -17,17 +17,17 @@ export function SkillCoverage({ skills }: SkillCoverageProps) {
     strong: {
       label: messages.report.levels.strong,
       className:
-        "bg-[var(--report-positive-bg)] text-[var(--report-positive)] border-[var(--report-positive)]/20",
+        "bg-[var(--workspace-success-muted)] text-[var(--workspace-success)] border-[var(--workspace-success)]/20",
     },
     partial: {
       label: messages.report.levels.partial,
       className:
-        "bg-[var(--report-caution-bg)] text-[var(--report-caution)] border-[var(--report-caution)]/20",
+        "bg-[var(--workspace-warning-muted)] text-[var(--workspace-warning)] border-[var(--workspace-warning)]/20",
     },
     missing: {
       label: messages.report.levels.missing,
       className:
-        "bg-[var(--report-negative-bg)] text-[var(--report-negative)] border-[var(--report-negative)]/20",
+        "bg-[var(--workspace-danger-muted)] text-[var(--workspace-danger)] border-[var(--workspace-danger)]/20",
     },
   } as const
 
@@ -36,7 +36,7 @@ export function SkillCoverage({ skills }: SkillCoverageProps) {
       title={messages.report.skillCoverage}
       description={messages.report.skillCoverageDescription}
     >
-      <ReportCard className="divide-y divide-[var(--report-border)] p-0">
+      <ReportCard className="divide-y divide-[var(--workspace-border)] p-0">
         {skills.map((item) => {
           const config = levelConfig[item.level] ?? levelConfig.missing
           return (
@@ -45,7 +45,7 @@ export function SkillCoverage({ skills }: SkillCoverageProps) {
               className="flex items-center justify-between gap-4 px-5 py-4"
             >
               <div className="flex items-center gap-3">
-                <span className="text-base font-medium text-[var(--report-text)]">
+                <span className="text-base font-medium text-[var(--workspace-text-primary)]">
                   {item.skill}
                 </span>
                 {item.required && (

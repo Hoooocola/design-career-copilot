@@ -20,7 +20,7 @@ export function CompetencyOverviewPanel({ data }: CompetencyOverviewProps) {
     >
       <div className="grid gap-5 lg:grid-cols-[220px_1fr]">
         <ReportCard className="flex flex-col items-center justify-center py-10 text-center">
-          <span className="text-5xl font-semibold tabular-nums text-[var(--report-text)]">
+          <span className="text-5xl font-semibold tabular-nums text-[var(--workspace-text-primary)]">
             {data.overallReadiness}
           </span>
           <span className="report-caption mt-2">{fw.overallReadiness}</span>
@@ -48,22 +48,22 @@ function MetricPanel({
     <ReportCard
       className={
         variant === "positive"
-          ? "bg-[var(--report-positive-bg)]"
-          : "bg-[var(--report-negative-bg)]"
+          ? "bg-[var(--workspace-success-muted)]"
+          : "bg-[var(--workspace-danger-muted)]"
       }
     >
       <p
         className={
           variant === "positive"
-            ? "text-xs font-semibold uppercase tracking-wider text-[var(--report-positive)]"
-            : "text-xs font-semibold uppercase tracking-wider text-[var(--report-negative)]"
+            ? "text-xs font-semibold uppercase tracking-wider text-[var(--workspace-success)]"
+            : "text-xs font-semibold uppercase tracking-wider text-[var(--workspace-danger)]"
         }
       >
         {title}
       </p>
       <ul className="mt-3 space-y-2">
         {items.map((item, i) => (
-          <li key={i} className="text-sm leading-relaxed text-[var(--report-text-muted)]">
+          <li key={i} className="text-sm leading-relaxed text-[var(--workspace-text-secondary)]">
             {item}
           </li>
         ))}
